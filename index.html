@@ -10,6 +10,7 @@
   // Конфігурація сервісу
   const EMAILJS_SERVICE_ID = "service_s0qr3nc";
   const EMAILJS_TEMPLATE_ID = "template_urh5mpl";
+  const CODE_EXPIRATION_TIME = 10 * 60 * 1000; // Час життя коду: 10 хвилин у мілісекундах
 
   // Генерація 6-значного коду підтвердження
   function generateVerificationCode() {
@@ -20,7 +21,7 @@
    * Функція відправки листа з кодом
    * @param {string} userEmail - Пошта отримувача
    * @param {string} userName - Ім'я користувача
-   * @param {string} code - Генераторний код підтвердження
+   * @param {string} code - Згенерований код підтвердження
    */
   async function sendVerificationEmail(userEmail, userName, code) {
     const templateParams = {
@@ -43,13 +44,24 @@
     }
   }
 
-  // --- ПРИКЛАД ВИКОРИСТАННЯ ПРИ РЕЄСТРАЦІЇ ---
+  // --- ФУНКЦІЯ РЕЄСТРАЦІЇ (ВИКЛИКАТИ ПРИ ВІДПРАВЦІ ФОРМИ) ---
   async function handleRegistration(email, name) {
+    if (!email || !email.includes("@")) {
+      alert("Будь ласка, введіть коректну електронну пошту!");
+      return { success: false };
+    }
+
     const code = generateVerificationCode();
+    const expiresAt = Date.now() + CODE_EXPIRATION_TIME;
     
-    // Зберігаємо код тимчасово у localStorage для перевірки
-    localStorage.setItem("pending_verification_code", code);
-    localStorage.setItem("pending_user_email", email);
+    // Зберігаємо дані в єдиний об'єкт (код, пошту та час закінчення дії)
+    const verificationData = {
+      code: code,
+      email: email,
+      expiresAt: expiresAt
+    };
+    
+    localStorage.setItem("pending_verification", JSON.stringify(verificationData));
 
     // Надсилаємо лист
     const result = await sendVerificationEmail(email, name, code);
@@ -57,21 +69,44 @@
     if (result.success) {
       alert("Код підтвердження надіслано на вашу пошту!");
       // Тут відкриваємо форму/модальне вікно для введення коду
+      return { success: true };
     } else {
       alert("Не вдалося надіслати лист. Перевірте введену пошту.");
+      return { success: false };
     }
   }
 
-  // --- ПРИКЛАД ПЕРЕВІРКИ ВВЕДЕНОГО КОДУ ---
+  // --- ФУНКЦІЯ ПЕРЕВІРКИ ВВЕДЕНОГО КОДУ ---
   function verifyCode(enteredCode) {
-    const savedCode = localStorage.getItem("pending_verification_code");
+    const savedDataString = localStorage.getItem("pending_verification");
     
-    if (enteredCode === savedCode) {
-      alert("Код вірний! Обліковий запис підтверджено.");
-      localStorage.removeItem("pending_verification_code");
-      return true;
-    } else {
-      alert("Невірний код. Спробуйте ще раз.");
+    if (!savedDataString) {
+      alert("Дані верифікації не знайдені. Спробуйте зареєструватися знову.");
+      return false;
+    }
+
+    try {
+      const savedData = JSON.parse(savedDataString);
+      
+      // 1. Перевірка терміну дії коду
+      if (Date.now() > savedData.expiresAt) {
+        alert("Термін дії коду закінчився. Запросіть новий код.");
+        localStorage.removeItem("pending_verification");
+        return false;
+      }
+      
+      // 2. Перевірка правильності коду
+      if (enteredCode === savedData.code) {
+        alert("Код вірний! Обліковий запис підтверджено.");
+        localStorage.removeItem("pending_verification"); // Очищаємо після успіху
+        return true;
+      } else {
+        alert("Невірний код. Спробуйте ще раз.");
+        return false;
+      }
+    } catch (e) {
+      console.error("Помилка обробки даних перевірки:", e);
+      alert("Сталася помилка. Спробуйте ще раз.");
       return false;
     }
   }
