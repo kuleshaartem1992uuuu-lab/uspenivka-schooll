@@ -511,4 +511,255 @@
         function sendPasswordRecoveryCode(e) {
             e.preventDefault();
             const email = document.getElementById('recovery-email').value;
-            const users = JSON.parse(localStorage.
+            const users = JSON.parse(localStorage.getItem('uspenivka_users')) || defaultUsers;
+            const found = users.find(u => u.email === email);
+
+            if (!found) {
+                alert('Користувача з такою поштою не знайдено!');
+                return;
+            }
+
+            pendingRecoveryEmail = email;
+            generatedVerificationCode = Math.floor(1000 + Math.random() * 9000).toString();
+            currentActionMode = 'recover';
+
+            closeAuthModal();
+
+            // Вставте сюди ваші робочі параметри EmailJS
+            emailjs.send("service_xxxxxxx", "template_xxxxxxx", {
+                to_email: email,
+                to_name: found.name,
+                verification_code: generatedVerificationCode
+            }, "user_xxxxxxx")
+            .then(() => {
+                document.getElementById('verify-modal').classList.remove('hidden');
+            }, (error) => {
+                alert('Помилка надсилання листа: ' + JSON.stringify(error));
+            });
+        }
+
+        function confirmCodeAction(e) {
+            e.preventDefault();
+            const enteredCode = document.getElementById('verify-code-input').value;
+            if (enteredCode === generatedVerificationCode) {
+                document.getElementById('verify-modal').classList.add('hidden');
+                
+                if (currentActionMode === 'register') {
+                    pendingRegistrationUser.verified = true;
+                    const users = JSON.parse(localStorage.getItem('uspenivka_users')) || defaultUsers;
+                    users.push(pendingRegistrationUser);
+                    localStorage.setItem('uspenivka_users', JSON.stringify(users));
+                    setCurrentUser(pendingRegistrationUser);
+                    alert('Пошту успішно підтверджено!');
+                } else if (currentActionMode === 'recover') {
+                    const newPassword = prompt("Введіть ваш новий пароль:");
+                    if (newPassword) {
+                        const users = JSON.parse(localStorage.getItem('uspenivka_users')) || defaultUsers;
+                        const idx = users.findIndex(u => u.email === pendingRecoveryEmail);
+                        if (idx !== -1) {
+                            users[idx].password = newPassword;
+                            localStorage.setItem('uspenivka_users', JSON.stringify(users));
+                            alert('Пароль успішно змінено! Тепер ви можете увійти.');
+                            openAuthModal('login');
+                        }
+                    }
+                }
+            } else { alert('Невірний код!'); }
+        }
+
+        function logoutUser() { setCurrentUser(null); }
+
+        function openProfileModal() {
+            const user = getCurrentUser();
+            if (!user) return;
+            document.getElementById('cabinet-user-name').innerText = user.name;
+            document.getElementById('cabinet-user-avatar').src = user.avatar;
+            document.getElementById('cabinet-user-role').innerText = user.role === 'admin' ? 'Адміністратор (Власник)' : user.role === 'collective' ? 'Колектив' : 'Учень';
+            
+            switchCabinetTab('settings');
+            document.getElementById('profile-modal').classList.remove('hidden');
+        }
+
+        function closeProfileModal() { document.getElementById('profile-modal').classList.add('hidden'); }
+
+        function switchCabinetTab(tabName) {
+            const user = getCurrentUser();
+            const container = document.getElementById('cabinet-tab-content');
+
+            if (tabName === 'settings') {
+                container.innerHTML = `
+                    <form onsubmit="saveProfileChanges(event)" class="space-y-4">
+                        <div class="flex flex-col items-center mb-4">
+                            <label class="block text-xs font-semibold uppercase text-slate-700 mb-1">Змінити аватарку</label>
+                            <input type="file" id="profile-avatar-file" accept="image/*" class="w-full text-xs text-slate-500 file:py-2 file:px-4 file:rounded-xl file:border-0 file:bg-indigo-50 file:text-indigo-700">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold uppercase text-slate-700 mb-1">ПІБ / Ім'я</label>
+                            <input type="text" id="profile-edit-name" value="${user.name}" required class="w-full rounded-xl border border-slate-300 px-4 py-2.5 text-sm">
+                        </div>
+                        <div class="p-4 bg-slate-50 rounded-2xl border border-slate-200 space-y-3">
+                            <h5 class="text-xs font-bold uppercase text-indigo-600">Налаштування авторизації (Логін та Пароль)</h5>
+                            <div>
+                                <label class="block text-xs font-medium text-slate-600 mb-1">Email / Логін входу</label>
+                                <input type="email" id="profile-edit-email" value="${user.email}" required class="w-full rounded-xl border border-slate-300 px-4 py-2 text-sm bg-white">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-medium text-slate-600 mb-1">Новий пароль (залиште порожнім, якщо не змінюєте)</label>
+                                <input type="password" id="profile-edit-password" placeholder="Новий пароль" class="w-full rounded-xl border border-slate-300 px-4 py-2 text-sm bg-white">
+                            </div>
+                        </div>
+                        <button type="submit" class="w-full bg-indigo-600 text-white font-semibold py-3 rounded-xl cursor-pointer hover:bg-indigo-700 transition-colors">Зберегти всі зміни</button>
+                    </form>
+                `;
+            } else if (tabName === 'appeals') {
+                const appeals = user.appeals || [];
+                container.innerHTML = `
+                    <div class="space-y-4">
+                        <h4 class="font-bold text-slate-900 text-sm">Ваші анонімні звернення до психолога:</h4>
+                        ${appeals.length === 0 ? '<p class="text-xs text-slate-500">Ви ще не надсилали звернень.</p>' : appeals.map((a, i) => `<div class="p-3 bg-slate-50 rounded-xl border border-slate-200 text-xs"><span class="font-semibold text-indigo-600">Звернення #${i+1}:</span>${a}</div>`).join('')}
+                    </div>
+                `;
+            } else if (tabName === 'bookmarks') {
+                const bookmarks = user.bookmarks || [];
+                container.innerHTML = `
+                    <div class="space-y-4">
+                        <h4 class="font-bold text-slate-900 text-sm">Збережені новини та оголошення:</h4>
+                        ${bookmarks.length === 0 ? '<p class="text-xs text-slate-500">У вас немає збережених новин.</p>' : bookmarks.map(b => `<div class="p-3 bg-slate-50 rounded-xl border border-slate-200 text-xs font-medium">${b}</div>`).join('')}
+                    </div>
+                `;
+            } else if (tabName === 'portfolio') {
+                const portfolio = user.portfolio || [];
+                container.innerHTML = `
+                    <div class="space-y-4">
+                        <h4 class="font-bold text-slate-900 text-sm">Ваші досягнення та портфоліо:</h4>
+                        <ul class="space-y-2 text-xs">
+                            ${portfolio.map(p => `<li class="p-2 bg-slate-50 rounded-lg border">• ${p}</li>`).join('')}
+                        </ul>
+                        <div class="flex gap-2 mt-4">
+                            <input type="text" id="new-portfolio-item" placeholder="Додати досягнення..." class="flex-grow rounded-xl border border-slate-300 px-3 py-2 text-xs">
+                            <button onclick="addPortfolioItem()" class="bg-indigo-600 text-white px-4 py-2 rounded-xl text-xs font-semibold cursor-pointer">Додати</button>
+                        </div>
+                    </div>
+                `;
+            }
+        }
+
+        function saveProfileChanges(e) {
+            e.preventDefault();
+            const user = getCurrentUser();
+            user.name = document.getElementById('profile-edit-name').value;
+            user.email = document.getElementById('profile-edit-email').value;
+
+            const newPass = document.getElementById('profile-edit-password').value;
+            if (newPass && newPass.trim() !== '') {
+                user.password = newPass.trim();
+            }
+
+            const fileInput = document.getElementById('profile-avatar-file');
+            if (fileInput.files && fileInput.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) { user.avatar = e.target.result; finalizeProfile(user); }
+                reader.readAsDataURL(fileInput.files[0]);
+            } else { finalizeProfile(user); }
+        }
+
+        function finalizeProfile(user) {
+            setCurrentUser(user);
+            const users = JSON.parse(localStorage.getItem('uspenivka_users')) || defaultUsers;
+            const idx = users.findIndex(u => u.id === user.id);
+            if (idx !== -1) { users[idx] = user; localStorage.setItem('uspenivka_users', JSON.stringify(users)); }
+            closeProfileModal();
+            alert('Дані профілю та безпеки успішно оновлено!');
+        }
+
+        function addPortfolioItem() {
+            const itemText = document.getElementById('new-portfolio-item').value;
+            if (!itemText) return;
+            const user = getCurrentUser();
+            if (!user.portfolio) user.portfolio = [];
+            user.portfolio.push(itemText);
+            setCurrentUser(user);
+            
+            const users = JSON.parse(localStorage.getItem('uspenivka_users')) || defaultUsers;
+            const idx = users.findIndex(u => u.id === user.id);
+            if (idx !== -1) { users[idx] = user; localStorage.setItem('uspenivka_users', JSON.stringify(users)); }
+            
+            switchCabinetTab('portfolio');
+        }
+
+        function submitAnonymousAppeal(e) {
+            e.preventDefault();
+            const text = document.getElementById('appeal-text').value;
+            const user = getCurrentUser();
+            if (user) {
+                if (!user.appeals) user.appeals = [];
+                user.appeals.push(text);
+                setCurrentUser(user);
+                const users = JSON.parse(localStorage.getItem('uspenivka_users')) || defaultUsers;
+                const idx = users.findIndex(u => u.id === user.id);
+                if (idx !== -1) { users[idx] = user; localStorage.setItem('uspenivka_users', JSON.stringify(users)); }
+            }
+            alert('Звернення надіслано!');
+            document.getElementById('appeal-text').value = '';
+        }
+
+        function renderNews() {
+            const grid = document.getElementById('news-grid');
+            const actionContainer = document.getElementById('news-action-container');
+            const newsList = JSON.parse(localStorage.getItem('uspenivka_news')) || defaultNews;
+            const user = getCurrentUser();
+            if (user && (user.role === 'admin' || user.role === 'collective')) {
+                actionContainer.innerHTML = `<button onclick="openNewsModal()" class="bg-indigo-600 text-white px-4 py-2.5 rounded-xl font-semibold cursor-pointer">Додати новину</button>`;
+            } else { actionContainer.innerHTML = ''; }
+            grid.innerHTML = newsList.map(item => `<div class="bg-white rounded-2xl overflow-hidden border border-slate-200 shadow-sm"><img src="${item.image}" class="w-full h-48 object-cover"><div class="p-6"><h3 class="text-xl font-bold mb-2">${item.title}</h3><p class="text-slate-600 text-sm mb-4">${item.text}</p><button onclick="bookmarkNews('${item.title}')" class="text-xs bg-indigo-50 text-indigo-700 px-3 py-1.5 rounded-lg font-semibold hover:bg-indigo-100 transition-colors cursor-pointer"><i class="fa-solid fa-bookmark mr-1"></i> Зберегти в закладки</button></div></div>`).join('');
+        }
+
+        function bookmarkNews(title) {
+            const user = getCurrentUser();
+            if (!user) { alert('Увійдіть в систему!'); return; }
+            if (!user.bookmarks) user.bookmarks = [];
+            if (!user.bookmarks.includes(title)) {
+                user.bookmarks.push(title);
+                setCurrentUser(user);
+                const users = JSON.parse(localStorage.getItem('uspenivka_users')) || defaultUsers;
+                const idx = users.findIndex(u => u.id === user.id);
+                if (idx !== -1) { users[idx] = user; localStorage.setItem('uspenivka_users', JSON.stringify(users)); }
+                alert('Додано в закладки!');
+            } else { alert('Вже у вашій закладці!'); }
+        }
+
+        function openNewsModal() { document.getElementById('news-modal').classList.remove('hidden'); }
+        function closeNewsModal() { document.getElementById('news-modal').classList.add('hidden'); }
+        function saveNewArticle(e) {
+            e.preventDefault();
+            const newsList = JSON.parse(localStorage.getItem('uspenivka_news')) || defaultNews;
+            newsList.push({ id: Date.now(), title: document.getElementById('news-title-input').value, image: document.getElementById('news-image-input').value, text: document.getElementById('news-text-input').value, date: new Date().toLocaleDateString('uk-UA'), author: getCurrentUser() ? getCurrentUser().name : 'Адміністратор' });
+            localStorage.setItem('uspenivka_news', JSON.stringify(newsList));
+            renderNews();
+            closeNewsModal();
+        }
+
+        function renderStaffDirectory() {
+            const grid = document.getElementById('staff-grid');
+            const users = (JSON.parse(localStorage.getItem('uspenivka_users')) || defaultUsers).filter(u => u.role === 'collective' && u.verified);
+            grid.innerHTML = users.map(s => `<div class="bg-slate-50 border border-slate-200 rounded-2xl p-6 text-center"><img src="${s.avatar}" class="w-24 h-24 rounded-full object-cover mx-auto mb-4"><h4 class="font-bold text-lg">${s.name}</h4><p class="text-xs text-slate-600">${s.email}</p></div>`).join('');
+        }
+
+        function switchScheduleClass(c) {
+            document.getElementById('schedule-class-title').innerText = `Розклад для ${c} класу`;
+            document.getElementById('schedule-content').innerHTML = `<div class="p-4 bg-slate-50 rounded-xl">1. Урок української мови<br>2. Математика<br>3. Англійська мова</div>`;
+        }
+
+        function initQuiz() {
+            document.getElementById('quiz-question').innerText = "Яка столиця України?";
+            document.getElementById('quiz-options').innerHTML = ['Львів', 'Київ', 'Одеса', 'Харків'].map((opt, i) => `<button onclick="alert(${i === 1 ? "'Правильно!'" : "'Неправильно!'"})" class="w-full text-left p-3 rounded-xl border cursor-pointer">${opt}</button>`).join('');
+        }
+
+        function initMemoryGame() {
+            document.getElementById('memory-grid').innerHTML = ['🎓', '📚', '✏️', '🏆', '🎓', '📚', '✏️', '🏆'].sort(() => 0.5 - Math.random()).map(s => `<div class="h-16 bg-slate-200 rounded-xl text-2xl flex items-center justify-center">${s}</div>`).join('');
+        }
+
+        document.getElementById('mobile-menu-btn').addEventListener('click', () => document.getElementById('mobile-menu').classList.toggle('hidden'));
+    </script>
+</body>
+</html>
