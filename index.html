@@ -354,7 +354,161 @@
         let pendingRegistrationUser = null;
         let pendingRecoveryEmail = null;
         let generatedVerificationCode = '1234';
-        let currentActionMode = 'register'; // 'register' або 'recover'
+        let currentActionMode = 'register'; 
 
         if (!localStorage.getItem('uspenivka_users')) localStorage.setItem('uspenivka_users', JSON.stringify(defaultUsers));
-        if (!localStorage.
+        if (!localStorage.getItem('uspenivka_news')) localStorage.setItem('uspenivka_news', JSON.stringify(defaultNews));
+        if (!localStorage.getItem('uspenivka_banner')) localStorage.setItem('uspenivka_banner', 'https://images.unsplash.com/photo-1580582932707-520aed937b7b?auto=format&fit=crop&w=1920&q=80');
+
+        document.addEventListener('DOMContentLoaded', () => {
+            renderAuthNavbar();
+            renderNews();
+            renderStaffDirectory();
+            switchScheduleClass('1');
+            initQuiz();
+            initMemoryGame();
+            applyBanner();
+        });
+
+        function applyBanner() {
+            const bannerUrl = localStorage.getItem('uspenivka_banner');
+            const heroWrapper = document.getElementById('hero-bg-wrapper');
+            if (heroWrapper && bannerUrl) heroWrapper.style.backgroundImage = `url('${bannerUrl}')`;
+        }
+
+        function openBannerEditor() {
+            document.getElementById('banner-url-input').value = localStorage.getItem('uspenivka_banner');
+            document.getElementById('banner-modal').classList.remove('hidden');
+        }
+        function closeBannerEditor() { document.getElementById('banner-modal').classList.add('hidden'); }
+        function saveBannerChanges(e) {
+            e.preventDefault();
+            localStorage.setItem('uspenivka_banner', document.getElementById('banner-url-input').value);
+            applyBanner();
+            closeBannerEditor();
+            alert('Баннер оновлено!');
+        }
+
+        function getCurrentUser() { 
+            try { return JSON.parse(localStorage.getItem('uspenivka_current_user')); } catch(e) { return null; }
+        }
+
+        function setCurrentUser(user) {
+            localStorage.setItem('uspenivka_current_user', JSON.stringify(user));
+            renderAuthNavbar();
+            renderNews();
+            renderStaffDirectory();
+        }
+
+        function renderAuthNavbar() {
+            const container = document.getElementById('top-auth-container');
+            const adminControl = document.getElementById('admin-banner-control');
+            const user = getCurrentUser();
+
+            if (!user) {
+                container.innerHTML = `
+                    <button onclick="openAuthModal('login')" class="hover:text-white bg-indigo-800 px-3 py-1 rounded-lg transition-colors cursor-pointer">Увійти</button>
+                    <button onclick="openAuthModal('register')" class="hover:text-white bg-indigo-600 px-3 py-1 rounded-lg transition-colors cursor-pointer">Реєстрація</button>
+                `;
+                if (adminControl) adminControl.classList.add('hidden');
+            } else {
+                container.innerHTML = `
+                    <div class="flex items-center gap-3">
+                        <img src="${user.avatar}" class="w-7 h-7 rounded-full object-cover border border-indigo-300">
+                        <span class="text-white font-medium">${user.name}</span>
+                        <button onclick="openProfileModal()" class="text-xs bg-indigo-800 hover:bg-indigo-700 px-2.5 py-1 rounded-lg transition-colors cursor-pointer" title="Кабінет"><i class="fa-solid fa-user-gear mr-1"></i> Кабінет</button>
+                        <button onclick="logoutUser()" class="text-xs text-indigo-200 hover:text-white transition-colors cursor-pointer" title="Вийти"><i class="fa-solid fa-power-off"></i></button>
+                    </div>
+                `;
+                if (adminControl) user.role === 'admin' ? adminControl.classList.remove('hidden') : adminControl.classList.add('hidden');
+            }
+        }
+
+        function openAuthModal(mode) {
+            const modalContent = document.getElementById('auth-modal-content');
+            if (mode === 'login') {
+                modalContent.innerHTML = `
+                    <h3 class="text-2xl font-bold mb-6">Вхід до системи</h3>
+                    <form onsubmit="loginUserSubmit(event)" class="space-y-4">
+                        <input type="email" id="login-email" placeholder="Email (напр. admin@uspenivka.edu.ua)" required class="w-full rounded-xl border border-slate-300 px-4 py-2.5 text-sm">
+                        <input type="password" id="login-password" placeholder="Пароль" required class="w-full rounded-xl border border-slate-300 px-4 py-2.5 text-sm">
+                        <div class="flex justify-between items-center text-xs">
+                            <span class="text-slate-500">Забули пароль?</span>
+                            <button type="button" onclick="openAuthModal('forgot')" class="text-indigo-600 font-semibold hover:underline cursor-pointer">Відновити доступ</button>
+                        </div>
+                        <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white py-3 rounded-xl font-semibold transition-colors cursor-pointer">Увійти</button>
+                    </form>
+                `;
+            } else if (mode === 'forgot') {
+                modalContent.innerHTML = `
+                    <h3 class="text-2xl font-bold mb-2">Відновлення пароля</h3>
+                    <p class="text-xs text-slate-500 mb-6">Введіть ваш Email, щоб отримати код відновлення доступу.</p>
+                    <form onsubmit="sendPasswordRecoveryCode(event)" class="space-y-4">
+                        <input type="email" id="recovery-email" placeholder="Ваш реєстраційний Email" required class="w-full rounded-xl border border-slate-300 px-4 py-2.5 text-sm">
+                        <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white py-3 rounded-xl font-semibold transition-colors cursor-pointer">Надіслати код</button>
+                        <button type="button" onclick="openAuthModal('login')" class="w-full text-xs text-slate-500 hover:text-slate-800 text-center block cursor-pointer">Назад до входу</button>
+                    </form>
+                `;
+            } else {
+                modalContent.innerHTML = `
+                    <h3 class="text-2xl font-bold mb-6">Реєстрація</h3>
+                    <form onsubmit="registerUserSubmit(event)" class="space-y-4">
+                        <input type="text" id="reg-name" placeholder="ПІБ" required class="w-full rounded-xl border border-slate-300 px-4 py-2.5 text-sm">
+                        <input type="email" id="reg-email" placeholder="Email" required class="w-full rounded-xl border border-slate-300 px-4 py-2.5 text-sm">
+                        <input type="password" id="reg-password" placeholder="Пароль" required class="w-full rounded-xl border border-slate-300 px-4 py-2.5 text-sm">
+                        <select id="reg-role" class="w-full rounded-xl border border-slate-300 px-4 py-2.5 text-sm">
+                            <option value="student">Учень</option>
+                            <option value="collective">Колектив / Вчитель</option>
+                        </select>
+                        <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white py-3 rounded-xl font-semibold transition-colors cursor-pointer">Продовжити</button>
+                    </form>
+                `;
+            }
+            document.getElementById('auth-modal').classList.remove('hidden');
+        }
+
+        function closeAuthModal() { document.getElementById('auth-modal').classList.add('hidden'); }
+
+        function loginUserSubmit(e) {
+            e.preventDefault();
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+            const users = JSON.parse(localStorage.getItem('uspenivka_users')) || defaultUsers;
+            const found = users.find(u => u.email === email && u.password === password);
+            if (found) {
+                if (!found.verified) { alert('Підтвердіть пошту!'); return; }
+                setCurrentUser(found);
+                closeAuthModal();
+            } else { alert('Невірні дані електронної пошти чи паролю!'); }
+        }
+
+        function registerUserSubmit(e) {
+            e.preventDefault();
+            const name = document.getElementById('reg-name').value;
+            const email = document.getElementById('reg-email').value;
+            const password = document.getElementById('reg-password').value;
+            const role = document.getElementById('reg-role').value;
+
+            generatedVerificationCode = Math.floor(1000 + Math.random() * 9000).toString();
+            pendingRegistrationUser = { id: Date.now(), name, email, password, role, avatar: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=200&q=80', verified: false, appeals: [], bookmarks: [], portfolio: [] };
+            currentActionMode = 'register';
+
+            closeAuthModal();
+
+            // Вставте сюди ваші робочі параметри EmailJS
+            emailjs.send("service_xxxxxxx", "template_xxxxxxx", {
+                to_email: email,
+                to_name: name,
+                verification_code: generatedVerificationCode
+            }, "user_xxxxxxx")
+            .then(() => {
+                document.getElementById('verify-modal').classList.remove('hidden');
+            }, (error) => {
+                alert('Помилка надсилання листа: ' + JSON.stringify(error));
+            });
+        }
+
+        function sendPasswordRecoveryCode(e) {
+            e.preventDefault();
+            const email = document.getElementById('recovery-email').value;
+            const users = JSON.parse(localStorage.
