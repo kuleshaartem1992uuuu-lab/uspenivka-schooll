@@ -10,41 +10,27 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- EmailJS SDK -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
     <style>
-        body {
-            font-family: 'Inter', sans-serif;
-        }
-        .backdrop-blur-custom {
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-        }
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #f1f1f1;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #cbd5e1;
-            border-radius: 4px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #94a3b8;
-        }
+        body { font-family: 'Inter', sans-serif; }
+        .backdrop-blur-custom { backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
     </style>
 </head>
 <body class="bg-slate-50 text-slate-800 flex flex-col min-h-screen selection:bg-indigo-500 selection:text-white">
 
-    <!-- TOP BAR (Contacts & Quick Actions) -->
+    <!-- TOP BAR -->
     <div class="bg-indigo-900 text-indigo-100 text-xs sm:text-sm py-2 px-4 shadow-inner">
         <div class="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-2">
             <div class="flex flex-wrap items-center justify-center sm:justify-start gap-4">
                 <span><i class="fa-solid fa-location-dot mr-1 text-indigo-300"></i> вул. Кишинівська, 69, с. Успенівка, Одеська обл.</span>
                 <span><i class="fa-solid fa-id-card mr-1 text-indigo-300"></i> ЄДРПОУ: 25814560</span>
             </div>
-            <div class="flex items-center gap-3" id="top-auth-container">
-                <!-- Dynamically populated auth controls -->
-            </div>
+            <div class="flex items-center gap-3" id="top-auth-container"></div>
         </div>
     </div>
 
@@ -52,7 +38,6 @@
     <header class="sticky top-0 z-50 bg-white/95 backdrop-blur-custom border-b border-slate-200 shadow-sm transition-all">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between h-20 items-center">
-                <!-- Logo & School Name -->
                 <a href="#home" class="flex items-center gap-3 group">
                     <div id="nav-logo-icon" class="w-12 h-12 rounded-xl bg-indigo-600 text-white flex items-center justify-center text-2xl font-bold shadow-md shadow-indigo-200 group-hover:scale-105 transition-transform">
                         <i class="fa-solid fa-graduation-cap"></i>
@@ -63,7 +48,6 @@
                     </div>
                 </a>
 
-                <!-- Desktop Nav Links -->
                 <nav class="hidden lg:flex items-center gap-1 xl:gap-2">
                     <a href="#home" class="px-3 py-2 rounded-lg text-sm font-medium text-slate-700 hover:text-indigo-600 hover:bg-indigo-50 transition-colors">Головна</a>
                     <a href="#news" class="px-3 py-2 rounded-lg text-sm font-medium text-slate-700 hover:text-indigo-600 hover:bg-indigo-50 transition-colors">Новини</a>
@@ -77,14 +61,12 @@
                     <a href="#contacts" class="px-3 py-2 rounded-lg text-sm font-medium text-slate-700 hover:text-indigo-600 hover:bg-indigo-50 transition-colors">Контакти</a>
                 </nav>
 
-                <!-- Mobile Menu Button -->
                 <button id="mobile-menu-btn" class="lg:hidden p-2 rounded-lg text-slate-600 hover:text-indigo-600 hover:bg-slate-100 transition-colors">
                     <i class="fa-solid fa-bars text-xl"></i>
                 </button>
             </div>
         </div>
 
-        <!-- Mobile Nav Menu Dropdown -->
         <div id="mobile-menu" class="hidden lg:hidden bg-white border-b border-slate-200 px-4 pt-2 pb-4 space-y-1 shadow-lg">
             <a href="#home" class="block px-3 py-2 rounded-md text-base font-medium text-slate-700 hover:text-indigo-600 hover:bg-indigo-50">Головна</a>
             <a href="#news" class="block px-3 py-2 rounded-md text-base font-medium text-slate-700 hover:text-indigo-600 hover:bg-indigo-50">Новини</a>
@@ -99,7 +81,6 @@
         </div>
     </header>
 
-    <!-- ADMIN BANNER CONTROL BAR -->
     <div id="admin-banner-control" class="hidden bg-slate-900 text-white px-4 py-2 border-b border-slate-800 flex justify-between items-center text-xs sm:text-sm">
         <div class="flex items-center gap-2">
             <i class="fa-solid fa-shield-halved text-amber-400"></i>
@@ -111,87 +92,48 @@
         </button>
     </div>
 
-    <!-- MAIN CONTENT CONTAINER -->
     <main class="flex-grow">
-
-        <!-- 1. HERO SECTION -->
+        <!-- HERO -->
         <section id="home" class="relative bg-slate-900 text-white overflow-hidden py-24 sm:py-32">
             <div id="hero-bg-wrapper" class="absolute inset-0 opacity-40 bg-cover bg-center transition-all duration-700" style="background-image: url('https://images.unsplash.com/photo-1580582932707-520aed937b7b?auto=format&fit=crop&w=1920&q=80');"></div>
             <div class="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-900/80 to-transparent"></div>
-
             <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="max-w-2xl">
-                    <span id="hero-badge" class="inline-flex items-center gap-1.5 py-1 px-3 rounded-full text-xs font-semibold bg-indigo-500/30 text-indigo-300 border border-indigo-500/40 mb-6 backdrop-blur-md">
+                    <span class="inline-flex items-center gap-1.5 py-1 px-3 rounded-full text-xs font-semibold bg-indigo-500/30 text-indigo-300 border border-indigo-500/40 mb-6 backdrop-blur-md">
                         <i class="fa-solid fa-star text-amber-400"></i> Сучасна освіта в громаді
                     </span>
-                    <h1 id="hero-title" class="text-4xl sm:text-6xl font-extrabold tracking-tight leading-tight mb-6">
-                        Успенівська гімназія
-                    </h1>
-                    <p id="hero-subtitle" class="text-lg sm:text-xl text-slate-300 mb-8 leading-relaxed">
-                        Світло знань, традиції успіху та безпечне середовище для розвитку кожного учня. Формуємо лідерів майбутнього разом!
-                    </p>
-                    <div class="flex flex-wrap gap-4">
-                        <a href="#news" class="bg-indigo-600 hover:bg-indigo-500 text-white font-semibold px-6 py-3 rounded-xl shadow-lg shadow-indigo-600/30 transition-all flex items-center gap-2">
-                            <i class="fa-solid fa-newspaper"></i> Останні новини
-                        </a>
-                        <a href="#contacts" class="bg-white/10 hover:bg-white/20 text-white font-semibold px-6 py-3 rounded-xl backdrop-blur-md border border-white/20 transition-all flex items-center gap-2">
-                            <i class="fa-solid fa-envelope"></i> Зв'язатися з нами
-                        </a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-16 pt-12 border-t border-slate-800/80 grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
-                <div class="bg-slate-800/50 backdrop-blur-sm p-4 rounded-xl border border-slate-700/50">
-                    <div class="text-3xl font-extrabold text-indigo-400 mb-1">1–9</div>
-                    <div class="text-xs sm:text-sm text-slate-400">Класи навчання</div>
-                </div>
-                <div class="bg-slate-800/50 backdrop-blur-sm p-4 rounded-xl border border-slate-700/50">
-                    <div class="text-3xl font-extrabold text-indigo-400 mb-1">25814560</div>
-                    <div class="text-xs sm:text-sm text-slate-400">Код ЄДРПОУ</div>
-                </div>
-                <div class="bg-slate-800/50 backdrop-blur-sm p-4 rounded-xl border border-slate-700/50">
-                    <div class="text-3xl font-extrabold text-indigo-400 mb-1">100%</div>
-                    <div class="text-xs sm:text-sm text-slate-400">Безпечне укриття</div>
-                </div>
-                <div class="bg-slate-800/50 backdrop-blur-sm p-4 rounded-xl border border-slate-700/50">
-                    <div class="text-3xl font-extrabold text-indigo-400 mb-1">Одещина</div>
-                    <div class="text-xs sm:text-sm text-slate-400">Білгород-Дністровський р-н</div>
+                    <h1 class="text-4xl sm:text-6xl font-extrabold tracking-tight leading-tight mb-6">Успенівська гімназія</h1>
+                    <p class="text-lg sm:text-xl text-slate-300 mb-8 leading-relaxed">Світло знань, традиції успіху та безпечне середовище для розвитку кожного учня.</p>
                 </div>
             </div>
         </section>
 
-        <!-- LEADERSHIP SECTION -->
+        <!-- LEADERSHIP -->
         <section class="py-16 bg-white border-b border-slate-200">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="text-center max-w-3xl mx-auto mb-12">
                     <h2 class="text-3xl font-bold text-slate-900 tracking-tight mb-3">Адміністрація закладу</h2>
-                    <p class="text-slate-600">Керівництво Успенівської гімназії дбає про якість освіти, комфорт та безпеку вихованців.</p>
                 </div>
                 <div class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-                    <div class="bg-slate-50 border border-slate-200 rounded-2xl p-6 flex flex-col sm:flex-row items-center gap-6 shadow-sm hover:shadow-md transition-shadow">
+                    <div class="bg-slate-50 border border-slate-200 rounded-2xl p-6 flex flex-col sm:flex-row items-center gap-6 shadow-sm">
                         <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=400&q=80" alt="Директор" class="w-32 h-32 rounded-xl object-cover shadow-md">
                         <div class="text-center sm:text-left">
                             <span class="inline-block py-1 px-2.5 rounded-full text-xs font-semibold bg-indigo-100 text-indigo-800 mb-2">Директор гімназії</span>
                             <h3 class="text-xl font-bold text-slate-900 mb-1">Саламатіна Алла Володимирівна</h3>
-                            <p class="text-sm text-slate-600 mb-3">Організація навчально-виховного процесу, стратегічний розвиток закладу.</p>
-                            <a href="#contacts" class="text-sm font-semibold text-indigo-600 hover:text-indigo-800 inline-flex items-center gap-1">Зв'язатися <i class="fa-solid fa-arrow-right text-xs"></i></a>
                         </div>
                     </div>
-                    <div class="bg-slate-50 border border-slate-200 rounded-2xl p-6 flex flex-col sm:flex-row items-center gap-6 shadow-sm hover:shadow-md transition-shadow">
+                    <div class="bg-slate-50 border border-slate-200 rounded-2xl p-6 flex flex-col sm:flex-row items-center gap-6 shadow-sm">
                         <img src="https://images.unsplash.com/photo-1580894732475-8160533036a1?auto=format&fit=crop&w=400&q=80" alt="Заступник директора" class="w-32 h-32 rounded-xl object-cover shadow-md">
                         <div class="text-center sm:text-left">
                             <span class="inline-block py-1 px-2.5 rounded-full text-xs font-semibold bg-indigo-100 text-indigo-800 mb-2">Заступник директора</span>
                             <h3 class="text-xl font-bold text-slate-900 mb-1">Балагура Ніна Іванівна</h3>
-                            <p class="text-sm text-slate-600 mb-3">Навчально-методична робота, моніторинг якості знань та розклад.</p>
-                            <a href="#contacts" class="text-sm font-semibold text-indigo-600 hover:text-indigo-800 inline-flex items-center gap-1">Зв'язатися <i class="fa-solid fa-arrow-right text-xs"></i></a>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- 2. NEWS SECTION -->
+        <!-- NEWS -->
         <section id="news" class="py-20 bg-slate-50">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-12 gap-4">
@@ -205,27 +147,24 @@
             </div>
         </section>
 
-        <!-- 3. STAFF DIRECTORY SECTION -->
+        <!-- STAFF -->
         <section id="staff" class="py-20 bg-white border-t border-slate-200">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="text-center max-w-3xl mx-auto mb-12">
                     <span class="text-indigo-600 font-semibold text-sm uppercase tracking-wider block mb-1">Наша команда</span>
                     <h2 class="text-3xl font-extrabold text-slate-900">Колектив гімназії</h2>
-                    <p class="text-slate-600 mt-2">Список зареєстрованих викладачів, педагогів та співробітників нашого закладу.</p>
                 </div>
                 <div id="staff-grid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
             </div>
         </section>
 
-        <!-- 4. SCHEDULE SECTION -->
+        <!-- SCHEDULE -->
         <section id="schedule" class="py-20 bg-slate-50 border-t border-slate-200">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="text-center max-w-3xl mx-auto mb-12">
                     <span class="text-indigo-600 font-semibold text-sm uppercase tracking-wider block mb-1">Навчальний процес</span>
                     <h2 class="text-3xl font-extrabold text-slate-900">Розклад уроків та дзвоників</h2>
-                    <p class="text-slate-600 mt-2">Оберіть клас для перегляду розкладу занять на тиждень.</p>
                 </div>
-
                 <div class="flex flex-wrap justify-center gap-2 mb-8" id="class-tabs">
                     <button onclick="switchScheduleClass('1')" class="class-tab-btn px-4 py-2 rounded-xl font-semibold text-sm bg-indigo-600 text-white shadow-md transition-all">1 Клас</button>
                     <button onclick="switchScheduleClass('2')" class="class-tab-btn px-4 py-2 rounded-xl font-semibold text-sm bg-white text-slate-700 hover:bg-slate-100 border border-slate-200 transition-all">2 Клас</button>
@@ -237,993 +176,131 @@
                     <button onclick="switchScheduleClass('8')" class="class-tab-btn px-4 py-2 rounded-xl font-semibold text-sm bg-white text-slate-700 hover:bg-slate-100 border border-slate-200 transition-all">8 Клас</button>
                     <button onclick="switchScheduleClass('9')" class="class-tab-btn px-4 py-2 rounded-xl font-semibold text-sm bg-white text-slate-700 hover:bg-slate-100 border border-slate-200 transition-all">9 Клас</button>
                 </div>
-
                 <div class="grid lg:grid-cols-3 gap-8">
                     <div class="lg:col-span-2 bg-white rounded-2xl shadow-sm border border-slate-200 p-6">
-                        <h3 id="schedule-class-title" class="text-xl font-bold text-slate-900 mb-6 flex items-center gap-2">
-                            <i class="fa-solid fa-calendar-days text-indigo-600"></i> Розклад для 1 класу
-                        </h3>
+                        <h3 id="schedule-class-title" class="text-xl font-bold text-slate-900 mb-6 flex items-center gap-2"><i class="fa-solid fa-calendar-days text-indigo-600"></i> Розклад для 1 класу</h3>
                         <div id="schedule-content" class="space-y-4"></div>
                     </div>
                     <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6">
-                        <h3 class="text-xl font-bold text-slate-900 mb-6 flex items-center gap-2">
-                            <i class="fa-solid fa-bell text-indigo-600"></i> Розклад дзвоників
-                        </h3>
+                        <h3 class="text-xl font-bold text-slate-900 mb-6 flex items-center gap-2"><i class="fa-solid fa-bell text-indigo-600"></i> Розклад дзвоників</h3>
                         <ul class="space-y-3 text-sm">
                             <li class="flex justify-between p-3 bg-slate-50 rounded-xl border border-slate-100 font-medium"><span>1 урок</span> <span class="text-indigo-600">08:30 – 09:15</span></li>
                             <li class="flex justify-between p-3 bg-slate-50 rounded-xl border border-slate-100 font-medium"><span>2 урок</span> <span class="text-indigo-600">09:30 – 10:15</span></li>
                             <li class="flex justify-between p-3 bg-slate-50 rounded-xl border border-slate-100 font-medium"><span>3 урок</span> <span class="text-indigo-600">10:35 – 11:20</span></li>
                             <li class="flex justify-between p-3 bg-slate-50 rounded-xl border border-slate-100 font-medium"><span>4 урок</span> <span class="text-indigo-600">11:40 – 12:25</span></li>
                             <li class="flex justify-between p-3 bg-slate-50 rounded-xl border border-slate-100 font-medium"><span>5 урок</span> <span class="text-indigo-600">12:40 – 13:25</span></li>
-                            <li class="flex justify-between p-3 bg-slate-50 rounded-xl border border-slate-100 font-medium"><span>6 урок</span> <span class="text-indigo-600">13:35 – 14:20</span></li>
                         </ul>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- 5. PSYCHOLOGICAL COUNSELING SECTION -->
+        <!-- COUNSELING -->
         <section id="counseling" class="py-20 bg-white border-t border-slate-200">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="text-center max-w-3xl mx-auto mb-12">
-                    <span class="text-indigo-600 font-semibold text-sm uppercase tracking-wider block mb-1">Підтримка та турбота</span>
-                    <h2 class="text-3xl font-extrabold text-slate-900">Психологічна служба та соціальний педагог</h2>
-                    <p class="text-slate-600 mt-2">Безпечний простір для учнів та батьків. Поради психолога та анонімні звернення.</p>
+                    <span class="text-indigo-600 font-semibold text-sm uppercase tracking-wider block mb-1">Підтримка</span>
+                    <h2 class="text-3xl font-extrabold text-slate-900">Психологічна служба та анонімна скринька</h2>
                 </div>
-
                 <div class="grid md:grid-cols-2 gap-8 items-start">
                     <div class="bg-indigo-50 border border-indigo-100 rounded-2xl p-8">
-                        <div class="flex items-center gap-4 mb-6">
-                            <div class="w-16 h-16 rounded-2xl bg-indigo-600 text-white flex items-center justify-center text-3xl font-bold shadow-md">
-                                <i class="fa-solid fa-comments"></i>
-                            </div>
-                            <div>
-                                <h3 class="text-xl font-bold text-slate-900">Анонімна скринька довіри</h3>
-                                <p class="text-sm text-slate-600">Поділіться тим, що вас турбує. Психолог прочитає і допоможе.</p>
-                            </div>
-                        </div>
+                        <h3 class="text-xl font-bold text-slate-900 mb-4">Анонімне звернення</h3>
                         <form onsubmit="submitAnonymousAppeal(event)" class="space-y-4">
-                            <div>
-                                <label class="block text-xs font-semibold uppercase text-slate-700 mb-1">Ваше повідомлення або запитання</label>
-                                <textarea id="appeal-text" rows="4" required placeholder="Опишіть вашу ситуацію чи питання анонімно..." class="w-full rounded-xl border border-slate-300 px-4 py-2.5 text-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none"></textarea>
-                            </div>
-                            <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 px-4 rounded-xl shadow-md transition-all flex items-center justify-center gap-2">
-                                <i class="fa-solid fa-paper-plane"></i> Надіслати анонімно
-                            </button>
+                            <textarea id="appeal-text" rows="4" required placeholder="Опишіть питання..." class="w-full rounded-xl border border-slate-300 px-4 py-2.5 text-sm"></textarea>
+                            <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 px-4 rounded-xl shadow-md">Надіслати</button>
                         </form>
                     </div>
-
-                    <div class="bg-slate-50 border border-slate-200 rounded-2xl p-8 space-y-6">
-                        <h3 class="text-xl font-bold text-slate-900 flex items-center gap-2">
-                            <i class="fa-solid fa-lightbulb text-amber-500"></i> Поради для учнів та батьків
-                        </h3>
-                        <div class="space-y-4 text-sm text-slate-600">
-                            <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
-                                <h4 class="font-bold text-slate-900 mb-1"><i class="fa-solid fa-shield-heart text-indigo-600 mr-1"></i> Як подолати тривожність перед уроками</h4>
-                                <p>Робіть глибокі вдихи, дотримуйтеся режиму сну та не бійтеся звертатися за допомогою до вчителів.</p>
-                            </div>
-                            <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
-                                <h4 class="font-bold text-slate-900 mb-1"><i class="fa-solid fa-book-open text-indigo-600 mr-1"></i> Ефективні поради для запам'ятовування</h4>
-                                <p>Чергуйте навчання та відпочинок за методом Помодоро (25 хв роботи, 5 хв відпочинку).</p>
-                            </div>
-                            <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
-                                <h4 class="font-bold text-slate-900 mb-1"><i class="fa-solid fa-users text-indigo-600 mr-1"></i> Дружня атмосфера в класі</h4>
-                                <p>Повага до однокласників — запорука психологічного комфорту кожного члена колективу.</p>
-                            </div>
-                        </div>
+                    <div class="bg-slate-50 border border-slate-200 rounded-2xl p-8 space-y-4">
+                        <h3 class="text-xl font-bold text-slate-900">Корисні поради</h3>
+                        <p class="text-sm text-slate-600">Дотримуйтеся режиму дня, робіть перерви під час навчання та спілкуйтеся з друзями позитивно.</p>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- 6. OLYMPIADS & ZNO/NMT SECTION -->
+        <!-- OLYMPIADS & ZNO -->
         <section id="olympiads" class="py-20 bg-slate-50 border-t border-slate-200">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="text-center max-w-3xl mx-auto mb-12">
-                    <span class="text-indigo-600 font-semibold text-sm uppercase tracking-wider block mb-1">Інтелектуальні досягнення</span>
-                    <h2 class="text-3xl font-extrabold text-slate-900">Шкільні олімпіади та підготовка до НМТ</h2>
-                    <p class="text-slate-600 mt-2">Матеріали, розклад олімпіад та корисні посилання для підготовки до іспитів.</p>
-                </div>
-
-                <div class="grid md:grid-cols-2 gap-8">
-                    <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-8">
-                        <h3 class="text-xl font-bold text-slate-900 mb-6 flex items-center gap-2">
-                            <i class="fa-solid fa-award text-amber-500"></i> Предметні олімпіади
-                        </h3>
-                        <ul class="space-y-4 text-sm">
-                            <li class="flex items-start gap-3 p-4 bg-slate-50 rounded-xl border border-slate-100">
-                                <i class="fa-solid fa-circle-check text-indigo-600 mt-1"></i>
-                                <div>
-                                    <span class="font-bold text-slate-900 block">Шкільний етап олімпіад</span>
-                                    <span class="text-slate-600">Жовтень — Листопад. Участь беруть учні 3–9 класів з усіх базових дисциплін.</span>
-                                </div>
-                            </li>
-                            <li class="flex items-start gap-3 p-4 bg-slate-50 rounded-xl border border-slate-100">
-                                <i class="fa-solid fa-circle-check text-indigo-600 mt-1"></i>
-                                <div>
-                                    <span class="font-bold text-slate-900 block">Громадський та районний етапи</span>
-                                    <span class="text-slate-600">Грудень — Січень. Представлення Успенівської гімназії на рівні району.</span>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-
-                    <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-8">
-                        <h3 class="text-xl font-bold text-slate-900 mb-6 flex items-center gap-2">
-                            <i class="fa-solid fa-graduation-cap text-indigo-600"></i> Підготовка до НМТ / ЗНО
-                        </h3>
-                        <div class="space-y-4 text-sm">
-                            <p class="text-slate-600">Корисні офіційні ресурси для самопідготовки випускників:</p>
-                            <div class="grid gap-3">
-                                <a href="https://testportal.gov.ua/" target="_blank" class="p-3 bg-indigo-50 hover:bg-indigo-100 rounded-xl border border-indigo-200 font-semibold text-indigo-900 flex justify-between items-center transition-colors">
-                                    <span>УЦОЯО (Офіційний сайт)</span> <i class="fa-solid fa-external-link text-xs"></i>
-                                </a>
-                                <a href="https://zno.osvita.ua/" target="_blank" class="p-3 bg-slate-50 hover:bg-slate-100 rounded-xl border border-slate-200 font-semibold text-slate-800 flex justify-between items-center transition-colors">
-                                    <span>Освіта.ua — Тести онлайн</span> <i class="fa-solid fa-external-link text-xs"></i>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center max-w-3xl mx-auto">
+                <h2 class="text-3xl font-extrabold text-slate-900 mb-6">Олімпіади та НМТ</h2>
+                <p class="text-slate-600 text-sm">Офіційні ресурси для підготовки: <a href="https://testportal.gov.ua/" target="_blank" class="text-indigo-600 font-semibold underline">УЦОЯО</a></p>
             </div>
         </section>
 
-        <!-- 7. CANTEEN SECTION -->
+        <!-- CANTEEN -->
         <section id="canteen" class="py-20 bg-white border-t border-slate-200">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="text-center max-w-3xl mx-auto mb-12">
-                    <span class="text-indigo-600 font-semibold text-sm uppercase tracking-wider block mb-1">Здорове харчування</span>
-                    <h2 class="text-3xl font-extrabold text-slate-900">Шкільна їдальня — Меню тижня</h2>
-                    <p class="text-slate-600 mt-2">Збалансоване, смачне та якісне харчування за сучасними стандарти реформи шкільного харчування.</p>
-                </div>
-
-                <div class="grid md:grid-cols-5 gap-6">
-                    <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200 text-center">
-                        <span class="font-bold text-indigo-600 block mb-2">Понеділок</span>
-                        <p class="text-xs text-slate-600">Каша гречана, котлета куряча, салат овочевий, чай з лимоном.</p>
-                    </div>
-                    <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200 text-center">
-                        <span class="font-bold text-indigo-600 block mb-2">Вівторок</span>
-                        <p class="text-xs text-slate-600">Суп курячий з лапшею, картопляне пюре, рибна паличка, компот із сухофруктів.</p>
-                    </div>
-                    <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200 text-center">
-                        <span class="font-bold text-indigo-600 block mb-2">Середа</span>
-                        <p class="text-xs text-slate-600">Рис з овочами, гуляш курячий, салат із буряка, солодкий чай.</p>
-                    </div>
-                    <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200 text-center">
-                        <span class="font-bold text-indigo-600 block mb-2">Четвер</span>
-                        <p class="text-xs text-slate-600">Борщ український зі сметаною, хліб цільнозерновий, м'ясні тефтелі.</p>
-                    </div>
-                    <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200 text-center">
-                        <span class="font-bold text-indigo-600 block mb-2">П'ятниця</span>
-                        <p class="text-xs text-slate-600">Макарони з твердих сортів із сиром, запіканка сирна з ягодами, какао.</p>
-                    </div>
-                </div>
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                <h2 class="text-3xl font-extrabold text-slate-900 mb-6">Шкільна їдальня — Меню</h2>
+                <p class="text-sm text-slate-600">Збалансоване гаряче харчування щодня згідно з нормативами МОЗ.</p>
             </div>
         </section>
 
-        <!-- 8. GALLERY SECTION -->
+        <!-- GALLERY -->
         <section id="gallery" class="py-20 bg-slate-50 border-t border-slate-200">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="text-center max-w-3xl mx-auto mb-12">
-                    <span class="text-indigo-600 font-semibold text-sm uppercase tracking-wider block mb-1">Фотоархів</span>
-                    <h2 class="text-3xl font-extrabold text-slate-900">Галерея нашої гімназії</h2>
-                    <p class="text-slate-600 mt-2">Яскраві моменти шкільного життя, святкові заходи та будні учнів.</p>
-                </div>
-
-                <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-                    <div class="overflow-hidden rounded-2xl shadow-sm border border-slate-200 group">
-                        <img src="https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&w=600&q=80" alt="Школа" class="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-500">
-                    </div>
-                    <div class="overflow-hidden rounded-2xl shadow-sm border border-slate-200 group">
-                        <img src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=600&q=80" alt="Учні" class="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-500">
-                    </div>
-                    <div class="overflow-hidden rounded-2xl shadow-sm border border-slate-200 group">
-                        <img src="https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?auto=format&fit=crop&w=600&q=80" alt="Урок" class="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-500">
-                    </div>
-                    <div class="overflow-hidden rounded-2xl shadow-sm border border-slate-200 group">
-                        <img src="https://images.unsplash.com/photo-1577896851231-70ef18881754?auto=format&fit=crop&w=600&q=80" alt="Бібліотека" class="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-500">
-                    </div>
-                </div>
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                <h2 class="text-3xl font-extrabold text-slate-900 mb-6">Галерея</h2>
             </div>
         </section>
 
-        <!-- 9. INTERACTIVE GAMES SECTION -->
+        <!-- INTERACTIVE GAMES -->
         <section id="interactive" class="py-20 bg-white border-t border-slate-200">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="text-center max-w-3xl mx-auto mb-12">
-                    <span class="text-indigo-600 font-semibold text-sm uppercase tracking-wider block mb-1">Освітні розваги</span>
-                    <h2 class="text-3xl font-extrabold text-slate-900">Інтерактивні ігри та вікторини</h2>
-                    <p class="text-slate-600 mt-2">Перевірте свої знання та потренуйте пам'ять!</p>
-                </div>
-
                 <div class="grid lg:grid-cols-2 gap-8">
-                    <div class="bg-slate-50 border border-slate-200 rounded-2xl p-8 shadow-sm">
-                        <h3 class="text-xl font-bold text-slate-900 mb-4 flex items-center gap-2">
-                            <i class="fa-solid fa-puzzle-piece text-indigo-600"></i> Шкільна вікторина (Історія та мова)
-                        </h3>
-                        <div id="quiz-container">
-                            <div id="quiz-question" class="text-base font-semibold text-slate-800 mb-4">Питання завантажується...</div>
-                            <div id="quiz-options" class="grid gap-3 mb-6"></div>
-                            <div id="quiz-result" class="text-sm font-semibold mb-4 text-indigo-600"></div>
-                            <button onclick="nextQuizQuestion()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold px-5 py-2.5 rounded-xl shadow-md transition-all">Наступне питання</button>
-                        </div>
+                    <div class="bg-slate-50 border border-slate-200 rounded-2xl p-8">
+                        <h3 class="text-xl font-bold mb-4">Вікторина</h3>
+                        <div id="quiz-question" class="font-semibold mb-4"></div>
+                        <div id="quiz-options" class="grid gap-3 mb-4"></div>
+                        <div id="quiz-result" class="text-sm font-semibold mb-4 text-indigo-600"></div>
+                        <button onclick="nextQuizQuestion()" class="bg-indigo-600 text-white px-4 py-2 rounded-xl">Наступне</button>
                     </div>
-
-                    <div class="bg-slate-50 border border-slate-200 rounded-2xl p-8 shadow-sm">
-                        <h3 class="text-xl font-bold text-slate-900 mb-4 flex items-center gap-2">
-                            <i class="fa-solid fa-brain text-indigo-600"></i> Гра на пам'ять (Знайди пару)
-                        </h3>
-                        <div class="text-sm text-slate-600 mb-4">Знайдіть пари однакових карток за мінімум кліків!</div>
+                    <div class="bg-slate-50 border border-slate-200 rounded-2xl p-8">
+                        <h3 class="text-xl font-bold mb-4">Гра на пам'ять</h3>
                         <div id="memory-grid" class="grid grid-cols-4 gap-3 mb-4"></div>
-                        <div class="flex justify-between items-center text-sm">
-                            <span id="memory-score" class="font-bold text-slate-800">Кліків: 0</span>
-                            <button onclick="initMemoryGame()" class="bg-slate-800 hover:bg-slate-900 text-white font-semibold px-4 py-2 rounded-xl transition-all">Перезапустити</button>
-                        </div>
+                        <button onclick="initMemoryGame()" class="bg-slate-800 text-white px-4 py-2 rounded-xl">Перезапустити</button>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- 10. DOCUMENTS DOWNLOADER SECTION -->
-        <section id="documents" class="py-20 bg-slate-50 border-t border-slate-200">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="text-center max-w-3xl mx-auto mb-12">
-                    <span class="text-indigo-600 font-semibold text-sm uppercase tracking-wider block mb-1">Офіційні файли</span>
-                    <h2 class="text-3xl font-extrabold text-slate-900">Документи та скачування</h2>
-                    <p class="text-slate-600 mt-2">Нормативно-правова база та корисні бланки для батьків і учнів.</p>
-                </div>
-
-                <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                    <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex items-center justify-between">
-                        <div class="flex items-center gap-4">
-                            <div class="w-12 h-12 rounded-xl bg-red-100 text-red-600 flex items-center justify-center text-xl font-bold">
-                                <i class="fa-solid fa-file-pdf"></i>
-                            </div>
-                            <div>
-                                <h4 class="font-bold text-slate-900 text-sm">Статут гімназії</h4>
-                                <span class="text-xs text-slate-500">PDF, 2.4 MB</span>
-                            </div>
-                        </div>
-                        <button onclick="alert('Завантаження файлу Статут гімназії...')" class="p-2 text-indigo-600 hover:bg-indigo-50 rounded-lg transition-colors"><i class="fa-solid fa-download text-lg"></i></button>
-                    </div>
-                    <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex items-center justify-between">
-                        <div class="flex items-center gap-4">
-                            <div class="w-12 h-12 rounded-xl bg-blue-100 text-blue-600 flex items-center justify-center text-xl font-bold">
-                                <i class="fa-solid fa-file-word"></i>
-                            </div>
-                            <div>
-                                <h4 class="font-bold text-slate-900 text-sm">Заява на зарахування</h4>
-                                <span class="text-xs text-slate-500">DOCX, 150 KB</span>
-                            </div>
-                        </div>
-                        <button onclick="alert('Завантаження заяви на зарахування...')" class="p-2 text-indigo-600 hover:bg-indigo-50 rounded-lg transition-colors"><i class="fa-solid fa-download text-lg"></i></button>
-                    </div>
-                    <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex items-center justify-between">
-                        <div class="flex items-center gap-4">
-                            <div class="w-12 h-12 rounded-xl bg-emerald-100 text-emerald-600 flex items-center justify-center text-xl font-bold">
-                                <i class="fa-solid fa-file-excel"></i>
-                            </div>
-                            <div>
-                                <h4 class="font-bold text-slate-900 text-sm">Звіт кошторису</h4>
-                                <span class="text-xs text-slate-500">XLSX, 520 KB</span>
-                            </div>
-                        </div>
-                        <button onclick="alert('Завантаження фінансового звіту...')" class="p-2 text-indigo-600 hover:bg-indigo-50 rounded-lg transition-colors"><i class="fa-solid fa-download text-lg"></i></button>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- 11. CONTACTS & FEEDBACK SECTION -->
+        <!-- CONTACTS -->
         <section id="contacts" class="py-20 bg-white border-t border-slate-200">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="grid lg:grid-cols-2 gap-12">
-                    <div>
-                        <span class="text-indigo-600 font-semibold text-sm uppercase tracking-wider block mb-1">Зворотний зв'язок</span>
-                        <h2 class="text-3xl font-extrabold text-slate-900 mb-6">Контакти та звернення</h2>
-                        <div class="space-y-4 text-slate-600 mb-8">
-                            <p class="flex items-start gap-3"><i class="fa-solid fa-location-dot text-indigo-600 mt-1"></i> <span>вул. Кишинівська, 69, с. Успенівка, Білгород-Дністровський район, Одеська область, 68242</span></p>
-                            <p class="flex items-center gap-3"><i class="fa-solid fa-phone text-indigo-600"></i> <span>+38 (04849) 00-000</span></p>
-                            <p class="flex items-center gap-3"><i class="fa-solid fa-envelope text-indigo-600"></i> <span>uspenivka_gymn@ukr.net</span></p>
-                            <p class="flex items-center gap-3"><i class="fa-solid id-card text-indigo-600"></i> <span>Код ЄДРПОУ: 25814560</span></p>
-                        </div>
-                        <div class="rounded-2xl overflow-hidden shadow-sm border border-slate-200 h-64">
-                            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2775.2!2d29.6!3d46.1!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNDbCsDA2JzAwLjAiTiAyOcKwMzYnMDAuMCJF!5e0!3m2!1suk!2sua!4v1650000000000!5m2!1suk!2sua" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
-                        </div>
-                    </div>
-
-                    <div class="bg-slate-50 border border-slate-200 rounded-2xl p-8 shadow-sm">
-                        <h3 class="text-xl font-bold text-slate-900 mb-6">Напишіть нам повідомлення</h3>
-                        <form onsubmit="submitFeedback(event)" class="space-y-4">
-                            <div>
-                                <label class="block text-xs font-semibold uppercase text-slate-700 mb-1">Ваше ім'я</label>
-                                <input type="text" id="feedback-name" required class="w-full rounded-xl border border-slate-300 px-4 py-2.5 text-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none">
-                            </div>
-                            <div>
-                                <label class="block text-xs font-semibold uppercase text-slate-700 mb-1">Електронна пошта</label>
-                                <input type="email" id="feedback-email" required class="w-full rounded-xl border border-slate-300 px-4 py-2.5 text-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none">
-                            </div>
-                            <div>
-                                <label class="block text-xs font-semibold uppercase text-slate-700 mb-1">Повідомлення</label>
-                                <textarea id="feedback-message" rows="4" required class="w-full rounded-xl border border-slate-300 px-4 py-2.5 text-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none"></textarea>
-                            </div>
-                            <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 px-4 rounded-xl shadow-md transition-all">
-                                Надіслати повідомлення
-                            </button>
-                        </form>
-                    </div>
-                </div>
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center max-w-xl">
+                <h2 class="text-3xl font-extrabold text-slate-900 mb-4">Контакти</h2>
+                <p class="text-slate-600 text-sm">вул. Кишинівська, 69, с. Успенівка, Одеська обл.</p>
             </div>
         </section>
-
     </main>
 
     <!-- FOOTER -->
-    <footer class="bg-slate-900 text-slate-400 py-12 border-t border-slate-800">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center gap-6">
-            <div class="text-center md:text-left">
-                <span class="block font-bold text-white text-base">Успенівська гімназія</span>
-                <span class="text-xs text-slate-500">© 2026 Успенівська сільська рада. Усі права захищено.</span>
-            </div>
-            <div class="flex items-center gap-4 text-xl">
-                <a href="#" class="hover:text-indigo-400 transition-colors"><i class="fa-brands fa-facebook"></i></a>
-                <a href="#" class="hover:text-indigo-400 transition-colors"><i class="fa-brands fa-telegram"></i></a>
-                <a href="#" class="hover:text-indigo-400 transition-colors"><i class="fa-brands fa-youtube"></i></a>
-            </div>
-        </div>
+    <footer class="bg-slate-900 text-slate-400 py-6 text-center text-xs">
+        <p>© 2026 Успенівська гімназія. Усі права захищено.</p>
     </footer>
 
-    <!-- MODALS CONTAINER -->
-
-    <!-- LOGIN / REGISTER MODAL -->
+    <!-- MODALS -->
     <div id="auth-modal" class="fixed inset-0 z-50 bg-slate-950/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
-        <div class="bg-white rounded-3xl max-w-md w-full p-8 shadow-2xl relative animate-in">
-            <button onclick="closeAuthModal()" class="absolute top-6 right-6 text-slate-400 hover:text-slate-600 text-xl"><i class="fa-solid fa-xmark"></i></button>
+        <div class="bg-white rounded-3xl max-w-md w-full p-8 relative">
+            <button onclick="closeAuthModal()" class="absolute top-6 right-6 text-slate-400 text-xl"><i class="fa-solid fa-xmark"></i></button>
             <div id="auth-modal-content"></div>
         </div>
     </div>
 
-    <!-- EMAIL VERIFICATION MODAL -->
+    <!-- VERIFY MODAL -->
     <div id="verify-modal" class="fixed inset-0 z-50 bg-slate-950/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
-        <div class="bg-white rounded-3xl max-w-md w-full p-8 shadow-2xl relative">
-            <h3 class="text-2xl font-bold text-slate-900 mb-2">Підтвердження пошти</h3>
-            <p class="text-sm text-slate-600 mb-6">На вашу електронну адресу надіслано одноразовий код підтвердження.</p>
-            <div class="mb-4 p-4 bg-indigo-50 border border-indigo-200 rounded-xl text-center">
-                <span class="text-xs text-slate-500 block mb-1">Симуляція надсилання пошти: Ваш код підтвердження</span>
-                <span id="display-verify-code" class="text-3xl font-extrabold text-indigo-600 tracking-widest">1234</span>
-            </div>
+        <div class="bg-white rounded-3xl max-w-md w-full p-8 relative text-center">
+            <h3 class="text-2xl font-bold mb-2">Підтвердження пошти</h3>
+            <p class="text-sm text-slate-600 mb-6">Введіть 4-значний код, надісланий на вашу електронну адресу.</p>
             <form onsubmit="confirmEmailVerification(event)" class="space-y-4">
-                <div>
-                    <label class="block text-xs font-semibold uppercase text-slate-700 mb-1">Введіть 4-значний код</label>
-                    <input type="text" id="verify-code-input" maxlength="4" required class="w-full text-center tracking-widest text-2xl font-bold rounded-xl border border-slate-300 px-4 py-3 focus:ring-2 focus:ring-indigo-500 focus:outline-none">
-                </div>
-                <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 px-4 rounded-xl shadow-md transition-all">
-                    Підтвердити та завершити реєстрацію
-                </button>
+                <input type="text" id="verify-code-input" maxlength="4" required class="w-full text-center tracking-widest text-2xl font-bold rounded-xl border border-slate-300 px-4 py-3">
+                <button type="submit" class="w-full bg-indigo-600 text-white font-semibold py-3 rounded-xl">Підтвердити</button>
             </form>
         </div>
     </div>
 
-    <!-- PROFILE EDIT MODAL -->
+    <!-- ENHANCED PERSONAL CABINET MODAL (WITH TABS & FULL FUNCTIONALITY) -->
     <div id="profile-modal" class="fixed inset-0 z-50 bg-slate-950/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
-        <div class="bg-white rounded-3xl max-w-md w-full p-8 shadow-2xl relative">
-            <button onclick="closeProfileModal()" class="absolute top-6 right-6 text-slate-400 hover:text-slate-600 text-xl"><i class="fa-solid fa-xmark"></i></button>
-            <h3 class="text-2xl font-bold text-slate-900 mb-6">Редагування профілю</h3>
-            <form onsubmit="saveProfileChanges(event)" class="space-y-4">
-                <div class="flex flex-col items-center mb-4">
-                    <img id="profile-preview-avatar" src="" alt="Avatar" class="w-20 h-20 rounded-full object-cover mb-3 shadow-md border-2 border-indigo-500">
-                    <label class="block text-xs font-semibold uppercase text-slate-700 mb-1">Завантажити нову аватарку з пристрою</label>
-                    <input type="file" id="profile-avatar-file" accept="image/*" class="w-full text-xs text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100">
-                </div>
+        <div class="bg-white rounded-3xl max-w-2xl w-full p-8 relative max-h-[90vh] overflow-y-auto">
+            <button onclick="closeProfileModal()" class="absolute top-6 right-6 text-slate-400 text-xl"><i class="fa-solid fa-xmark"></i></button>
+            
+            <div class="flex items-center gap-4 mb-6 border-b border-slate-200 pb-4">
+                <img id="cabinet-user-avatar" src="" class="w-16 h-16 rounded-full object-cover border-2 border-indigo-500 shadow-sm">
                 <div>
-                    <label class="block text-xs font-semibold uppercase text-slate-700 mb-1">Ім'я та Прізвище</label>
-                    <input type="text" id="profile-edit-name" required class="w-full rounded-xl border border-slate-300 px-4 py-2.5 text-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none">
-                </div>
-                <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 px-4 rounded-xl shadow-md transition-all">
-                    Зберегти зміни
-                </button>
-            </form>
-        </div>
-    </div>
-
-    <!-- ADD NEWS MODAL -->
-    <div id="news-modal" class="fixed inset-0 z-50 bg-slate-950/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
-        <div class="bg-white rounded-3xl max-w-lg w-full p-8 shadow-2xl relative">
-            <button onclick="closeNewsModal()" class="absolute top-6 right-6 text-slate-400 hover:text-slate-600 text-xl"><i class="fa-solid fa-xmark"></i></button>
-            <h3 class="text-2xl font-bold text-slate-900 mb-6">Створити новину</h3>
-            <form onsubmit="saveNewArticle(event)" class="space-y-4">
-                <div>
-                    <label class="block text-xs font-semibold uppercase text-slate-700 mb-1">Заголовок новини</label>
-                    <input type="text" id="news-title-input" required class="w-full rounded-xl border border-slate-300 px-4 py-2.5 text-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none">
-                </div>
-                <div>
-                    <label class="block text-xs font-semibold uppercase text-slate-700 mb-1">Зображення (URL)</label>
-                    <input type="text" id="news-image-input" placeholder="https://images.unsplash.com/..." required class="w-full rounded-xl border border-slate-300 px-4 py-2.5 text-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none">
-                </div>
-                <div>
-                    <label class="block text-xs font-semibold uppercase text-slate-700 mb-1">Текст новини</label>
-                    <textarea id="news-text-input" rows="4" required class="w-full rounded-xl border border-slate-300 px-4 py-2.5 text-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none"></textarea>
-                </div>
-                <div class="flex gap-3 pt-2">
-                    <button type="button" onclick="closeNewsModal()" class="w-1/2 bg-slate-200 hover:bg-slate-300 text-slate-800 font-semibold py-3 px-4 rounded-xl transition-all">
-                        Відмінити
-                    </button>
-                    <button type="submit" class="w-1/2 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 px-4 rounded-xl shadow-md transition-all">
-                        Опублікувати
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <!-- BANNER EDITOR MODAL -->
-    <div id="banner-modal" class="fixed inset-0 z-50 bg-slate-950/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
-        <div class="bg-white rounded-3xl max-w-md w-full p-8 shadow-2xl relative">
-            <button onclick="closeBannerEditor()" class="absolute top-6 right-6 text-slate-400 hover:text-slate-600 text-xl"><i class="fa-solid fa-xmark"></i></button>
-            <h3 class="text-2xl font-bold text-slate-900 mb-6">Редагування головного баннера</h3>
-            <form onsubmit="saveBannerChanges(event)" class="space-y-4">
-                <div>
-                    <label class="block text-xs font-semibold uppercase text-slate-700 mb-1">URL зображення баннера</label>
-                    <input type="text" id="banner-url-input" required class="w-full rounded-xl border border-slate-300 px-4 py-2.5 text-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none">
-                </div>
-                <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 px-4 rounded-xl shadow-md transition-all">
-                    Зберегти баннер
-                </button>
-            </form>
-        </div>
-    </div>
-
-    <!-- JAVASCRIPT LOGIC -->
-    <script>
-        const defaultUsers = [
-            { id: 1, name: 'Адміністратор', email: 'admin@uspenivka.edu.ua', password: 'admin123', role: 'admin', avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80', verified: true },
-            { id: 2, name: 'Олена Петрівна', email: 'teacher@uspenivka.edu.ua', password: 'teacher123', role: 'collective', avatar: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=200&q=80', verified: true },
-            { id: 3, name: 'Іван Учень', email: 'student@uspenivka.edu.ua', password: 'student123', role: 'student', avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=200&q=80', verified: true }
-        ];
-
-        const defaultNews = [
-            { id: 1, title: 'Урочисте свято Першого дзвоника в гімназії', image: 'https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&w=800&q=80', text: 'Успенівська гімназія гостинно відкрила двері для учнів після літніх канікул. Бажаємо всім натхнення та високих досягнень у навчанні!', date: '01.09.2025', author: 'Адміністрація' },
-            { id: 2, title: 'Участь у районній олімпіаді з математики', image: 'https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&w=800&q=80', text: 'Наші учні продемонстрували чудові результати на районному етапі інтелектуальних змагань. Пишаємось нашими талановитими дітьми!', date: '15.10.2025', author: 'Олена Петрівна' },
-            { id: 3, title: 'Оновлення спортивного майданчика гімназії', image: 'https://images.unsplash.com/photo-1577896851231-70ef18881754?auto=format&fit=crop&w=800&q=80', text: 'За підтримки Успенівської сільської ради завершено облаштування нових зон для активного відпочинку та уроків фізкультури.', date: '10.11.2025', author: 'Адміністрація' }
-        ];
-
-        const schedules = {
-            '1': [
-                { day: 'Понеділок', lessons: ['1. Буквар', '2. Математика', '3. Українська мова', '4. Основи здоров\'я'] },
-                { day: 'Вівторок', lessons: ['1. Математика', '2. Письмо', '3. Природознавство', '4. Музичне мистецтво'] },
-                { day: 'Середа', lessons: ['1. Буквар', '2. Математика', '3. Образотворче мистецтво', '4. Фізична культура'] },
-                { day: 'Четвер', lessons: ['1. Письмо', '2. Математика', '3. Я досліджую світ', '4. Трудове навчання'] },
-                { day: 'П\'ятниця', lessons: ['1. Читання', '2. Математика', '3. Фізична культура', '4. Основи дизайну'] }
-            ],
-            '2': [
-                { day: 'Понеділок', lessons: ['1. Українська мова', '2. Математика', '3. Читання', '4. Я досліджую світ'] },
-                { day: 'Вівторок', lessons: ['1. Математика', '2. Українська мова', '3. Англійська мова', '4. Фізкультура'] },
-                { day: 'Середа', lessons: ['1. Читання', '2. Математика', '3. Мистецтво', '4. Основи здоров\'я'] },
-                { day: 'Четвер', lessons: ['1. Українська мова', '2. Математика', '3. Природознавство', '4. Дизайн і технології'] },
-                { day: 'П\'ятниця', lessons: ['1. Читання', '2. Англійська мова', '3. Фізкультура', '4. Музика'] }
-            ],
-            '3': [
-                { day: 'Понеділок', lessons: ['1. Українська мова', '2. Математика', '3. Літературне читання', '4. Англійська мова', '5. Я досліджую світ'] },
-                { day: 'Вівторок', lessons: ['1. Математика', '2. Українська мова', '3. Мистецтво', '4. Фізкультура', '5. Основи здоров\'я'] },
-                { day: 'Середа', lessons: ['1. Літературне читання', '2. Математика', '3. Англійська мова', '4. Дизайн і технології', '5. Інформатика'] },
-                { day: 'Четвер', lessons: ['1. Українська мова', '2. Математика', '3. Я досліджую світ', '4. Фізкультура', '5. Музика'] },
-                { day: 'П\'ятниця', lessons: ['1. Літературне читання', '2. Англійська мова', '3. Математика', '4. Основи здоров\'я', '5. Трудове навчання'] }
-            ],
-            '4': [
-                { day: 'Понеділок', lessons: ['1. Українська мова', '2. Математика', '3. Читання', '4. Англійська мова', '5. Я досліджую світ'] },
-                { day: 'Вівторок', lessons: ['1. Математика', '2. Українська мова', '3. Інформатика', '4. Фізкультура', '5. Мистецтво'] },
-                { day: 'Середа', lessons: ['1. Читання', '2. Математика', '3. Англійська мова', '4. Основи здоров\'я', '5. Дизайн'] },
-                { day: 'Четвер', lessons: ['1. Українська мова', '2. Математика', '3. Природознавство', '4. Фізкультура', '5. Музика'] },
-                { day: 'П\'ятниця', lessons: ['1. Читання', '2. Англійська мова', '3. Математика', '4. Інформатика', '5. Основи здоров\'я'] }
-            ],
-            '5': [
-                { day: 'Понеділок', lessons: ['1. Українська мова', '2. Математика', '3. Англійська мова', '4. Природознавство', '5. Історія України', '6. Фізкультура'] },
-                { day: 'Вівторок', lessons: ['1. Математика', '2. Зарубіжна література', '3. Українська література', '4. Інформатика', '5. Географія', '6. Мистецтво'] },
-                { day: 'Середа', lessons: ['1. Українська мова', '2. Математика', '3. Англійська мова', '4. Історія України', '5. Основи здоров\'я', '6. Технології'] },
-                { day: 'Четвер', lessons: ['1. Математика', '2. Українська література', '3. Природознавство', '4. Фізкультура', '5. Зарубіжна література', '6. Музика'] },
-                { day: 'П\'ятниця', lessons: ['1. Англійська мова', '2. Математика', '3. Інформатика', '4. Українська мова', '5. Географія', '6. Фізкультура'] }
-            ],
-            '6': [
-                { day: 'Понеділок', lessons: ['1. Українська мова', '2. Математика', '3. Історія України', '4. Англійська мова', '5. Біологія', '6. Фізкультура'] },
-                { day: 'Вівторок', lessons: ['1. Математика', '2. Українська література', '3. Географія', '4. Інформатика', '5. Зарубіжна література', '6. Мистецтво'] },
-                { day: 'Середа', lessons: ['1. Українська мова', '2. Математика', '3. Англійська мова', '4. Біологія', '5. Основи здоров\'я', '6. Технології'] },
-                { day: 'Четвер', lessons: ['1. Математика', '2. Історія України', '3. Географія', '4. Фізкультура', '5. Українська література', '6. Музика'] },
-                { day: 'П\'ятниця', lessons: ['1. Англійська мова', '2. Математика', '3. Інформатика', '4. Українська мова', '5. Зарубіжна література', '6. Фізкультура'] }
-            ],
-            '7': [
-                { day: 'Понеділок', lessons: ['1. Алгебра', '2. Українська мова', '3. Фізика', '4. Англійська мова', '5. Історія України', '6. Географія'] },
-                { day: 'Вівторок', lessons: ['1. Геометрія', '2. Українська література', '3. Хімія', '4. Біологія', '5. Інформатика', '6. Фізкультура'] },
-                { day: 'Середа', lessons: ['1. Алгебра', '2. Фізика', '3. Англійська мова', '4. Історія України', '5. Зарубіжна література', '6. Основи здоров\'я'] },
-                { day: 'Четвер', lessons: ['1. Геометрія', '2. Українська мова', '3. Хімія', '4. Біологія', '5. Фізкультура', '6. Мистецтво'] },
-                { day: 'П\'ятниця', lessons: ['1. Алгебра', '2. Інформатика', '3. Англійська мова', '4. Географія', '5. Українська література', '6. Фізика'] }
-            ],
-            '8': [
-                { day: 'Понеділок', lessons: ['1. Алгебра', '2. Українська мова', '3. Фізика', '4. Хімія', '5. Історія України', '6. Англійська мова'] },
-                { day: 'Вівторок', lessons: ['1. Геометрія', '2. Українська література', '3. Біологія', '4. Географія', '5. Інформатика', '6. Фізкультура'] },
-                { day: 'Середа', lessons: ['1. Алгебра', '2. Фізика', '3. Хімія', '4. Англійська мова', '5. Історія України', '6. Правознавство'] },
-                { day: 'Четвер', lessons: ['1. Геометрія', '2. Українська мова', '3. Біологія', '4. Зарубіжна література', '5. Фізкультура', '6. Мистецтво'] },
-                { day: 'П\'ятниця', lessons: ['1. Алгебра', '2. Інформатика', '3. Англійська мова', '4. Географія', '5. Українська література', '6. Фізика'] }
-            ],
-            '9': [
-                { day: 'Понеділок', lessons: ['1. Алгебра', '2. Українська мова', '3. Фізика', '4. Хімія', '5. Історія України', '6. Англійська мова', '7. Захист України'] },
-                { day: 'Вівторок', lessons: ['1. Геометрія', '2. Українська література', '3. Біологія', '4. Географія', '5. Інформатика', '6. Фізкультура', '7. Правознавство'] },
-                { day: 'Середа', lessons: ['1. Алгебра', '2. Фізика', '3. Хімія', '4. Англійська мова', '5. Історія України', '6. Зарубіжна література', '7. Технології'] },
-                { day: 'Четвер', lessons: ['1. Геометрія', '2. Українська мова', '3. Біологія', '4. Географія', '5. Фізкультура', '6. Захист України', '7. Мистецтво'] },
-                { day: 'П\'ятниця', lessons: ['1. Алгебра', '2. Інформатика', '3. Англійська мова', '4. Українська література', '5. Фізика', '6. Основи здоров\'я', '7. Економіка'] }
-            ]
-        };
-
-        const quizQuestions = [
-            { question: 'Яка столиця України?', options: ['Львів', 'Київ', 'Одеса', 'Харків'], correct: 1 },
-            { question: 'Хто автор твору "Кобзар"?', options: ['Іван Франко', 'Леся Українка', 'Тарас Шевченко', 'Григорій Сковорода'], correct: 2 },
-            { question: 'Скільки областей в Україні (без урахування АР Крим)?', options: ['23', '24', '25', '26'], correct: 1 },
-            { question: 'Яка річка є найдовшою в Україні?', options: ['Дунай', 'Південний Буг', 'Дніпро', 'Дністер'], correct: 2 }
-        ];
-
-        let currentQuizIndex = 0;
-        let pendingRegistrationUser = null;
-        let generatedVerificationCode = '1234';
-
-        if (!localStorage.getItem('uspenivka_users')) localStorage.setItem('uspenivka_users', JSON.stringify(defaultUsers));
-        if (!localStorage.getItem('uspenivka_news')) localStorage.setItem('uspenivka_news', JSON.stringify(defaultNews));
-        if (!localStorage.getItem('uspenivka_banner')) localStorage.setItem('uspenivka_banner', 'https://images.unsplash.com/photo-1580582932707-520aed937b7b?auto=format&fit=crop&w=1920&q=80');
-        if (!localStorage.getItem('uspenivka_current_user')) localStorage.setItem('uspenivka_current_user', JSON.stringify(null));
-
-        document.addEventListener('DOMContentLoaded', () => {
-            renderAuthNavbar();
-            renderNews();
-            renderStaffDirectory();
-            switchScheduleClass('1');
-            initQuiz();
-            initMemoryGame();
-            applyBanner();
-        });
-
-        function applyBanner() {
-            const bannerUrl = localStorage.getItem('uspenivka_banner');
-            const heroWrapper = document.getElementById('hero-bg-wrapper');
-            if (heroWrapper && bannerUrl) heroWrapper.style.backgroundImage = `url('${bannerUrl}')`;
-        }
-
-        function openBannerEditor() {
-            document.getElementById('banner-url-input').value = localStorage.getItem('uspenivka_banner');
-            document.getElementById('banner-modal').classList.remove('hidden');
-        }
-
-        function closeBannerEditor() {
-            document.getElementById('banner-modal').classList.add('hidden');
-        }
-
-        function saveBannerChanges(e) {
-            e.preventDefault();
-            const newUrl = document.getElementById('banner-url-input').value;
-            localStorage.setItem('uspenivka_banner', newUrl);
-            applyBanner();
-            closeBannerEditor();
-            alert('Головний баннер успішно оновлено!');
-        }
-
-        function getCurrentUser() {
-            return JSON.parse(localStorage.getItem('uspenivka_current_user'));
-        }
-
-        function setCurrentUser(user) {
-            localStorage.setItem('uspenivka_current_user', JSON.stringify(user));
-            renderAuthNavbar();
-            renderNews();
-            renderStaffDirectory();
-        }
-
-        function renderAuthNavbar() {
-            const container = document.getElementById('top-auth-container');
-            const adminControl = document.getElementById('admin-banner-control');
-            const user = getCurrentUser();
-
-            if (!user) {
-                container.innerHTML = `
-                    <button onclick="openAuthModal('login')" class="hover:text-white font-medium transition-colors"><i class="fa-solid fa-right-to-bracket mr-1"></i> Увійти</button>
-                    <span>|</span>
-                    <button onclick="openAuthModal('register')" class="hover:text-white font-medium transition-colors"><i class="fa-solid fa-user-plus mr-1"></i> Реєстрація</button>
-                `;
-                if (adminControl) adminControl.classList.add('hidden');
-            } else {
-                let roleBadge = 'Учень';
-                if (user.role === 'admin') roleBadge = 'Адміністратор';
-                if (user.role === 'collective') roleBadge = 'Колектив / Вчитель';
-
-                container.innerHTML = `
-                    <div class="flex items-center gap-3">
-                        <img src="${user.avatar}" alt="Avatar" class="w-7 h-7 rounded-full object-cover border border-indigo-300">
-                        <span class="font-medium text-white">${user.name} <span class="text-xs bg-indigo-700 px-2 py-0.5 rounded-full text-indigo-200">${roleBadge}</span></span>
-                        <button onclick="openProfileModal()" class="hover:text-white text-xs bg-indigo-800 px-2 py-1 rounded transition-colors" title="Профіль"><i class="fa-solid fa-gear"></i></button>
-                        <button onclick="logoutUser()" class="hover:text-amber-300 text-xs text-indigo-200 transition-colors" title="Вийти"><i class="fa-solid fa-power-off"></i></button>
-                    </div>
-                `;
-                if (adminControl) {
-                    if (user.role === 'admin') adminControl.classList.remove('hidden');
-                    else adminControl.classList.add('hidden');
-                }
-            }
-        }
-
-        function openAuthModal(mode) {
-            const modalContent = document.getElementById('auth-modal-content');
-            if (mode === 'login') {
-                modalContent.innerHTML = `
-                    <h3 class="text-2xl font-bold text-slate-900 mb-6">Вхід до системи</h3>
-                    <form onsubmit="loginUserSubmit(event)" class="space-y-4">
-                        <div>
-                            <label class="block text-xs font-semibold uppercase text-slate-700 mb-1">Електронна пошта</label>
-                            <input type="email" id="login-email" required class="w-full rounded-xl border border-slate-300 px-4 py-2.5 text-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none">
-                        </div>
-                        <div>
-                            <label class="block text-xs font-semibold uppercase text-slate-700 mb-1">Пароль</label>
-                            <input type="password" id="login-password" required class="w-full rounded-xl border border-slate-300 px-4 py-2.5 text-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none">
-                        </div>
-                        <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 px-4 rounded-xl shadow-md transition-all">Увійти</button>
-                    </form>
-                    <div class="mt-4 text-center text-sm text-slate-600">Ще не маєте акаунту? <button onclick="openAuthModal('register')" class="text-indigo-600 font-semibold hover:underline">Зареєструватись</button></div>
-                `;
-            } else {
-                modalContent.innerHTML = `
-                    <h3 class="text-2xl font-bold text-slate-900 mb-6">Реєстрація акаунту</h3>
-                    <form onsubmit="registerUserSubmit(event)" class="space-y-4">
-                        <div>
-                            <label class="block text-xs font-semibold uppercase text-slate-700 mb-1">ПІБ (Повне ім'я)</label>
-                            <input type="text" id="reg-name" required class="w-full rounded-xl border border-slate-300 px-4 py-2.5 text-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none">
-                        </div>
-                        <div>
-                            <label class="block text-xs font-semibold uppercase text-slate-700 mb-1">Електронна пошта</label>
-                            <input type="email" id="reg-email" required class="w-full rounded-xl border border-slate-300 px-4 py-2.5 text-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none">
-                        </div>
-                        <div>
-                            <label class="block text-xs font-semibold uppercase text-slate-700 mb-1">Пароль</label>
-                            <input type="password" id="reg-password" required class="w-full rounded-xl border border-slate-300 px-4 py-2.5 text-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none">
-                        </div>
-                        <div>
-                            <label class="block text-xs font-semibold uppercase text-slate-700 mb-1">Роль у гімназії</label>
-                            <select id="reg-role" class="w-full rounded-xl border border-slate-300 px-4 py-2.5 text-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none">
-                                <option value="student">Учень</option>
-                                <option value="collective">Колектив / Вчитель</option>
-                            </select>
-                        </div>
-                        <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 px-4 rounded-xl shadow-md transition-all">Продовжити реєстрацію</button>
-                    </form>
-                    <div class="mt-4 text-center text-sm text-slate-600">Вже маєте акаунт? <button onclick="openAuthModal('login')" class="text-indigo-600 font-semibold hover:underline">Увійти</button></div>
-                `;
-            }
-            document.getElementById('auth-modal').classList.remove('hidden');
-        }
-
-        function closeAuthModal() {
-            document.getElementById('auth-modal').classList.add('hidden');
-        }
-
-        function loginUserSubmit(e) {
-            e.preventDefault();
-            const email = document.getElementById('login-email').value;
-            const password = document.getElementById('login-password').value;
-            const users = JSON.parse(localStorage.getItem('uspenivka_users'));
-
-            const found = users.find(u => u.email === email && u.password === password);
-            if (found) {
-                if (!found.verified) {
-                    alert('Будь ласка, підтвердіть вашу електронну пошту перед входом.');
-                    return;
-                }
-                setCurrentUser(found);
-                closeAuthModal();
-                alert(`Вітаємо, ${found.name}! Ви успішно увійшли.`);
-            } else {
-                alert('Неправильна електронна пошта або пароль.');
-            }
-        }
-
-        function registerUserSubmit(e) {
-            e.preventDefault();
-            const name = document.getElementById('reg-name').value;
-            const email = document.getElementById('reg-email').value;
-            const password = document.getElementById('reg-password').value;
-            const role = document.getElementById('reg-role').value;
-
-            const users = JSON.parse(localStorage.getItem('uspenivka_users'));
-            if (users.some(u => u.email === email)) {
-                alert('Користувач із такою електронною поштою вже існує!');
-                return;
-            }
-
-            generatedVerificationCode = Math.floor(1000 + Math.random() * 9000).toString();
-            pendingRegistrationUser = {
-                id: Date.now(),
-                name, email, password, role,
-                avatar: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=200&q=80',
-                verified: false
-            };
-
-            closeAuthModal();
-            document.getElementById('display-verify-code').innerText = generatedVerificationCode;
-            document.getElementById('verify-modal').classList.remove('hidden');
-        }
-
-        function confirmEmailVerification(e) {
-            e.preventDefault();
-            const inputCode = document.getElementById('verify-code-input').value;
-            if (inputCode === generatedVerificationCode) {
-                pendingRegistrationUser.verified = true;
-                const users = JSON.parse(localStorage.getItem('uspenivka_users'));
-                users.push(pendingRegistrationUser);
-                localStorage.setItem('uspenivka_users', JSON.stringify(users));
-                setCurrentUser(pendingRegistrationUser);
-
-                document.getElementById('verify-modal').classList.add('hidden');
-                alert('Електронну пошту успішно підтверджено! Реєстрацію завершено.');
-                pendingRegistrationUser = null;
-            } else {
-                alert('Неправильний код підтвердження. Спробуйте ще раз.');
-            }
-        }
-
-        function logoutUser() {
-            setCurrentUser(null);
-            alert('Ви вийшли з облікового запису.');
-        }
-
-        function openProfileModal() {
-            const user = getCurrentUser();
-            if (!user) return;
-            document.getElementById('profile-edit-name').value = user.name;
-            document.getElementById('profile-preview-avatar').src = user.avatar;
-            document.getElementById('profile-modal').classList.remove('hidden');
-        }
-
-        function closeProfileModal() {
-            document.getElementById('profile-modal').classList.add('hidden');
-        }
-
-        function saveProfileChanges(e) {
-            e.preventDefault();
-            const user = getCurrentUser();
-            const newName = document.getElementById('profile-edit-name').value;
-            const fileInput = document.getElementById('profile-avatar-file');
-
-            user.name = newName;
-
-            if (fileInput.files && fileInput.files[0]) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    user.avatar = e.target.result;
-                    finalizeProfileSave(user);
-                }
-                reader.readAsDataURL(fileInput.files[0]);
-            } else {
-                finalizeProfileSave(user);
-            }
-        }
-
-        function finalizeProfileSave(updatedUser) {
-            setCurrentUser(updatedUser);
-            const users = JSON.parse(localStorage.getItem('uspenivka_users'));
-            const index = users.findIndex(u => u.id === updatedUser.id);
-            if (index !== -1) {
-                users[index] = updatedUser;
-                localStorage.setItem('uspenivka_users', JSON.stringify(users));
-            }
-            closeProfileModal();
-            alert('Профіль успішно оновлено!');
-        }
-
-        function renderNews() {
-            const grid = document.getElementById('news-grid');
-            const actionContainer = document.getElementById('news-action-container');
-            const newsList = JSON.parse(localStorage.getItem('uspenivka_news'));
-            const user = getCurrentUser();
-
-            if (user && (user.role === 'admin' || user.role === 'collective')) {
-                actionContainer.innerHTML = `
-                    <button onclick="openNewsModal()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold px-4 py-2.5 rounded-xl shadow-md transition-all flex items-center gap-2">
-                        <i class="fa-solid fa-plus"></i> Додати новину
-                    </button>
-                `;
-            } else {
-                actionContainer.innerHTML = '';
-            }
-
-            grid.innerHTML = newsList.map(item => `
-                <div class="bg-white rounded-2xl overflow-hidden border border-slate-200 shadow-sm hover:shadow-md transition-shadow flex flex-col">
-                    <img src="${item.image}" alt="News" class="w-full h-48 object-cover">
-                    <div class="p-6 flex flex-col flex-grow">
-                        <div class="flex items-center gap-4 text-xs text-slate-500 mb-3">
-                            <span><i class="fa-regular fa-calendar mr-1"></i> ${item.date}</span>
-                            <span><i class="fa-regular fa-user mr-1"></i> ${item.author}</span>
-                        </div>
-                        <h3 class="text-xl font-bold text-slate-900 mb-2">${item.title}</h3>
-                        <p class="text-slate-600 text-sm mb-6 flex-grow">${item.text}</p>
-                        ${user && user.role === 'admin' ? `<button onclick="deleteNews(${item.id})" class="text-red-600 text-xs font-semibold hover:underline self-start"><i class="fa-solid fa-trash mr-1"></i> Видалити новину</button>` : ''}
-                    </div>
-                </div>
-            `).reverse().join('');
-        }
-
-        function openNewsModal() {
-            document.getElementById('news-title-input').value = '';
-            document.getElementById('news-image-input').value = '';
-            document.getElementById('news-text-input').value = '';
-            document.getElementById('news-modal').classList.remove('hidden');
-        }
-
-        function closeNewsModal() {
-            document.getElementById('news-modal').classList.add('hidden');
-        }
-
-        function saveNewArticle(e) {
-            e.preventDefault();
-            const user = getCurrentUser();
-            const title = document.getElementById('news-title-input').value;
-            const image = document.getElementById('news-image-input').value;
-            const text = document.getElementById('news-text-input').value;
-
-            const newsList = JSON.parse(localStorage.getItem('uspenivka_news'));
-            const newArticle = {
-                id: Date.now(),
-                title, image, text,
-                date: new Date().toLocaleDateString('uk-UA'),
-                author: user ? user.name : 'Адміністрація'
-            };
-
-            newsList.push(newArticle);
-            localStorage.setItem('uspenivka_news', JSON.stringify(newsList));
-            renderNews();
-            closeNewsModal();
-            alert('Новину успішно опубліковано!');
-        }
-
-        function deleteNews(id) {
-            if (confirm('Видалити цю новину?')) {
-                let newsList = JSON.parse(localStorage.getItem('uspenivka_news'));
-                newsList = newsList.filter(n => n.id !== id);
-                localStorage.setItem('uspenivka_news', JSON.stringify(newsList));
-                renderNews();
-            }
-        }
-
-        function renderStaffDirectory() {
-            const grid = document.getElementById('staff-grid');
-            const users = JSON.parse(localStorage.getItem('uspenivka_users'));
-            const staffList = users.filter(u => u.role === 'collective' && u.verified);
-
-            grid.innerHTML = `
-                <div class="bg-slate-50 border border-slate-200 rounded-2xl p-6 text-center shadow-sm">
-                    <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=300&q=80" alt="Директор" class="w-24 h-24 rounded-full object-cover mx-auto mb-4 shadow-md">
-                    <h4 class="font-bold text-slate-900 text-lg">Саламатіна Алла Володимирівна</h4>
-                    <span class="text-xs bg-indigo-100 text-indigo-800 px-2 py-0.5 rounded-full font-semibold inline-block my-1">Директор гімназії</span>
-                    <p class="text-xs text-slate-600 mt-2">Керівництво закладом освіти</p>
-                </div>
-                <div class="bg-slate-50 border border-slate-200 rounded-2xl p-6 text-center shadow-sm">
-                    <img src="https://images.unsplash.com/photo-1580894732475-8160533036a1?auto=format&fit=crop&w=300&q=80" alt="Заступник" class="w-24 h-24 rounded-full object-cover mx-auto mb-4 shadow-md">
-                    <h4 class="font-bold text-slate-900 text-lg">Балагура Ніна Іванівна</h4>
-                    <span class="text-xs bg-indigo-100 text-indigo-800 px-2 py-0.5 rounded-full font-semibold inline-block my-1">Заступник директора</span>
-                    <p class="text-xs text-slate-600 mt-2">Навчально-методична робота</p>
-                </div>
-            ` + staffList.map(s => `
-                <div class="bg-slate-50 border border-slate-200 rounded-2xl p-6 text-center shadow-sm">
-                    <img src="${s.avatar}" alt="Staff" class="w-24 h-24 rounded-full object-cover mx-auto mb-4 shadow-md">
-                    <h4 class="font-bold text-slate-900 text-lg">${s.name}</h4>
-                    <span class="text-xs bg-indigo-100 text-indigo-800 px-2 py-0.5 rounded-full font-semibold inline-block my-1">Вчитель / Педагог</span>
-                    <p class="text-xs text-slate-600 mt-2">${s.email}</p>
-                </div>
-            `).join('');
-        }
-
-        function switchScheduleClass(classNum) {
-            document.querySelectorAll('.class-tab-btn').forEach(btn => {
-                btn.classList.remove('bg-indigo-600', 'text-white', 'shadow-md');
-                btn.classList.add('bg-white', 'text-slate-700', 'hover:bg-slate-100', 'border', 'border-slate-200');
-            });
-            event.target.classList.remove('bg-white', 'text-slate-700', 'hover:bg-slate-100', 'border', 'border-slate-200');
-            event.target.classList.add('bg-indigo-600', 'text-white', 'shadow-md');
-
-            document.getElementById('schedule-class-title').innerHTML = `<i class="fa-solid fa-calendar-days text-indigo-600"></i> Розклад для ${classNum} класу`;
-            const schedContainer = document.getElementById('schedule-content');
-            const classDays = schedules[classNum];
-
-            schedContainer.innerHTML = classDays.map(d => `
-                <div class="p-4 bg-slate-50 rounded-xl border border-slate-100">
-                    <h4 class="font-bold text-indigo-900 mb-2">${d.day}</h4>
-                    <div class="grid sm:grid-cols-2 gap-2 text-sm text-slate-700">
-                        ${d.lessons.map(l => `<div>• ${l}</div>`).join('')}
-                    </div>
-                </div>
-            `).join('');
-        }
-
-        function initQuiz() { loadQuizQuestion(); }
-
-        function loadQuizQuestion() {
-            const q = quizQuestions[currentQuizIndex];
-            document.getElementById('quiz-question').innerText = `Питання ${currentQuizIndex + 1}: ${q.question}`;
-            document.getElementById('quiz-result').innerText = '';
-
-            const optionsContainer = document.getElementById('quiz-options');
-            optionsContainer.innerHTML = q.options.map((opt, i) => `
-                <button onclick="checkQuizAnswer(${i})" class="w-full text-left p-3 rounded-xl border border-slate-200 hover:bg-indigo-50 hover:border-indigo-300 font-medium text-sm transition-all">${opt}</button>
-            `).join('');
-        }
-
-        function checkQuizAnswer(selectedIndex) {
-            const q = quizQuestions[currentQuizIndex];
-            const resultEl = document.getElementById('quiz-result');
-            if (selectedIndex === q.correct) {
-                resultEl.innerText = '✅ Правильно! Чудовий результат.';
-                resultEl.className = 'text-sm font-semibold mb-4 text-emerald-600';
-            } else {
-                resultEl.innerText = `❌ Неправильно. Правильна відповідь: ${q.options[q.correct]}`;
-                resultEl.className = 'text-sm font-semibold mb-4 text-red-600';
-            }
-        }
-
-        function nextQuizQuestion() {
-            currentQuizIndex = (currentQuizIndex + 1) % quizQuestions.length;
-            loadQuizQuestion();
-        }
-
-        let memoryClicks = 0;
-        function initMemoryGame() {
-            memoryClicks = 0;
-            document.getElementById('memory-score').innerText = `Кліків: ${memoryClicks}`;
-            const symbols = ['🎓', '📚', '✏️', '🏆', '🎓', '📚', '✏️', '🏆'];
-            const shuffled = symbols.sort(() => 0.5 - Math.random());
-            const grid = document.getElementById('memory-grid');
-            grid.innerHTML = shuffled.map((s, i) => `
-                <button onclick="flipMemoryCard(this, '${s}')" class="h-16 bg-slate-200 hover:bg-slate-300 rounded-xl text-2xl flex items-center justify-center transition-all card-hidden">❓</button>
-            `).join('');
-        }
-
-        let flippedCard = null;
-        function flipMemoryCard(btn, symbol) {
-            if (btn.innerText !== '❓') return;
-            memoryClicks++;
-            document.getElementById('memory-score').innerText = `Кліків: ${memoryClicks}`;
-            btn.innerText = symbol;
-            btn.classList.remove('bg-slate-200');
-            btn.classList.add('bg-indigo-100', 'border-2', 'border-indigo-500');
-
-            if (!flippedCard) {
-                flippedCard = { btn, symbol };
-            } else {
-                if (flippedCard.symbol === symbol) {
-                    flippedCard = null;
-                } else {
-                    const prev = flippedCard.btn;
-                    setTimeout(() => {
-                        prev.innerText = '❓';
-                        prev.className = 'h-16 bg-slate-200 hover:bg-slate-300 rounded-xl text-2xl flex items-center justify-center transition-all';
-                        btn.innerText = '❓';
-                        btn.className = 'h-16 bg-slate-200 hover:bg-slate-300 rounded-xl text-2xl flex items-center justify-center transition-all';
-                    }, 600);
-                    flippedCard = null;
-                }
-            }
-        }
-
-        function submitAnonymousAppeal(e) {
-            e.preventDefault();
-            alert('Ваше анонімне звернення успішно надіслано до психологічної служби гімназії.');
-            document.getElementById('appeal-text').value = '';
-        }
-
-        function submitFeedback(e) {
-            e.preventDefault();
-            alert('Дякуємо! Ваше повідомлення успішно надіслано адміністрації гімназії.');
-            document.getElementById('feedback-name').value = '';
-            document.getElementById('feedback-email').value = '';
-            document.getElementById('feedback-message').value = '';
-        }
-
-        document.getElementById('mobile-menu-btn').addEventListener('click', () => {
-            const menu = document.getElementById('mobile-menu');
-            menu.classList.toggle('hidden');
-        });
-    </script>
-</body>
-</html>
+                    <h3 id="cabinet
