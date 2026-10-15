@@ -1,0 +1,1669 @@
+<!DOCTYPE html>
+<html lang="uk" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="site-head-title">Успенівська гімназія Успенівської сільської ради</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .backdrop-blur-custom {
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 flex flex-col min-h-screen antialiased">
+
+    <!-- HEADER / NAVIGATION -->
+    <header class="bg-white shadow-md sticky top-0 z-40">
+        <!-- Top bar with contacts & user quick login status -->
+        <div class="bg-blue-950 text-white text-xs sm:text-sm py-2 px-4 border-b border-blue-900">
+            <div class="max-w-7xl mx-auto flex flex-wrap justify-between items-center gap-2">
+                <div class="flex flex-wrap items-center space-x-4 text-slate-300">
+                    <span class="hover:text-amber-400 transition">
+                        <i class="fas fa-phone text-amber-400 mr-1.5"></i>
+                        <a href="tel:+380672995032" id="header-phone">+38 (067) 299-50-32</a>
+                    </span>
+                    <span class="hidden md:inline hover:text-amber-400 transition">
+                        <i class="fas fa-envelope text-amber-400 mr-1.5"></i>
+                        <a href="mailto:uspenivskazos@gmail.com" id="header-email">uspenivskazos@gmail.com</a>
+                    </span>
+                    <span class="hidden lg:inline text-slate-400">
+                        <i class="fas fa-id-card text-amber-400 mr-1.5"></i> ЄДРПОУ: <span id="header-edrpou" class="text-white font-medium">25814560</span>
+                    </span>
+                </div>
+
+                <div class="flex items-center space-x-3" id="auth-header-btn-container">
+                    <!-- Dynamic rendering based on login status -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Header Bar -->
+        <div class="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
+            <a href="#" class="flex items-center space-x-3 group">
+                <div class="bg-gradient-to-tr from-blue-900 to-blue-700 text-amber-400 p-2.5 rounded-2xl flex items-center justify-center w-12 h-12 text-2xl font-black shadow-lg shadow-blue-900/20 group-hover:scale-105 transition transform">
+                    УГ
+                </div>
+                <div>
+                    <h1 class="text-base sm:text-xl font-extrabold text-blue-950 leading-tight tracking-tight" id="nav-site-title">
+                        Успенівська гімназія
+                    </h1>
+                    <p class="text-xs text-slate-500 hidden sm:block font-medium" id="nav-site-subtitle">
+                        Успенівської сільської ради Білгород-Дністровського району
+                    </p>
+                </div>
+            </a>
+
+            <!-- Desktop Navigation -->
+            <nav class="hidden lg:flex items-center space-x-6 font-semibold text-slate-700 text-sm">
+                <a href="#about" class="hover:text-blue-700 transition">Про гімназію</a>
+                <a href="#news" class="hover:text-blue-700 transition">Новини</a>
+                <a href="#docs" class="hover:text-blue-700 transition">Документи</a>
+                <a href="#gallery" class="hover:text-blue-700 transition">Галерея</a>
+                <a href="#interactive" class="hover:text-blue-700 transition">Інтерактив</a>
+                <a href="#contacts" class="hover:text-blue-700 transition">Контакти</a>
+            </nav>
+
+            <div class="flex items-center space-x-3">
+                <button onclick="toggleSearchModal()" title="Пошук по сайту" class="p-2.5 text-slate-600 hover:text-blue-700 rounded-xl hover:bg-slate-100 transition">
+                    <i class="fas fa-search text-lg"></i>
+                </button>
+                <button onclick="toggleMobileMenu()" title="Меню" class="lg:hidden p-2.5 text-slate-600 hover:text-blue-700 rounded-xl hover:bg-slate-100 transition">
+                    <i class="fas fa-bars text-xl"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Navigation Menu -->
+        <div id="mobile-menu" class="hidden lg:hidden bg-white border-t border-slate-100 px-4 py-3 space-y-2 shadow-xl">
+            <a href="#about" onclick="toggleMobileMenu()" class="block py-2 text-slate-700 font-medium hover:text-blue-700 border-b border-slate-50">Про гімназію</a>
+            <a href="#news" onclick="toggleMobileMenu()" class="block py-2 text-slate-700 font-medium hover:text-blue-700 border-b border-slate-50">Новини та оголошення</a>
+            <a href="#docs" onclick="toggleMobileMenu()" class="block py-2 text-slate-700 font-medium hover:text-blue-700 border-b border-slate-50">Документи</a>
+            <a href="#gallery" onclick="toggleMobileMenu()" class="block py-2 text-slate-700 font-medium hover:text-blue-700 border-b border-slate-50">Галерея</a>
+            <a href="#interactive" onclick="toggleMobileMenu()" class="block py-2 text-slate-700 font-medium hover:text-blue-700 border-b border-slate-50">Інтерактивна зона</a>
+            <a href="#contacts" onclick="toggleMobileMenu()" class="block py-2 text-slate-700 font-medium hover:text-blue-700">Контакти</a>
+        </div>
+    </header>
+
+    <!-- LOGGED IN USER STATUS & QUICK ACTION BAR -->
+    <div id="user-status-bar" class="hidden bg-gradient-to-r from-emerald-800 to-teal-900 text-white py-2.5 px-4 shadow-md">
+        <div class="max-w-7xl mx-auto flex flex-wrap justify-between items-center gap-3 text-xs sm:text-sm">
+            <div class="flex items-center space-x-3">
+                <div class="relative group cursor-pointer" onclick="openAvatarModal()">
+                    <img id="user-avatar-display" src="" class="w-9 h-9 rounded-full border-2 border-amber-400 object-cover shadow">
+                    <div class="absolute inset-0 bg-black/40 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition text-white text-xs">
+                        <i class="fas fa-camera"></i>
+                    </div>
+                </div>
+                <div>
+                    <div class="font-bold leading-tight">
+                        <span id="logged-user-name">Користувач</span> 
+                        <span id="logged-user-badge" class="ml-1 px-2 py-0.5 rounded-full bg-amber-400 text-blue-950 text-[10px] uppercase font-extrabold">Учень</span>
+                    </div>
+                    <p class="text-[11px] text-teal-200" id="logged-user-email">email@domain.com</p>
+                </div>
+                <button onclick="openAvatarModal()" class="text-xs bg-white/10 hover:bg-white/20 border border-white/20 px-2.5 py-1 rounded-lg transition ml-2 hidden sm:inline-flex items-center space-x-1">
+                    <i class="fas fa-user-edit text-amber-400"></i>
+                    <span>Змінити аватар</span>
+                </button>
+            </div>
+
+            <div class="flex items-center space-x-2">
+                <button id="admin-panel-btn" onclick="openAdminModal()" class="hidden bg-amber-400 hover:bg-amber-300 text-blue-950 px-3.5 py-1.5 rounded-lg font-bold text-xs shadow transition items-center space-x-1">
+                    <i class="fas fa-shield-alt"></i> <span>Панель Адміністратора</span>
+                </button>
+                <button onclick="logoutUser()" class="bg-red-600/80 hover:bg-red-600 text-white px-3 py-1.5 rounded-lg text-xs font-semibold transition flex items-center space-x-1">
+                    <i class="fas fa-sign-out-alt"></i> <span>Вийти</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- HERO SECTION WITH CUSTOM COVER BANNER -->
+    <section id="hero-section" class="relative bg-cover bg-center text-white py-24 sm:py-32 px-4 transition-all duration-500 flex items-center min-h-[480px]" style="background-image: linear-gradient(rgba(15, 23, 42, 0.78), rgba(15, 23, 42, 0.88)), url('https://images.unsplash.com/photo-1580582932707-520aed937b7b?auto=format&fit=crop&w=1600&q=80');">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-10 relative z-10 w-full">
+            <div class="md:w-2/3 space-y-5 text-center md:text-left">
+                <span class="bg-amber-400 text-blue-950 font-black px-3.5 py-1 rounded-full text-xs uppercase tracking-widest inline-block shadow">
+                    Офіційний веб-портал
+                </span>
+                <h2 class="text-3xl sm:text-5xl font-black tracking-tight leading-tight" id="hero-title">
+                    Освіта, якість, майбутнє у серці Успенівки
+                </h2>
+                <p class="text-slate-200 text-base sm:text-lg max-w-2xl font-normal leading-relaxed" id="hero-subtitle">
+                    Ласкаво просимо на веб-портал Успенівської гімназії. Тут ви знайдете актуальні новини, розклад, документи та шкільні інтерактивні матеріали.
+                </p>
+                <div class="pt-2 flex flex-wrap justify-center md:justify-start gap-3">
+                    <a href="#news" class="bg-amber-400 hover:bg-amber-300 text-blue-950 font-bold px-6 py-3 rounded-xl shadow-lg hover:shadow-amber-400/20 transition transform hover:-translate-y-0.5">
+                        <i class="fas fa-newspaper mr-1.5"></i> Останні новини
+                    </a>
+                    <a href="#contacts" class="bg-white/10 hover:bg-white/20 text-white border border-white/30 backdrop-blur-sm font-semibold px-6 py-3 rounded-xl transition">
+                        <i class="fas fa-envelope mr-1.5"></i> Зворотний зв'язок
+                    </a>
+                </div>
+            </div>
+
+            <!-- Stats/School Info Card -->
+            <div class="md:w-1/3 w-full max-w-sm">
+                <div class="bg-white/10 backdrop-blur-custom p-6 rounded-3xl border border-white/20 text-center shadow-2xl space-y-4">
+                    <div class="w-16 h-16 bg-amber-400/20 rounded-2xl flex items-center justify-center mx-auto text-amber-400 text-3xl mb-2">
+                        <i class="fas fa-graduation-cap"></i>
+                    </div>
+                    <h3 class="text-xl font-extrabold text-white">Якісний освітній процес</h3>
+                    <p class="text-xs text-slate-200 leading-relaxed">Сучасні стандарти навчання, активний розвиток здібностей кожного учня та дружня шкільна родина.</p>
+                    <div class="pt-2 text-xs bg-blue-950/60 p-3 rounded-xl border border-white/10 text-amber-300 font-medium">
+                        <i class="fas fa-map-marker-alt text-amber-400 mr-1.5"></i> с. Успенівка, Одеська обл.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MAIN CONTENT CONTAINER -->
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 py-12 space-y-16">
+
+        <!-- ABOUT & LEADERSHIP SECTION -->
+        <section id="about" class="scroll-mt-24 space-y-8">
+            <div class="text-center max-w-2xl mx-auto space-y-2">
+                <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900" id="section-title-about">Про гімназію</h2>
+                <div class="w-20 h-1.5 bg-blue-800 mx-auto rounded-full"></div>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- Info Card -->
+                <div class="bg-white p-7 rounded-2xl shadow-sm border border-slate-100 md:col-span-1 flex flex-col justify-between hover:shadow-md transition">
+                    <div class="space-y-4">
+                        <div class="flex items-center space-x-3">
+                            <div class="p-3 bg-blue-50 text-blue-800 rounded-xl">
+                                <i class="fas fa-school text-2xl"></i>
+                            </div>
+                            <h3 class="text-xl font-bold text-slate-900">Наш заклад</h3>
+                        </div>
+                        <p class="text-slate-600 text-sm leading-relaxed">
+                            Успенівська гімназія є комунальним закладом загальної середньої освіти Успенівської сільської ради Білгород-Дністровського району Одеської області.
+                        </p>
+                    </div>
+
+                    <div class="bg-slate-50 p-4 rounded-xl border border-slate-100 text-xs space-y-2 mt-6">
+                        <div class="flex justify-between border-b border-slate-200/60 pb-1.5">
+                            <span class="text-slate-500">Код ЄДРПОУ:</span>
+                            <span id="about-edrpou" class="font-bold text-slate-800">25814560</span>
+                        </div>
+                        <div class="flex justify-between border-b border-slate-200/60 pb-1.5">
+                            <span class="text-slate-500">Форма власності:</span>
+                            <span class="font-bold text-slate-800">Комунальна</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-slate-500">Громада:</span>
+                            <span class="font-bold text-slate-800">Успенівська с/р</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Leadership Cards -->
+                <div class="md:col-span-2 space-y-6">
+                    <h3 class="text-2xl font-bold text-slate-900 flex items-center" id="section-title-leadership">
+                        <i class="fas fa-user-tie text-blue-800 mr-3"></i> Керівництво закладу
+                    </h3>
+                    <div class="grid sm:grid-cols-2 gap-5" id="leadership-cards-container">
+                        <!-- Dynamic content via JS -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- NEWS SECTION -->
+        <section id="news" class="scroll-mt-24 space-y-8">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-end gap-4 border-b border-slate-200 pb-5">
+                <div>
+                    <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900" id="section-title-news">Новини та оголошення</h2>
+                    <p class="text-slate-500 text-sm mt-1">Останні події, досягнення та шкільні новинки</p>
+                </div>
+                
+                <div class="flex items-center space-x-3 flex-wrap gap-y-2">
+                    <!-- Create news button for Staff/Admin -->
+                    <button id="add-news-staff-btn" onclick="openCreateNewsModal()" class="hidden bg-emerald-700 hover:bg-emerald-600 text-white font-bold px-4 py-2.5 rounded-xl text-sm transition flex items-center space-x-2 shadow-lg shadow-emerald-700/20">
+                        <i class="fas fa-plus-circle"></i> <span>Додати новину</span>
+                    </button>
+
+                    <!-- Filter Buttons -->
+                    <div class="flex bg-slate-200/80 p-1 rounded-xl text-xs sm:text-sm font-semibold">
+                        <button onclick="filterNews('all')" class="news-filter-btn px-3.5 py-1.5 rounded-lg bg-white shadow-sm text-blue-900" data-cat="all">Всі</button>
+                        <button onclick="filterNews('Подія')" class="news-filter-btn px-3.5 py-1.5 rounded-lg text-slate-600 hover:text-slate-900" data-cat="Подія">Події</button>
+                        <button onclick="filterNews('Оголошення')" class="news-filter-btn px-3.5 py-1.5 rounded-lg text-slate-600 hover:text-slate-900" data-cat="Оголошення">Оголошення</button>
+                        <button onclick="filterNews('Навчальний процес')" class="news-filter-btn px-3.5 py-1.5 rounded-lg text-slate-600 hover:text-slate-900" data-cat="Навчальний процес">Навчання</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- News Grid -->
+            <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6" id="news-grid">
+                <!-- News items inserted dynamic JS -->
+            </div>
+        </section>
+
+        <!-- DOCUMENTS SECTION -->
+        <section id="docs" class="scroll-mt-24 bg-white p-8 rounded-3xl shadow-sm border border-slate-100 space-y-6">
+            <div class="text-center max-w-xl mx-auto space-y-2">
+                <h2 class="text-3xl font-extrabold text-slate-900" id="section-title-docs">Офіційні документи</h2>
+                <p class="text-slate-500 text-sm">Публічна інформація, статутні документи та звітність закладу</p>
+                <div class="w-16 h-1 bg-blue-800 mx-auto rounded-full"></div>
+            </div>
+
+            <div class="max-w-4xl mx-auto space-y-3" id="docs-list">
+                <!-- Dynamic docs list -->
+            </div>
+        </section>
+
+        <!-- GALLERY SECTION -->
+        <section id="gallery" class="scroll-mt-24 space-y-6">
+            <div class="text-center max-w-xl mx-auto space-y-2">
+                <h2 class="text-3xl font-extrabold text-slate-900" id="section-title-gallery">Фотогалерея</h2>
+                <p class="text-slate-500 text-sm">Яскраві моменти та шкільне життя в об'єктиві</p>
+                <div class="w-16 h-1 bg-blue-800 mx-auto rounded-full"></div>
+            </div>
+
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4" id="gallery-grid">
+                <!-- Gallery Items via JS -->
+            </div>
+        </section>
+
+        <!-- INTERACTIVE SECTION (TESTS & MEMORY GAME) -->
+        <section id="interactive" class="scroll-mt-24 bg-gradient-to-br from-blue-900 to-slate-900 text-white p-8 sm:p-10 rounded-3xl shadow-xl space-y-8">
+            <div class="text-center max-w-xl mx-auto space-y-2">
+                <span class="bg-amber-400 text-blue-950 font-black px-3 py-0.5 rounded-full text-[11px] uppercase tracking-wider">
+                    Розваги та вікторини
+                </span>
+                <h2 class="text-3xl font-black text-white" id="section-title-interactive">Інтерактивна зона</h2>
+                <p class="text-slate-300 text-sm">Перевірте свої знання про гімназію та тренуйте пам'ять</p>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-8">
+                <!-- Quiz Card -->
+                <div class="bg-white/10 backdrop-blur-custom p-6 rounded-2xl border border-white/10 flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center space-x-3 mb-4">
+                            <div class="p-3 bg-amber-400 text-blue-950 rounded-xl font-bold"><i class="fas fa-question-circle text-2xl"></i></div>
+                            <div>
+                                <h3 class="font-extrabold text-lg text-white">Тест про гімназію</h3>
+                                <p class="text-xs text-slate-300">Дайте відповіді на запитання</p>
+                            </div>
+                        </div>
+                        <div id="quiz-container" class="space-y-4">
+                            <!-- Dynamic Quiz Content -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Memory Game Card -->
+                <div class="bg-white/10 backdrop-blur-custom p-6 rounded-2xl border border-white/10 flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center space-x-3 mb-4">
+                            <div class="p-3 bg-teal-400 text-blue-950 rounded-xl font-bold"><i class="fas fa-gamepad text-2xl"></i></div>
+                            <div>
+                                <h3 class="font-extrabold text-lg text-white">Гра "Знайди пару знань"</h3>
+                                <p class="text-xs text-slate-300">Перевертайте картки та шукайте однакові символи</p>
+                            </div>
+                        </div>
+
+                        <div id="memory-game" class="grid grid-cols-4 gap-3 my-4">
+                            <!-- Memory Cards via JS -->
+                        </div>
+                        <div class="text-center pt-2">
+                            <span id="game-status" class="text-xs font-semibold text-amber-300">Знайдено пар: 0 / 4</span>
+                            <button onclick="resetMemoryGame()" class="block mx-auto mt-2 text-xs text-slate-300 hover:text-white underline transition">
+                                <i class="fas fa-redo mr-1"></i> Почати спочатку
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CONTACTS & FEEDBACK SECTION -->
+        <section id="contacts" class="scroll-mt-24 space-y-8">
+            <div class="text-center max-w-xl mx-auto space-y-2">
+                <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900" id="section-title-contacts">Контакти та зворотний зв'язок</h2>
+                <div class="w-20 h-1.5 bg-blue-800 mx-auto rounded-full"></div>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-8">
+                <!-- Contact Info & Location -->
+                <div class="bg-white p-7 rounded-2xl shadow-sm border border-slate-100 space-y-6">
+                    <h3 class="text-2xl font-bold text-slate-900">Контактна інформація</h3>
+                    
+                    <div class="space-y-4 text-sm">
+                        <div class="flex items-start space-x-3.5">
+                            <div class="p-2.5 bg-blue-50 text-blue-800 rounded-lg shrink-0 mt-1">
+                                <i class="fas fa-map-marker-alt"></i>
+                            </div>
+                            <div>
+                                <strong class="text-slate-900 block font-semibold mb-0.5">Адреса гімназії:</strong>
+                                <p id="contact-address" class="text-slate-600 leading-relaxed">вул. Кишинівська, 69, с. Успенівка, Білгород-Дністровський район, Одеська область, 68242</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center space-x-3.5">
+                            <div class="p-2.5 bg-blue-50 text-blue-800 rounded-lg shrink-0">
+                                <i class="fas fa-phone"></i>
+                            </div>
+                            <div>
+                                <strong class="text-slate-900 block font-semibold">Телефон:</strong>
+                                <a href="tel:+380672995032" id="contact-phone" class="text-blue-800 hover:underline font-medium">+38 (067) 299-50-32</a>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center space-x-3.5">
+                            <div class="p-2.5 bg-blue-50 text-blue-800 rounded-lg shrink-0">
+                                <i class="fas fa-envelope"></i>
+                            </div>
+                            <div>
+                                <strong class="text-slate-900 block font-semibold">Електронна пошта:</strong>
+                                <a href="mailto:uspenivskazos@gmail.com" id="contact-email" class="text-blue-800 hover:underline font-medium">uspenivskazos@gmail.com</a>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center space-x-3.5">
+                            <div class="p-2.5 bg-blue-50 text-blue-800 rounded-lg shrink-0">
+                                <i class="fas fa-id-card"></i>
+                            </div>
+                            <div>
+                                <strong class="text-slate-900 block font-semibold">Код ЄДРПОУ:</strong>
+                                <span id="contact-edrpou" class="text-slate-700 font-medium">25814560</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Embed Map Frame -->
+                    <div class="rounded-xl overflow-hidden border border-slate-200 h-48 bg-slate-100 shadow-inner">
+                        <iframe class="w-full h-full border-0" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2772.332304910237!2d29.832!3d46.183!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNDbCsDEwJzU4LjgiTiAyOcKwNDknNTU4MiJF!5e0!3m2!1suk!2sua!4v1620000000000!5m2!1suk!2sua" allowfullscreen="" loading="lazy"></iframe>
+                    </div>
+                </div>
+
+                <!-- Feedback Form -->
+                <div class="bg-white p-7 rounded-2xl shadow-sm border border-slate-100">
+                    <h3 class="text-2xl font-bold text-slate-900 mb-1" id="section-title-feedback">Форма зворотного зв'язку</h3>
+                    <p class="text-xs text-slate-500 mb-6">Залиште ваше запитання або пропозицію для адміністрації</p>
+
+                    <form id="feedback-form" onsubmit="handleFeedbackSubmit(event)" class="space-y-4">
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Ваше ПІБ *</label>
+                            <input type="text" id="fb-name" required placeholder="Шевченко Петро Іванович" class="w-full px-4 py-2.5 border border-slate-200 rounded-xl text-sm focus:ring-2 focus:ring-blue-800 focus:outline-none transition">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Email або телефон *</label>
+                            <input type="text" id="fb-contact" required placeholder="+380... або user@gmail.com" class="w-full px-4 py-2.5 border border-slate-200 rounded-xl text-sm focus:ring-2 focus:ring-blue-800 focus:outline-none transition">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Тема звернення</label>
+                            <input type="text" id="fb-subject" placeholder="Запитання щодо вступу" class="w-full px-4 py-2.5 border border-slate-200 rounded-xl text-sm focus:ring-2 focus:ring-blue-800 focus:outline-none transition">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Текст повідомлення *</label>
+                            <textarea id="fb-message" rows="4" required placeholder="Напишіть ваше запитання..." class="w-full px-4 py-2.5 border border-slate-200 rounded-xl text-sm focus:ring-2 focus:ring-blue-800 focus:outline-none transition"></textarea>
+                        </div>
+                        <button type="submit" class="w-full bg-blue-900 hover:bg-blue-800 text-white font-bold py-3 rounded-xl shadow-md hover:shadow-lg transition flex items-center justify-center space-x-2">
+                            <i class="fas fa-paper-plane"></i>
+                            <span>Надіслати повідомлення</span>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="bg-blue-950 text-white mt-16 border-t border-blue-900">
+        <div class="max-w-7xl mx-auto px-4 py-12 grid md:grid-cols-3 gap-8 text-sm">
+            <div class="space-y-3">
+                <div class="flex items-center space-x-2">
+                    <div class="bg-amber-400 text-blue-950 font-black px-2 py-1 rounded text-base">УГ</div>
+                    <h4 class="text-lg font-extrabold text-amber-400">Успенівська гімназія</h4>
+                </div>
+                <p class="text-xs text-slate-300 leading-relaxed">
+                    Комунальний заклад загальної середньої освіти Успенівської сільської ради Білгород-Дністровського району Одеської області.
+                </p>
+                <p class="text-xs text-slate-400 pt-2">© <span id="year">2026</span> Усі права захищено.</p>
+            </div>
+
+            <div>
+                <h4 class="text-base font-bold text-amber-400 mb-3 border-b border-blue-900 pb-1">Розділи сайту</h4>
+                <ul class="space-y-2 text-xs text-slate-300 font-medium">
+                    <li><a href="#about" class="hover:text-amber-400 transition">Про гімназію та керівництво</a></li>
+                    <li><a href="#news" class="hover:text-amber-400 transition">Новини та новинки</a></li>
+                    <li><a href="#docs" class="hover:text-amber-400 transition">Публічні документи</a></li>
+                    <li><a href="#gallery" class="hover:text-amber-400 transition">Фотогалерея</a></li>
+                    <li><a href="#interactive" class="hover:text-amber-400 transition">Інтерактивні тести</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h4 class="text-base font-bold text-amber-400 mb-3 border-b border-blue-900 pb-1">Адміністрація</h4>
+                <div class="text-xs text-slate-300 space-y-2">
+                    <p><strong>Директор:</strong> <span id="footer-director" class="text-white">Саламатіна Алла Володимирівна</span></p>
+                    <p><strong>Заступник:</strong> <span id="footer-deputy" class="text-white">Балагура Ніна Іванівна</span></p>
+                    <div class="pt-3">
+                        <button onclick="openAuthModal('login')" class="text-amber-400 hover:text-amber-300 text-xs font-bold underline flex items-center space-x-1">
+                            <i class="fas fa-lock"></i> <span>Вхід для працівників та адміна</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- MODAL: NEWS DETAILS VIEW -->
+    <div id="news-details-modal" class="fixed inset-0 bg-black/70 hidden items-center justify-center z-50 p-4">
+        <div class="bg-white rounded-3xl max-w-2xl w-full max-h-[90vh] overflow-y-auto p-6 sm:p-8 shadow-2xl relative">
+            <button onclick="closeNewsDetailsModal()" class="absolute top-5 right-5 text-slate-400 hover:text-slate-600 p-2 text-xl">
+                <i class="fas fa-times"></i>
+            </button>
+            <div id="news-modal-content" class="space-y-4">
+                <!-- Inserted dynamic detail content -->
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: CHANGE AVATAR FOR ALL USERS -->
+    <div id="avatar-modal" class="fixed inset-0 bg-black/70 hidden items-center justify-center z-50 p-4">
+        <div class="bg-white rounded-3xl max-w-md w-full p-6 sm:p-8 shadow-2xl relative">
+            <button onclick="closeAvatarModal()" class="absolute top-5 right-5 text-slate-400 hover:text-slate-600">
+                <i class="fas fa-times text-xl"></i>
+            </button>
+            <h3 class="text-xl font-bold text-slate-900 mb-4 flex items-center">
+                <i class="fas fa-user-circle text-blue-800 mr-2"></i> Зміна аватарки профілю
+            </h3>
+            
+            <form onsubmit="saveUserAvatar(event)" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">URL-посилання на власне фото</label>
+                    <input type="url" id="custom-avatar-url" placeholder="https://example.com/photo.jpg" class="w-full px-3.5 py-2 border rounded-xl text-sm focus:ring-2 focus:ring-blue-800 focus:outline-none">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Або виберіть готовий аватар:</label>
+                    <div class="grid grid-cols-4 gap-3" id="preset-avatars">
+                        <!-- Rendered JS -->
+                    </div>
+                </div>
+                <button type="submit" class="w-full bg-blue-900 hover:bg-blue-800 text-white font-bold py-2.5 rounded-xl transition shadow-md">
+                    Зберегти новий аватар
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL: ADD NEWS FOR COLLECTIVE / ADMIN -->
+    <div id="create-news-modal" class="fixed inset-0 bg-black/70 hidden items-center justify-center z-50 p-4 overflow-y-auto">
+        <div class="bg-white rounded-3xl max-w-xl w-full p-6 sm:p-8 shadow-2xl relative my-8">
+            <button onclick="closeCreateNewsModal()" class="absolute top-5 right-5 text-slate-400 hover:text-slate-600">
+                <i class="fas fa-times text-xl"></i>
+            </button>
+            <h3 class="text-2xl font-bold text-slate-900 mb-4 flex items-center">
+                <i class="fas fa-plus-circle text-emerald-600 mr-2"></i> Додати та опублікувати новину
+            </h3>
+
+            <form onsubmit="handleCreateNewsSubmit(event)" class="space-y-4 text-sm">
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Заголовок новини *</label>
+                    <input type="text" id="news-input-title" required placeholder="Шкільні змагання з футболу" class="w-full px-3.5 py-2.5 border rounded-xl focus:ring-2 focus:ring-emerald-600 focus:outline-none">
+                </div>
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Категорія новини</label>
+                        <select id="news-input-cat" class="w-full px-3.5 py-2.5 border rounded-xl font-medium text-slate-800">
+                            <option value="Подія">Подія</option>
+                            <option value="Оголошення">Оголошення</option>
+                            <option value="Навчальний процес">Навчальний процес</option>
+                            <option value="Досягнення">Досягнення</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Дата</label>
+                        <input type="text" id="news-input-date" required value="15 Жовтня 2026" class="w-full px-3.5 py-2.5 border rounded-xl">
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Короткий анонс *</label>
+                    <textarea id="news-input-excerpt" rows="2" required placeholder="Короткий опис для картки новини на головній..." class="w-full px-3.5 py-2 border rounded-xl focus:ring-2 focus:ring-emerald-600 focus:outline-none"></textarea>
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Повний текст новини *</label>
+                    <textarea id="news-input-content" rows="4" required placeholder="Детальний опис події або новини..." class="w-full px-3.5 py-2 border rounded-xl focus:ring-2 focus:ring-emerald-600 focus:outline-none"></textarea>
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Посилання на фото (URL)</label>
+                    <input type="url" id="news-input-photo" placeholder="https://images.unsplash.com/..." class="w-full px-3.5 py-2 border rounded-xl">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Відео матеріали (YouTube Embed або MP4 URL)</label>
+                    <input type="url" id="news-input-video" placeholder="https://www.youtube.com/embed/..." class="w-full px-3.5 py-2 border rounded-xl">
+                </div>
+                <button type="submit" class="w-full bg-emerald-700 hover:bg-emerald-600 text-white font-bold py-3 rounded-xl transition shadow-lg shadow-emerald-700/20">
+                    Опублікувати від свого імені
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL: LOGIN / REGISTER -->
+    <div id="auth-modal" class="fixed inset-0 bg-black/70 hidden items-center justify-center z-50 p-4">
+        <div class="bg-white rounded-3xl max-w-md w-full p-6 sm:p-8 shadow-2xl relative">
+            <button onclick="closeAuthModal()" class="absolute top-5 right-5 text-slate-400 hover:text-slate-600">
+                <i class="fas fa-times text-xl"></i>
+            </button>
+
+            <!-- Tabs -->
+            <div class="flex border-b border-slate-200 mb-6">
+                <button id="tab-login-btn" onclick="switchAuthTab('login')" class="w-1/2 py-2.5 text-center font-bold text-blue-900 border-b-2 border-blue-900">
+                    Увійти
+                </button>
+                <button id="tab-register-btn" onclick="switchAuthTab('register')" class="w-1/2 py-2.5 text-center font-bold text-slate-400 border-b-2 border-transparent hover:text-slate-600">
+                    Реєстрація
+                </button>
+            </div>
+
+            <!-- Login Form -->
+            <form id="login-form" onsubmit="handleLogin(event)" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Email або Логін</label>
+                    <input type="email" id="login-email" required placeholder="admin@uspenivka.edu.ua" class="w-full px-3.5 py-2.5 border rounded-xl text-sm focus:ring-2 focus:ring-blue-900">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Пароль</label>
+                    <input type="password" id="login-password" required placeholder="••••••••" class="w-full px-3.5 py-2.5 border rounded-xl text-sm focus:ring-2 focus:ring-blue-900">
+                </div>
+                <div class="text-xs text-slate-500 bg-slate-50 p-3 rounded-xl border border-slate-200/60 leading-relaxed">
+                    <strong class="text-slate-700 block">Дані доступу для Адміністратора:</strong>
+                    Email: <code class="text-blue-800 font-bold">admin@uspenivka.edu.ua</code><br>
+                    Пароль: <code class="text-blue-800 font-bold">admin123</code>
+                </div>
+                <button type="submit" class="w-full bg-blue-950 hover:bg-blue-900 text-white font-bold py-3 rounded-xl transition shadow-md">
+                    Увійти в кабінет
+                </button>
+            </form>
+
+            <!-- Register Form -->
+            <form id="register-form" onsubmit="handleRegister(event)" class="space-y-3.5 hidden">
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Повне ПІБ *</label>
+                    <input type="text" id="reg-name" required placeholder="Шевченко Ольга Миколаївна" class="w-full px-3.5 py-2 border rounded-xl text-sm">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Email *</label>
+                    <input type="email" id="reg-email" required placeholder="user@gmail.com" class="w-full px-3.5 py-2 border rounded-xl text-sm">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Категорія / Роль *</label>
+                    <select id="reg-role" class="w-full px-3.5 py-2 border rounded-xl text-sm font-semibold text-blue-950">
+                        <option value="Колектив">Колектив / Вчитель (Може додавати новини)</option>
+                        <option value="Учень">Учень / Учениця</option>
+                        <option value="Батьки">Батько / Мати</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Пароль *</label>
+                    <input type="password" id="reg-password" required minlength="6" placeholder="Мінімум 6 символів" class="w-full px-3.5 py-2 border rounded-xl text-sm">
+                </div>
+                <button type="submit" class="w-full bg-emerald-700 hover:bg-emerald-600 text-white font-bold py-3 rounded-xl transition shadow-md">
+                    Створити акаунт
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL: SEARCH -->
+    <div id="search-modal" class="fixed inset-0 bg-black/70 hidden items-center justify-center z-50 p-4">
+        <div class="bg-white rounded-3xl max-w-xl w-full p-6 sm:p-8 shadow-2xl relative">
+            <button onclick="toggleSearchModal()" class="absolute top-5 right-5 text-slate-400 hover:text-slate-600">
+                <i class="fas fa-times text-xl"></i>
+            </button>
+            <h3 class="text-xl font-bold text-slate-900 mb-4 flex items-center">
+                <i class="fas fa-search text-blue-800 mr-2"></i> Пошук по сайту
+            </h3>
+            <input type="text" id="search-input" onkeyup="performSearch()" placeholder="Введіть слово для пошуку..." class="w-full px-4 py-3 border rounded-xl mb-4 focus:ring-2 focus:ring-blue-800 focus:outline-none">
+            <div id="search-results" class="max-h-60 overflow-y-auto space-y-2 text-sm text-slate-700">
+                <p class="text-xs text-slate-400">Введіть ключове слово для пошуку в новинах та документах...</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: FULL ADMIN DASHBOARD PANEL -->
+    <div id="admin-modal" class="fixed inset-0 bg-black/70 hidden items-center justify-center z-50 p-2 sm:p-4">
+        <div class="bg-white rounded-3xl max-w-5xl w-full h-[90vh] flex flex-col shadow-2xl overflow-hidden">
+            <!-- Admin Header -->
+            <div class="bg-blue-950 text-white px-6 py-4 flex justify-between items-center border-b border-blue-900">
+                <div class="flex items-center space-x-3">
+                    <div class="p-2 bg-amber-400 text-blue-950 rounded-xl font-bold"><i class="fas fa-cogs"></i></div>
+                    <div>
+                        <h3 class="font-extrabold text-lg">Панель Адміністратора</h3>
+                        <p class="text-xs text-blue-300">Повний контроль вмісту та налаштувань веб-сайту</p>
+                    </div>
+                </div>
+                <button onclick="closeAdminModal()" class="text-slate-300 hover:text-white p-2">
+                    <i class="fas fa-times text-2xl"></i>
+                </button>
+            </div>
+
+            <!-- Admin Content Body -->
+            <div class="flex-grow flex flex-col md:flex-row overflow-hidden">
+                <!-- Sidebar -->
+                <div class="w-full md:w-64 bg-slate-100 p-4 border-r border-slate-200 space-y-1.5 overflow-y-auto shrink-0">
+                    <button onclick="switchAdminTab('titles')" class="admin-tab-btn w-full text-left px-3.5 py-2.5 rounded-xl text-xs font-bold bg-blue-900 text-white transition flex items-center space-x-2" data-tab="titles">
+                        <i class="fas fa-heading text-amber-400"></i> <span>Заголовки та Обкладинка</span>
+                    </button>
+                    <button onclick="switchAdminTab('contacts')" class="admin-tab-btn w-full text-left px-3.5 py-2.5 rounded-xl text-xs font-bold text-slate-700 hover:bg-slate-200 transition flex items-center space-x-2" data-tab="contacts">
+                        <i class="fas fa-address-book"></i> <span>Контакти та Керівництво</span>
+                    </button>
+                    <button onclick="switchAdminTab('news')" class="admin-tab-btn w-full text-left px-3.5 py-2.5 rounded-xl text-xs font-bold text-slate-700 hover:bg-slate-200 transition flex items-center space-x-2" data-tab="news">
+                        <i class="fas fa-newspaper"></i> <span>Управління новинами</span>
+                    </button>
+                    <button onclick="switchAdminTab('docs')" class="admin-tab-btn w-full text-left px-3.5 py-2.5 rounded-xl text-xs font-bold text-slate-700 hover:bg-slate-200 transition flex items-center space-x-2" data-tab="docs">
+                        <i class="fas fa-file-pdf"></i> <span>Документи</span>
+                    </button>
+                    <button onclick="switchAdminTab('gallery')" class="admin-tab-btn w-full text-left px-3.5 py-2.5 rounded-xl text-xs font-bold text-slate-700 hover:bg-slate-200 transition flex items-center space-x-2" data-tab="gallery">
+                        <i class="fas fa-images"></i> <span>Галерея</span>
+                    </button>
+                    <button onclick="switchAdminTab('messages')" class="admin-tab-btn w-full text-left px-3.5 py-2.5 rounded-xl text-xs font-bold text-slate-700 hover:bg-slate-200 transition flex items-center space-x-2" data-tab="messages">
+                        <i class="fas fa-inbox"></i> <span>Звернення громадян</span>
+                    </button>
+                </div>
+
+                <!-- Active Tab Workspace -->
+                <div class="flex-grow p-6 overflow-y-auto bg-slate-50">
+
+                    <!-- TAB: TITLES & HERO BANNER COVER -->
+                    <div id="admin-tab-titles" class="admin-content-block space-y-6">
+                        <div class="border-b pb-3 flex justify-between items-center">
+                            <h4 class="text-xl font-bold text-slate-900">Заголовки та Обкладинка сайту (Hero Banner)</h4>
+                            <button onclick="saveAllTitles()" class="bg-emerald-700 hover:bg-emerald-600 text-white text-xs px-4 py-2 rounded-xl font-bold transition">
+                                <i class="fas fa-save mr-1"></i> Зберегти зміни
+                            </button>
+                        </div>
+
+                        <!-- Hero Banner Cover Image Editor -->
+                        <div class="bg-white p-5 rounded-2xl border border-slate-200 space-y-3">
+                            <h5 class="font-bold text-blue-900 border-b pb-2 flex items-center">
+                                <i class="fas fa-image mr-2 text-amber-500"></i> Зображення фонової обкладинки (Hero Banner)
+                            </h5>
+                            <div>
+                                <label class="block text-xs font-bold text-slate-700 mb-1">URL-посилання фонової фотографії</label>
+                                <input type="url" id="edit-hero-bg" class="w-full px-3.5 py-2 border rounded-xl text-sm">
+                            </div>
+                            <div class="text-xs text-slate-500">
+                                💡 Замініть URL для оновлення великого фонового баннера на головній сторінці гімназії.
+                            </div>
+                        </div>
+
+                        <div class="grid md:grid-cols-2 gap-4 text-sm">
+                            <div class="bg-white p-5 rounded-2xl border border-slate-200 space-y-3 md:col-span-2">
+                                <h5 class="font-bold text-blue-900 border-b pb-2">Тексти головного банера</h5>
+                                <div>
+                                    <label class="block text-xs font-bold text-slate-700 mb-1">Головний заголовок Hero</label>
+                                    <input type="text" id="edit-hero-title" class="w-full px-3.5 py-2 border rounded-xl font-semibold">
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-bold text-slate-700 mb-1">Підзаголовок Hero</label>
+                                    <textarea id="edit-hero-subtitle" rows="2" class="w-full px-3.5 py-2 border rounded-xl"></textarea>
+                                </div>
+                            </div>
+
+                            <div class="bg-white p-5 rounded-2xl border border-slate-200 space-y-3">
+                                <h5 class="font-bold text-blue-900 border-b pb-2">Заголовки секцій</h5>
+                                <div>
+                                    <label class="block text-xs font-bold text-slate-700 mb-1">Секція "Про гімназію"</label>
+                                    <input type="text" id="edit-title-about" class="w-full px-3.5 py-2 border rounded-xl">
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-bold text-slate-700 mb-1">Секція "Керівництво"</label>
+                                    <input type="text" id="edit-title-leadership" class="w-full px-3.5 py-2 border rounded-xl">
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-bold text-slate-700 mb-1">Секція "Новини"</label>
+                                    <input type="text" id="edit-title-news" class="w-full px-3.5 py-2 border rounded-xl">
+                                </div>
+                            </div>
+
+                            <div class="bg-white p-5 rounded-2xl border border-slate-200 space-y-3">
+                                <h5 class="font-bold text-blue-900 border-b pb-2">Інші заголовки</h5>
+                                <div>
+                                    <label class="block text-xs font-bold text-slate-700 mb-1">Секція "Документи"</label>
+                                    <input type="text" id="edit-title-docs" class="w-full px-3.5 py-2 border rounded-xl">
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-bold text-slate-700 mb-1">Секція "Галерея"</label>
+                                    <input type="text" id="edit-title-gallery" class="w-full px-3.5 py-2 border rounded-xl">
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-bold text-slate-700 mb-1">Секція "Контакти"</label>
+                                    <input type="text" id="edit-title-contacts" class="w-full px-3.5 py-2 border rounded-xl">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- TAB: CONTACTS & LEADERSHIP -->
+                    <div id="admin-tab-contacts" class="admin-content-block hidden space-y-6">
+                        <div class="border-b pb-3 flex justify-between items-center">
+                            <h4 class="text-xl font-bold text-slate-900">Контакти та керівництво гімназії</h4>
+                            <button onclick="saveContactsAdmin()" class="bg-emerald-700 hover:bg-emerald-600 text-white text-xs px-4 py-2 rounded-xl font-bold transition">
+                                <i class="fas fa-save mr-1"></i> Зберегти
+                            </button>
+                        </div>
+                        
+                        <form class="space-y-4 text-sm max-w-xl">
+                            <div>
+                                <label class="block font-bold text-slate-700 mb-1">ПІБ Директора</label>
+                                <input type="text" id="edit-director" required class="w-full px-3.5 py-2 border rounded-xl">
+                            </div>
+                            <div>
+                                <label class="block font-bold text-slate-700 mb-1">ПІБ Заступника директора</label>
+                                <input type="text" id="edit-deputy" required class="w-full px-3.5 py-2 border rounded-xl">
+                            </div>
+                            <div>
+                                <label class="block font-bold text-slate-700 mb-1">Телефон</label>
+                                <input type="text" id="edit-phone" required class="w-full px-3.5 py-2 border rounded-xl">
+                            </div>
+                            <div>
+                                <label class="block font-bold text-slate-700 mb-1">Електронна пошта</label>
+                                <input type="email" id="edit-email" required class="w-full px-3.5 py-2 border rounded-xl">
+                            </div>
+                            <div>
+                                <label class="block font-bold text-slate-700 mb-1">Адреса</label>
+                                <input type="text" id="edit-address" required class="w-full px-3.5 py-2 border rounded-xl">
+                            </div>
+                            <div class="pt-4 flex space-x-3">
+                                <button type="button" onclick="resetToDefaults()" class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-xl text-xs font-bold transition">
+                                    <i class="fas fa-undo mr-1"></i> Скинути до початкових налаштувань
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- TAB: NEWS MANAGEMENT -->
+                    <div id="admin-tab-news" class="admin-content-block hidden space-y-6">
+                        <div class="flex justify-between items-center border-b pb-3">
+                            <h4 class="text-xl font-bold text-slate-900">Керування новинами</h4>
+                            <button onclick="openCreateNewsModal()" class="bg-emerald-700 hover:bg-emerald-600 text-white text-xs px-3.5 py-2 rounded-xl font-bold transition">
+                                <i class="fas fa-plus mr-1"></i> Додати новину
+                            </button>
+                        </div>
+                        <div id="admin-news-list" class="space-y-3 text-sm"></div>
+                    </div>
+
+                    <!-- TAB: DOCUMENTS MANAGEMENT -->
+                    <div id="admin-tab-docs" class="admin-content-block hidden space-y-6">
+                        <h4 class="text-xl font-bold text-slate-900 border-b pb-3">Управління документами</h4>
+                        <form onsubmit="addNewDocument(event)" class="space-y-3 max-w-md text-sm bg-white p-4 rounded-2xl border">
+                            <div>
+                                <label class="block text-xs font-bold mb-1">Назва документа</label>
+                                <input type="text" id="doc-title-input" required class="w-full px-3 py-2 border rounded-xl">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold mb-1">Категорія</label>
+                                <select id="doc-category-input" class="w-full px-3 py-2 border rounded-xl">
+                                    <option value="Статутні документи">Статутні документи</option>
+                                    <option value="Навчальний процес">Навчальний процес</option>
+                                    <option value="Звітність">Звітність</option>
+                                </select>
+                            </div>
+                            <button type="submit" class="bg-blue-900 text-white px-4 py-2 rounded-xl font-bold text-xs">Додати новий документ</button>
+                        </form>
+                        <div id="admin-docs-list" class="space-y-2 text-sm pt-2"></div>
+                    </div>
+
+                    <!-- TAB: GALLERY MANAGEMENT -->
+                    <div id="admin-tab-gallery" class="admin-content-block hidden space-y-6">
+                        <h4 class="text-xl font-bold text-slate-900 border-b pb-3">Управління фотогалереєю</h4>
+                        <form onsubmit="addNewPhoto(event)" class="space-y-3 max-w-md text-sm bg-white p-4 rounded-2xl border">
+                            <div>
+                                <label class="block text-xs font-bold mb-1">URL фотографії</label>
+                                <input type="url" id="photo-url-input" required placeholder="https://..." class="w-full px-3 py-2 border rounded-xl">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold mb-1">Опис / Підпис</label>
+                                <input type="text" id="photo-title-input" required placeholder="Заняття у класі" class="w-full px-3 py-2 border rounded-xl">
+                            </div>
+                            <button type="submit" class="bg-blue-900 text-white px-4 py-2 rounded-xl font-bold text-xs">Додати фото в галерею</button>
+                        </form>
+                        <div id="admin-gallery-list" class="grid grid-cols-2 sm:grid-cols-3 gap-3 pt-2"></div>
+                    </div>
+
+                    <!-- TAB: MESSAGES -->
+                    <div id="admin-tab-messages" class="admin-content-block hidden space-y-4">
+                        <h4 class="text-xl font-bold text-slate-900 border-b pb-3">Надіслані звернення громадян</h4>
+                        <div id="admin-messages-list" class="space-y-3 text-sm"></div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT APP LOGIC -->
+    <script>
+        // Avatar presets
+        const PRESET_AVATARS = [
+            "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=150&q=80",
+            "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=150&q=80",
+            "https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?auto=format&fit=crop&w=150&q=80",
+            "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=150&q=80"
+        ];
+
+        // Default Data Structure
+        const INITIAL_DATA = {
+            siteTitles: {
+                heroBg: "https://images.unsplash.com/photo-1580582932707-520aed937b7b?auto=format&fit=crop&w=1600&q=80",
+                heroTitle: "Освіта, якість, майбутнє у серці Успенівки",
+                heroSubtitle: "Ласкаво просимо на веб-портал Успенівської гімназії. Тут ви знайдете актуальні новини, розклад, документи та шкільні інтерактивні матеріали.",
+                aboutSection: "Про гімназію",
+                leadershipSection: "Керівництво закладу",
+                newsSection: "Новини та оголошення",
+                docsSection: "Офіційні документи",
+                gallerySection: "Фотогалерея",
+                interactiveSection: "Інтерактивна зона",
+                contactsSection: "Контакти та зворотний зв'язок",
+                feedbackSection: "Форма зворотного зв'язку"
+            },
+            contacts: {
+                director: "Саламатіна Алла Володимирівна",
+                deputy: "Балагура Ніна Іванівна",
+                phone: "+38 (067) 299-50-32",
+                email: "uspenivskazos@gmail.com",
+                address: "вул. Кишинівська, 69, с. Успенівка, Білгород-Дністровський район, Одеська область, 68242",
+                edrpou: "25814560"
+            },
+            news: [
+                {
+                    id: 1,
+                    title: "Урочисте засідання педагогічної ради гімназії",
+                    category: "Навчальний процес",
+                    date: "12 Жовтня 2026",
+                    author: "Саламатіна Алла Володимирівна",
+                    authorAvatar: PRESET_AVATARS[1],
+                    excerpt: "Обговорення нових стандартів навчання та підготовка до інтерактивних освітніх занять.",
+                    content: "У гімназії відбулося планове засідання педагогічної ради. Обговорено питання підвищення якості освітнього процесу, запровадження цифрових інструментів та розширення позашкільної активності учнів.",
+                    photo: "https://images.unsplash.com/photo-1524178232363-1fb2b075b655?auto=format&fit=crop&w=800&q=80",
+                    video: "https://www.youtube.com/embed/dQw4w9WgXcQ"
+                },
+                {
+                    id: 2,
+                    title: "Шкільний турнір з настільного тенісу та спортивні досягнення",
+                    category: "Подія",
+                    date: "05 Жовтня 2026",
+                    author: "Колектив гімназії",
+                    authorAvatar: PRESET_AVATARS[2],
+                    excerpt: "Учні гімназії продемонстрували високий рівень спортивної майстерності.",
+                    content: "Вітаємо переможців внутрішнього турніру з настільного тенісу! Усі учасники показали чудову фізичну форму та командний дух.",
+                    photo: "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=800&q=80"
+                }
+            ],
+            docs: [
+                { id: 1, title: "Статут Успенівської гімназії (Офіційний PDF)", category: "Статутні документи", size: "1.2 MB" },
+                { id: 2, title: "Освітня програма на 2026-2027 н.р.", category: "Навчальний процес", size: "850 KB" },
+                { id: 3, title: "Звіт про фінансові надходження та витрати", category: "Звітність", size: "2.1 MB" }
+            ],
+            gallery: [
+                { id: 1, title: "Заняття у класі", url: "https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&w=600&q=80" },
+                { id: 2, title: "Шкільна бібліотека", url: "https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?auto=format&fit=crop&w=600&q=80" },
+                { id: 3, title: "Спортивна секція", url: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?auto=format&fit=crop&w=600&q=80" },
+                { id: 4, title: "Уроки робототехніки", url: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=600&q=80" }
+            ],
+            quiz: [
+                {
+                    q: "Хто очолює Успенівську гімназію на посаді директора?",
+                    options: ["Саламатіна Алла Володимирівна", "Балагура Ніна Іванівна", "Шевченко Ольга Миколаївна"],
+                    correct: 0
+                }
+            ],
+            messages: []
+        };
+
+        // Application State initialization
+        let appData = JSON.parse(localStorage.getItem('uspenivka_school_db')) || INITIAL_DATA;
+        let currentUser = JSON.parse(localStorage.getItem('uspenivka_current_user')) || null;
+
+        // On DOM Load Setup
+        document.addEventListener('DOMContentLoaded', () => {
+            renderTitles();
+            renderContacts();
+            renderLeadership();
+            renderNews();
+            renderDocs();
+            renderGallery();
+            renderQuiz();
+            initMemoryGame();
+            updateUserUI();
+            renderPresetAvatars();
+            document.getElementById('year').textContent = new Date().getFullYear();
+        });
+
+        // 1. RENDER TITLES & HERO COVER
+        function renderTitles() {
+            const t = appData.siteTitles || INITIAL_DATA.siteTitles;
+            
+            if(t.heroBg && document.getElementById('hero-section')) {
+                document.getElementById('hero-section').style.backgroundImage = `linear-gradient(rgba(15, 23, 42, 0.78), rgba(15, 23, 42, 0.88)), url('${t.heroBg}')`;
+            }
+            if(document.getElementById('hero-title')) document.getElementById('hero-title').textContent = t.heroTitle;
+            if(document.getElementById('hero-subtitle')) document.getElementById('hero-subtitle').textContent = t.heroSubtitle;
+            if(document.getElementById('section-title-about')) document.getElementById('section-title-about').textContent = t.aboutSection;
+            if(document.getElementById('section-title-leadership')) document.getElementById('section-title-leadership').textContent = t.leadershipSection;
+            if(document.getElementById('section-title-news')) document.getElementById('section-title-news').textContent = t.newsSection;
+            if(document.getElementById('section-title-docs')) document.getElementById('section-title-docs').textContent = t.docsSection;
+            if(document.getElementById('section-title-gallery')) document.getElementById('section-title-gallery').textContent = t.gallerySection;
+            if(document.getElementById('section-title-interactive')) document.getElementById('section-title-interactive').textContent = t.interactiveSection;
+            if(document.getElementById('section-title-contacts')) document.getElementById('section-title-contacts').textContent = t.contactsSection;
+            if(document.getElementById('section-title-feedback')) document.getElementById('section-title-feedback').textContent = t.feedbackSection;
+
+            // Fill admin edit inputs
+            if(document.getElementById('edit-hero-bg')) document.getElementById('edit-hero-bg').value = t.heroBg || '';
+            if(document.getElementById('edit-hero-title')) document.getElementById('edit-hero-title').value = t.heroTitle;
+            if(document.getElementById('edit-hero-subtitle')) document.getElementById('edit-hero-subtitle').value = t.heroSubtitle;
+            if(document.getElementById('edit-title-about')) document.getElementById('edit-title-about').value = t.aboutSection;
+            if(document.getElementById('edit-title-leadership')) document.getElementById('edit-title-leadership').value = t.leadershipSection;
+            if(document.getElementById('edit-title-news')) document.getElementById('edit-title-news').value = t.newsSection;
+            if(document.getElementById('edit-title-docs')) document.getElementById('edit-title-docs').value = t.docsSection;
+            if(document.getElementById('edit-title-gallery')) document.getElementById('edit-title-gallery').value = t.gallerySection;
+            if(document.getElementById('edit-title-contacts')) document.getElementById('edit-title-contacts').value = t.contactsSection;
+        }
+
+        // 2. RENDER CONTACTS & LEADERSHIP
+        function renderContacts() {
+            const c = appData.contacts;
+            document.getElementById('header-phone').textContent = c.phone;
+            document.getElementById('header-email').textContent = c.email;
+            document.getElementById('header-edrpou').textContent = c.edrpou;
+            document.getElementById('about-edrpou').textContent = c.edrpou;
+            document.getElementById('contact-address').textContent = c.address;
+            document.getElementById('contact-phone').textContent = c.phone;
+            document.getElementById('contact-email').textContent = c.email;
+            document.getElementById('contact-edrpou').textContent = c.edrpou;
+            document.getElementById('footer-director').textContent = c.director;
+            document.getElementById('footer-deputy').textContent = c.deputy;
+
+            if(document.getElementById('edit-director')) document.getElementById('edit-director').value = c.director;
+            if(document.getElementById('edit-deputy')) document.getElementById('edit-deputy').value = c.deputy;
+            if(document.getElementById('edit-phone')) document.getElementById('edit-phone').value = c.phone;
+            if(document.getElementById('edit-email')) document.getElementById('edit-email').value = c.email;
+            if(document.getElementById('edit-address')) document.getElementById('edit-address').value = c.address;
+        }
+
+        function renderLeadership() {
+            const container = document.getElementById('leadership-cards-container');
+            const c = appData.contacts;
+            container.innerHTML = `
+                <div class="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm flex items-center space-x-4">
+                    <div class="w-14 h-14 bg-blue-100 rounded-2xl flex items-center justify-center text-blue-900 text-2xl font-bold shrink-0">
+                        <i class="fas fa-user-tie"></i>
+                    </div>
+                    <div>
+                        <span class="text-[10px] font-black text-amber-800 bg-amber-50 px-2.5 py-0.5 rounded-full uppercase tracking-wider border border-amber-200">Директор</span>
+                        <h4 class="font-bold text-slate-900 text-base mt-1">${c.director}</h4>
+                    </div>
+                </div>
+                <div class="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm flex items-center space-x-4">
+                    <div class="w-14 h-14 bg-indigo-100 rounded-2xl flex items-center justify-center text-indigo-900 text-2xl font-bold shrink-0">
+                        <i class="fas fa-user-check"></i>
+                    </div>
+                    <div>
+                        <span class="text-[10px] font-black text-blue-800 bg-blue-50 px-2.5 py-0.5 rounded-full uppercase tracking-wider border border-blue-200">Заступник директора</span>
+                        <h4 class="font-bold text-slate-900 text-base mt-1">${c.deputy}</h4>
+                    </div>
+                </div>
+            `;
+        }
+
+        // 3. RENDER NEWS GRID & MODAL VIEW
+        function renderNews(filter = 'all') {
+            const grid = document.getElementById('news-grid');
+            grid.innerHTML = '';
+
+            const filtered = filter === 'all' 
+                ? appData.news 
+                : appData.news.filter(n => n.category === filter);
+
+            if(filtered.length === 0) {
+                grid.innerHTML = `<div class="col-span-full text-center py-8 text-slate-400">У цій категорії поки немає новин.</div>`;
+                return;
+            }
+
+            filtered.forEach(item => {
+                const card = document.createElement('article');
+                card.className = "bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden flex flex-col justify-between hover:shadow-lg transition transform hover:-translate-y-1 cursor-pointer";
+                card.onclick = () => openNewsDetailsModal(item.id);
+                
+                card.innerHTML = `
+                    <div>
+                        ${item.photo ? `<div class="relative h-48 overflow-hidden"><img src="${item.photo}" class="w-full h-full object-cover"></div>` : ''}
+                        <div class="p-5 space-y-2">
+                            <div class="flex justify-between items-center text-xs">
+                                <span class="bg-blue-50 text-blue-800 font-bold px-2.5 py-0.5 rounded-md border border-blue-100">${item.category}</span>
+                                <span class="text-slate-400">${item.date}</span>
+                            </div>
+                            <h3 class="font-bold text-slate-900 text-base leading-snug hover:text-blue-800 transition">${item.title}</h3>
+                            <p class="text-slate-600 text-xs leading-relaxed line-clamp-2">${item.excerpt}</p>
+                        </div>
+                    </div>
+                    <div class="px-5 pb-4 pt-2 border-t border-slate-50 flex items-center justify-between text-xs text-slate-400">
+                        <div class="flex items-center space-x-2">
+                            <img src="${item.authorAvatar || PRESET_AVATARS[0]}" class="w-6 h-6 rounded-full object-cover border border-slate-200">
+                            <span class="font-medium text-slate-700">${item.author || "Гімназія"}</span>
+                        </div>
+                        <span class="text-blue-800 font-bold hover:underline">Детальніше →</span>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+            renderAdminNewsList();
+        }
+
+        function filterNews(cat) {
+            document.querySelectorAll('.news-filter-btn').forEach(btn => {
+                if(btn.dataset.cat === cat) {
+                    btn.className = "news-filter-btn px-3.5 py-1.5 rounded-lg bg-white shadow-sm text-blue-900 font-bold";
+                } else {
+                    btn.className = "news-filter-btn px-3.5 py-1.5 rounded-lg text-slate-600 hover:text-slate-900";
+                }
+            });
+            renderNews(cat);
+        }
+
+        function openNewsDetailsModal(id) {
+            const item = appData.news.find(n => n.id === id);
+            if(!item) return;
+
+            const modal = document.getElementById('news-details-modal');
+            const content = document.getElementById('news-modal-content');
+
+            content.innerHTML = `
+                <div class="flex items-center space-x-2 text-xs">
+                    <span class="bg-blue-100 text-blue-900 font-bold px-3 py-1 rounded-full">${item.category}</span>
+                    <span class="text-slate-400">• ${item.date}</span>
+                </div>
+                <h2 class="text-2xl font-extrabold text-slate-900 leading-tight">${item.title}</h2>
+                <div class="flex items-center space-x-3 pt-1 border-b pb-4">
+                    <img src="${item.authorAvatar || PRESET_AVATARS[0]}" class="w-8 h-8 rounded-full border object-cover">
+                    <span class="text-xs font-semibold text-slate-700">Автор: ${item.author || "Адміністрація гімназії"}</span>
+                </div>
+                ${item.photo ? `<img src="${item.photo}" class="w-full max-h-80 object-cover rounded-2xl shadow">` : ''}
+                ${item.video ? `<div class="aspect-video w-full rounded-2xl overflow-hidden shadow"><iframe class="w-full h-full" src="${item.video}" allowfullscreen></iframe></div>` : ''}
+                <div class="text-slate-700 text-sm leading-relaxed space-y-3 pt-2">
+                    <p class="font-medium text-slate-900">${item.excerpt}</p>
+                    <p>${item.content}</p>
+                </div>
+            `;
+
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function closeNewsDetailsModal() {
+            document.getElementById('news-details-modal').classList.add('hidden');
+            document.getElementById('news-details-modal').classList.remove('flex');
+        }
+
+        // 4. AUTHENTICATION & ROLES & AVATARS
+        function openAuthModal(tab = 'login') {
+            switchAuthTab(tab);
+            document.getElementById('auth-modal').classList.remove('hidden');
+            document.getElementById('auth-modal').classList.add('flex');
+        }
+
+        function closeAuthModal() {
+            document.getElementById('auth-modal').classList.add('hidden');
+            document.getElementById('auth-modal').classList.remove('flex');
+        }
+
+        function switchAuthTab(tab) {
+            const loginForm = document.getElementById('login-form');
+            const regForm = document.getElementById('register-form');
+            const loginBtn = document.getElementById('tab-login-btn');
+            const regBtn = document.getElementById('tab-register-btn');
+
+            if(tab === 'login') {
+                loginForm.classList.remove('hidden');
+                regForm.classList.add('hidden');
+                loginBtn.className = "w-1/2 py-2.5 text-center font-bold text-blue-900 border-b-2 border-blue-900";
+                regBtn.className = "w-1/2 py-2.5 text-center font-bold text-slate-400 border-b-2 border-transparent hover:text-slate-600";
+            } else {
+                loginForm.classList.add('hidden');
+                regForm.classList.remove('hidden');
+                regBtn.className = "w-1/2 py-2.5 text-center font-bold text-blue-900 border-b-2 border-blue-900";
+                loginBtn.className = "w-1/2 py-2.5 text-center font-bold text-slate-400 border-b-2 border-transparent hover:text-slate-600";
+            }
+        }
+
+        function handleLogin(e) {
+            e.preventDefault();
+            const email = document.getElementById('login-email').value;
+            const pass = document.getElementById('login-password').value;
+
+            if(email === 'admin@uspenivka.edu.ua' && pass === 'admin123') {
+                currentUser = {
+                    name: "Адміністратор Гімназії",
+                    email: email,
+                    role: "Адміністратор",
+                    avatar: PRESET_AVATARS[0]
+                };
+            } else {
+                currentUser = {
+                    name: email.split('@')[0],
+                    email: email,
+                    role: "Колектив",
+                    avatar: PRESET_AVATARS[1]
+                };
+            }
+
+            localStorage.setItem('uspenivka_current_user', JSON.stringify(currentUser));
+            updateUserUI();
+            closeAuthModal();
+        }
+
+        function handleRegister(e) {
+            e.preventDefault();
+            const name = document.getElementById('reg-name').value;
+            const email = document.getElementById('reg-email').value;
+            const role = document.getElementById('reg-role').value;
+
+            currentUser = {
+                name, email, role,
+                avatar: PRESET_AVATARS[2]
+            };
+
+            localStorage.setItem('uspenivka_current_user', JSON.stringify(currentUser));
+            updateUserUI();
+            closeAuthModal();
+        }
+
+        function logoutUser() {
+            currentUser = null;
+            localStorage.removeItem('uspenivka_current_user');
+            updateUserUI();
+        }
+
+        function updateUserUI() {
+            const statusBar = document.getElementById('user-status-bar');
+            const authBtns = document.getElementById('auth-header-btn-container');
+            const adminBtn = document.getElementById('admin-panel-btn');
+            const addNewsBtn = document.getElementById('add-news-staff-btn');
+
+            if(currentUser) {
+                statusBar.classList.remove('hidden');
+                document.getElementById('logged-user-name').textContent = currentUser.name;
+                document.getElementById('logged-user-badge').textContent = currentUser.role;
+                document.getElementById('logged-user-email').textContent = currentUser.email;
+                document.getElementById('user-avatar-display').src = currentUser.avatar || PRESET_AVATARS[0];
+
+                authBtns.innerHTML = `
+                    <div class="flex items-center space-x-2">
+                        <img src="${currentUser.avatar || PRESET_AVATARS[0]}" class="w-6 h-6 rounded-full border border-amber-400 object-cover">
+                        <span class="font-bold text-amber-400">${currentUser.name}</span>
+                    </div>
+                `;
+
+                if(currentUser.role === 'Адміністратор') {
+                    adminBtn.classList.remove('hidden');
+                    adminBtn.classList.add('inline-flex');
+                } else {
+                    adminBtn.classList.add('hidden');
+                }
+
+                if(currentUser.role === 'Колектив' || currentUser.role === 'Адміністратор') {
+                    addNewsBtn.classList.remove('hidden');
+                    addNewsBtn.classList.add('flex');
+                } else {
+                    addNewsBtn.classList.add('hidden');
+                }
+            } else {
+                statusBar.classList.add('hidden');
+                addNewsBtn.classList.add('hidden');
+                authBtns.innerHTML = `
+                    <button onclick="openAuthModal('login')" class="hover:text-amber-400 transition flex items-center space-x-1">
+                        <i class="fas fa-sign-in-alt"></i> <span>Увійти</span>
+                    </button>
+                    <span>|</span>
+                    <button onclick="openAuthModal('register')" class="hover:text-amber-400 transition flex items-center space-x-1">
+                        <i class="fas fa-user-plus"></i> <span>Реєстрація</span>
+                    </button>
+                `;
+            }
+        }
+
+        // Avatar change functionality
+        function openAvatarModal() {
+            document.getElementById('avatar-modal').classList.remove('hidden');
+            document.getElementById('avatar-modal').classList.add('flex');
+        }
+
+        function closeAvatarModal() {
+            document.getElementById('avatar-modal').classList.add('hidden');
+            document.getElementById('avatar-modal').classList.remove('flex');
+        }
+
+        function renderPresetAvatars() {
+            const container = document.getElementById('preset-avatars');
+            container.innerHTML = PRESET_AVATARS.map(url => `
+                <img src="${url}" onclick="selectPresetAvatar('${url}')" class="w-14 h-14 rounded-full border-2 border-slate-200 hover:border-blue-800 cursor-pointer object-cover transition transform hover:scale-105 shadow-sm">
+            `).join('');
+        }
+
+        function selectPresetAvatar(url) {
+            document.getElementById('custom-avatar-url').value = url;
+        }
+
+        function saveUserAvatar(e) {
+            e.preventDefault();
+            const url = document.getElementById('custom-avatar-url').value;
+            if(currentUser && url) {
+                currentUser.avatar = url;
+                localStorage.setItem('uspenivka_current_user', JSON.stringify(currentUser));
+                updateUserUI();
+                closeAvatarModal();
+            }
+        }
+
+        // 5. CREATE NEWS FOR COLLECTIVE / STAFF
+        function openCreateNewsModal() {
+            document.getElementById('create-news-modal').classList.remove('hidden');
+            document.getElementById('create-news-modal').classList.add('flex');
+        }
+
+        function closeCreateNewsModal() {
+            document.getElementById('create-news-modal').classList.add('hidden');
+            document.getElementById('create-news-modal').classList.remove('flex');
+        }
+
+        function handleCreateNewsSubmit(e) {
+            e.preventDefault();
+            const title = document.getElementById('news-input-title').value;
+            const category = document.getElementById('news-input-cat').value;
+            const date = document.getElementById('news-input-date').value;
+            const excerpt = document.getElementById('news-input-excerpt').value;
+            const content = document.getElementById('news-input-content').value;
+            const photo = document.getElementById('news-input-photo').value;
+            const video = document.getElementById('news-input-video').value;
+
+            const newPost = {
+                id: Date.now(),
+                title, category, date, excerpt, content, photo, video,
+                author: currentUser ? currentUser.name : "Вчитель гімназії",
+                authorAvatar: currentUser ? currentUser.avatar : PRESET_AVATARS[0]
+            };
+
+            appData.news.unshift(newPost);
+            saveDataToStorage();
+            renderNews();
+            closeCreateNewsModal();
+            alert('Новину успішно опубліковано від вашого імені!');
+        }
+
+        // 6. DOCS & GALLERY RENDERING
+        function renderDocs() {
+            const list = document.getElementById('docs-list');
+            list.innerHTML = appData.docs.map(d => `
+                <div class="flex items-center justify-between p-4 rounded-2xl border border-slate-100 hover:border-blue-200 transition bg-slate-50/50">
+                    <div class="flex items-center space-x-3.5">
+                        <div class="p-3 bg-red-100 text-red-600 rounded-xl font-bold"><i class="fas fa-file-pdf text-xl"></i></div>
+                        <div>
+                            <h4 class="font-bold text-slate-800 text-sm">${d.title}</h4>
+                            <span class="text-xs text-slate-400">${d.category} • ${d.size}</span>
+                        </div>
+                    </div>
+                    <button onclick="alert('Завантаження файла: ${d.title}')" class="bg-blue-900 hover:bg-blue-800 text-white px-3.5 py-1.5 rounded-xl text-xs font-bold transition">
+                        Завантажити
+                    </button>
+                </div>
+            `).join('');
+            renderAdminDocsList();
+        }
+
+        function renderGallery() {
+            const grid = document.getElementById('gallery-grid');
+            grid.innerHTML = appData.gallery.map(g => `
+                <div class="group relative rounded-2xl overflow-hidden shadow-sm aspect-video bg-slate-200">
+                    <img src="${g.url}" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent opacity-0 group-hover:opacity-100 transition p-3 flex items-end">
+                        <span class="text-white text-xs font-bold">${g.title}</span>
+                    </div>
+                </div>
+            `).join('');
+            renderAdminGalleryList();
+        }
+
+        // 7. INTERACTIVE QUIZ & MEMORY GAME
+        function renderQuiz() {
+            const container = document.getElementById('quiz-container');
+            const q = appData.quiz[0];
+            if(!q) return;
+
+            container.innerHTML = `
+                <div class="space-y-3">
+                    <h4 class="font-bold text-white text-sm">${q.q}</h4>
+                    <div class="space-y-2">
+                        ${q.options.map((opt, idx) => `
+                            <button onclick="checkQuizAnswer(${idx})" class="w-full text-left px-4 py-2.5 text-xs bg-white/10 hover:bg-white/20 border border-white/20 rounded-xl transition text-slate-100">
+                                ${opt}
+                            </button>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+        }
+
+        function checkQuizAnswer(idx) {
+            if(idx === appData.quiz[0].correct) {
+                alert('Правильно! Чудова обізнаність про нашу гімназію!');
+            } else {
+                alert('Не зовсім так. Спробуйте ще раз!');
+            }
+        }
+
+        let memoryCards = ['🎓', '📚', '✏️', '🔬', '🎓', '📚', '✏️', '🔬'];
+        let flipped = [];
+        let matched = 0;
+
+        function initMemoryGame() {
+            const grid = document.getElementById('memory-game');
+            grid.innerHTML = '';
+            flipped = [];
+            matched = 0;
+            document.getElementById('game-status').textContent = 'Знайдено пар: 0 / 4';
+
+            // Shuffle
+            memoryCards.sort(() => Math.random() - 0.5);
+
+            memoryCards.forEach((icon, index) => {
+                const btn = document.createElement('button');
+                btn.className = "h-14 bg-white/10 hover:bg-white/20 border border-white/20 rounded-xl font-black text-2xl flex items-center justify-center transition";
+                btn.dataset.icon = icon;
+                btn.dataset.index = index;
+                btn.onclick = () => flipMemoryCard(btn);
+                grid.appendChild(btn);
+            });
+        }
+
+        function flipMemoryCard(btn) {
+            if(flipped.length < 2 && !btn.classList.contains('matched') && !flipped.includes(btn)) {
+                btn.textContent = btn.dataset.icon;
+                btn.classList.add('bg-amber-400', 'text-blue-950');
+                flipped.push(btn);
+
+                if(flipped.length === 2) {
+                    if(flipped[0].dataset.icon === flipped[1].dataset.icon) {
+                        flipped.forEach(b => b.classList.add('matched'));
+                        matched++;
+                        document.getElementById('game-status').textContent = `Знайдено пар: ${matched} / 4`;
+                        flipped = [];
+                        if(matched === 4) {
+                            setTimeout(() => alert('Вітаємо! Ви пройшли гру на пам\'ять!'), 300);
+                        }
+                    } else {
+                        setTimeout(() => {
+                            flipped.forEach(b => {
+                                b.textContent = '';
+                                b.className = "h-14 bg-white/10 hover:bg-white/20 border border-white/20 rounded-xl font-black text-2xl flex items-center justify-center transition";
+                            });
+                            flipped = [];
+                        }, 800);
+                    }
+                }
+            }
+        }
+
+        function resetMemoryGame() {
+            initMemoryGame();
+        }
+
+        // 8. ADMIN DASHBOARD ACTIONS
+        function openAdminModal() {
+            document.getElementById('admin-modal').classList.remove('hidden');
+            document.getElementById('admin-modal').classList.add('flex');
+            renderMessagesList();
+        }
+
+        function closeAdminModal() {
+            document.getElementById('admin-modal').classList.add('hidden');
+            document.getElementById('admin-modal').classList.remove('flex');
+        }
+
+        function switchAdminTab(tab) {
+            document.querySelectorAll('.admin-content-block').forEach(b => b.classList.add('hidden'));
+            document.getElementById(`admin-tab-${tab}`).classList.remove('hidden');
+
+            document.querySelectorAll('.admin-tab-btn').forEach(btn => {
+                if(btn.dataset.tab === tab) {
+                    btn.className = "admin-tab-btn w-full text-left px-3.5 py-2.5 rounded-xl text-xs font-bold bg-blue-900 text-white transition flex items-center space-x-2";
+                } else {
+                    btn.className = "admin-tab-btn w-full text-left px-3.5 py-2.5 rounded-xl text-xs font-bold text-slate-700 hover:bg-slate-200 transition flex items-center space-x-2";
+                }
+            });
+        }
+
+        function saveAllTitles() {
+            appData.siteTitles.heroBg = document.getElementById('edit-hero-bg').value;
+            appData.siteTitles.heroTitle = document.getElementById('edit-hero-title').value;
+            appData.siteTitles.heroSubtitle = document.getElementById('edit-hero-subtitle').value;
+            appData.siteTitles.aboutSection = document.getElementById('edit-title-about').value;
+            appData.siteTitles.leadershipSection = document.getElementById('edit-title-leadership').value;
+            appData.siteTitles.newsSection = document.getElementById('edit-title-news').value;
+            appData.siteTitles.docsSection = document.getElementById('edit-title-docs').value;
+            appData.siteTitles.gallerySection = document.getElementById('edit-title-gallery').value;
+            appData.siteTitles.contactsSection = document.getElementById('edit-title-contacts').value;
+
+            saveDataToStorage();
+            renderTitles();
+            alert('Усі заголовки та обкладинку Hero Banner збережено!');
+        }
+
+        function saveContactsAdmin() {
+            appData.contacts.director = document.getElementById('edit-director').value;
+            appData.contacts.deputy = document.getElementById('edit-deputy').value;
+            appData.contacts.phone = document.getElementById('edit-phone').value;
+            appData.contacts.email = document.getElementById('edit-email').value;
+            appData.contacts.address = document.getElementById('edit-address').value;
+
+            saveDataToStorage();
+            renderContacts();
+            renderLeadership();
+            alert('Контакти та керівництво оновлено!');
+        }
+
+        function renderAdminNewsList() {
+            const container = document.getElementById('admin-news-list');
+            if(!container) return;
+            container.innerHTML = appData.news.map(n => `
+                <div class="flex items-center justify-between p-3 bg-white rounded-xl border">
+                    <div>
+                        <strong class="text-slate-800">${n.title}</strong>
+                        <p class="text-xs text-slate-400">${n.category} • ${n.date}</p>
+                    </div>
+                    <button onclick="deleteNews(${n.id})" class="text-red-600 hover:text-red-800 text-xs font-bold p-2">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </div>
+            `).join('');
+        }
+
+        function deleteNews(id) {
+            if(confirm('Видалити цю новину?')) {
+                appData.news = appData.news.filter(n => n.id !== id);
+                saveDataToStorage();
+                renderNews();
+            }
+        }
+
+        function addNewDocument(e) {
+            e.preventDefault();
+            const title = document.getElementById('doc-title-input').value;
+            const category = document.getElementById('doc-category-input').value;
+
+            appData.docs.push({ id: Date.now(), title, category, size: "1.0 MB" });
+            saveDataToStorage();
+            renderDocs();
+            alert('Документ додано!');
+        }
+
+        function renderAdminDocsList() {
+            const container = document.getElementById('admin-docs-list');
+            if(!container) return;
+            container.innerHTML = appData.docs.map(d => `
+                <div class="flex justify-between items-center p-2.5 bg-white rounded-lg border text-xs">
+                    <span>${d.title} (${d.category})</span>
+                    <button onclick="deleteDoc(${d.id})" class="text-red-600 font-bold">Видалити</button>
+                </div>
+            `).join('');
+        }
+
+        function deleteDoc(id) {
+            appData.docs = appData.docs.filter(d => d.id !== id);
+            saveDataToStorage();
+            renderDocs();
+        }
+
+        function addNewPhoto(e) {
+            e.preventDefault();
+            const url = document.getElementById('photo-url-input').value;
+            const title = document.getElementById('photo-title-input').value;
+
+            appData.gallery.push({ id: Date.now(), title, url });
+            saveDataToStorage();
+            renderGallery();
+            alert('Фото додано в галерею!');
+        }
+
+        function renderAdminGalleryList() {
+            const container = document.getElementById('admin-gallery-list');
+            if(!container) return;
+            container.innerHTML = appData.gallery.map(g => `
+                <div class="relative rounded-lg overflow-hidden border aspect-video">
+                    <img src="${g.url}" class="w-full h-full object-cover">
+                    <button onclick="deletePhoto(${g.id})" class="absolute top-1 right-1 bg-red-600 text-white p-1 rounded text-xs">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            `).join('');
+        }
+
+        function deletePhoto(id) {
+            appData.gallery = appData.gallery.filter(g => g.id !== id);
+            saveDataToStorage();
+            renderGallery();
+        }
+
+        function handleFeedbackSubmit(e) {
+            e.preventDefault();
+            const name = document.getElementById('fb-name').value;
+            const contact = document.getElementById('fb-contact').value;
+            const subject = document.getElementById('fb-subject').value;
+            const message = document.getElementById('fb-message').value;
+
+            appData.messages.unshift({
+                id: Date.now(), name, contact, subject, message, date: new Date().toLocaleDateString('uk-UA')
+            });
+
+            saveDataToStorage();
+            document.getElementById('feedback-form').reset();
+            alert('Ваше повідомлення успішно надіслано адміністрації гімназії!');
+        }
+
+        function renderMessagesList() {
+            const container = document.getElementById('admin-messages-list');
+            if(!container) return;
+            if(appData.messages.length === 0) {
+                container.innerHTML = `<p class="text-xs text-slate-400">Наразі немає нових звернень.</p>`;
+                return;
+            }
+            container.innerHTML = appData.messages.map(m => `
+                <div class="p-4 bg-white rounded-xl border space-y-1">
+                    <div class="flex justify-between font-bold text-slate-800">
+                        <span>${m.name} (${m.contact})</span>
+                        <span class="text-xs text-slate-400">${m.date}</span>
+                    </div>
+                    <div class="text-xs font-semibold text-blue-900">${m.subject || "Без теми"}</div>
+                    <p class="text-xs text-slate-600">${m.message}</p>
+                </div>
+            `).join('');
+        }
+
+        function resetToDefaults() {
+            if(confirm('Ви впевнені, що бажаєте скинути всі налаштування до початкових?')) {
+                appData = JSON.parse(JSON.stringify(INITIAL_DATA));
+                saveDataToStorage();
+                renderTitles();
+                renderContacts();
+                renderLeadership();
+                renderNews();
+                renderDocs();
+                renderGallery();
+                alert('Дані скинуто до початкових!');
+            }
+        }
+
+        function saveDataToStorage() {
+            localStorage.setItem('uspenivka_school_db', JSON.stringify(appData));
+        }
+
+        function toggleMobileMenu() {
+            document.getElementById('mobile-menu').classList.toggle('hidden');
+        }
+
+        function toggleSearchModal() {
+            document.getElementById('search-modal').classList.toggle('hidden');
+            document.getElementById('search-modal').classList.toggle('flex');
+        }
+
+        function performSearch() {
+            const query = document.getElementById('search-input').value.toLowerCase();
+            const resultsContainer = document.getElementById('search-results');
+
+            if(!query) {
+                resultsContainer.innerHTML = `<p class="text-xs text-slate-400">Введіть ключове слово для пошуку...</p>`;
+                return;
+            }
+
+            const matchesNews = appData.news.filter(n => n.title.toLowerCase().includes(query) || n.excerpt.toLowerCase().includes(query));
+            const matchesDocs = appData.docs.filter(d => d.title.toLowerCase().includes(query));
+
+            let html = '';
+            if(matchesNews.length) {
+                html += `<div class="font-bold text-xs text-blue-900">Новини:</div>`;
+                matchesNews.forEach(n => {
+                    html += `<div onclick="openNewsDetailsModal(${n.id}); toggleSearchModal();" class="p-2 bg-slate-50 rounded border cursor-pointer hover:bg-blue-50">${n.title}</div>`;
+                });
+            }
+            if(matchesDocs.length) {
+                html += `<div class="font-bold text-xs text-blue-900 pt-2">Документи:</div>`;
+                matchesDocs.forEach(d => {
+                    html += `<div class="p-2 bg-slate-50 rounded border">${d.title}</div>`;
+                });
+            }
+
+            resultsContainer.innerHTML = html || `<p class="text-xs text-slate-400">Нічого не знайдено.</p>`;
+        }
+    </script>
+</body>
+</html>
