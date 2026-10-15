@@ -30,7 +30,11 @@
                 <span><i class="fa-solid fa-location-dot mr-1 text-indigo-300"></i> вул. Кишинівська, 69, с. Успенівка, Одеська обл.</span>
                 <span><i class="fa-solid fa-id-card mr-1 text-indigo-300"></i> ЄДРПОУ: 25814560</span>
             </div>
-            <div class="flex items-center gap-3" id="top-auth-container"></div>
+            <!-- AUTH BUTTONS CONTAINER -->
+            <div class="flex items-center gap-3 font-semibold" id="top-auth-container">
+                <button onclick="openAuthModal('login')" class="hover:text-white bg-indigo-800 px-3 py-1 rounded-lg transition-colors">Увійти</button>
+                <button onclick="openAuthModal('register')" class="hover:text-white bg-indigo-600 px-3 py-1 rounded-lg transition-colors">Реєстрація</button>
+            </div>
         </div>
     </div>
 
@@ -295,7 +299,7 @@
         </div>
     </div>
 
-    <!-- ENHANCED PERSONAL CABINET MODAL (WITH TABS & FULL FUNCTIONALITY) -->
+    <!-- ENHANCED PERSONAL CABINET MODAL -->
     <div id="profile-modal" class="fixed inset-0 z-50 bg-slate-950/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
         <div class="bg-white rounded-3xl max-w-2xl w-full p-8 relative max-h-[90vh] overflow-y-auto">
             <button onclick="closeProfileModal()" class="absolute top-6 right-6 text-slate-400 text-xl"><i class="fa-solid fa-xmark"></i></button>
@@ -303,4 +307,65 @@
             <div class="flex items-center gap-4 mb-6 border-b border-slate-200 pb-4">
                 <img id="cabinet-user-avatar" src="" class="w-16 h-16 rounded-full object-cover border-2 border-indigo-500 shadow-sm">
                 <div>
-                    <h3 id="cabinet
+                    <h3 id="cabinet-user-name" class="text-xl font-bold text-slate-900">Ім'я Користувача</h3>
+                    <span id="cabinet-user-role" class="text-xs bg-indigo-100 text-indigo-800 px-2 py-0.5 rounded-full font-semibold">Роль</span>
+                </div>
+            </div>
+
+            <!-- Cabinet Navigation Tabs -->
+            <div class="flex flex-wrap gap-2 mb-6 border-b border-slate-200 pb-4">
+                <button onclick="switchCabinetTab('settings')" class="cabinet-tab-btn px-4 py-2 rounded-xl font-semibold text-xs bg-indigo-600 text-white shadow-sm transition-all">⚙️ Профіль</button>
+                <button onclick="switchCabinetTab('appeals')" class="cabinet-tab-btn px-4 py-2 rounded-xl font-semibold text-xs bg-slate-100 text-slate-700 hover:bg-slate-200 transition-all">📝 Мої звернення</button>
+                <button onclick="switchCabinetTab('bookmarks')" class="cabinet-tab-btn px-4 py-2 rounded-xl font-semibold text-xs bg-slate-100 text-slate-700 hover:bg-slate-200 transition-all">📌 Закладки новин</button>
+                <button onclick="switchCabinetTab('portfolio')" class="cabinet-tab-btn px-4 py-2 rounded-xl font-semibold text-xs bg-slate-100 text-slate-700 hover:bg-slate-200 transition-all">🏆 Досягнення</button>
+            </div>
+
+            <div id="cabinet-tab-content"></div>
+        </div>
+    </div>
+
+    <!-- NEWS MODAL -->
+    <div id="news-modal" class="fixed inset-0 z-50 bg-slate-950/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl max-w-lg w-full p-8 relative">
+            <button onclick="closeNewsModal()" class="absolute top-6 right-6 text-slate-400 text-xl"><i class="fa-solid fa-xmark"></i></button>
+            <h3 class="text-2xl font-bold mb-6">Створити новину</h3>
+            <form onsubmit="saveNewArticle(event)" class="space-y-4">
+                <input type="text" id="news-title-input" placeholder="Заголовок" required class="w-full rounded-xl border border-slate-300 px-4 py-2.5 text-sm">
+                <input type="text" id="news-image-input" placeholder="Зображення URL" required class="w-full rounded-xl border border-slate-300 px-4 py-2.5 text-sm">
+                <textarea id="news-text-input" rows="4" placeholder="Текст" required class="w-full rounded-xl border border-slate-300 px-4 py-2.5 text-sm"></textarea>
+                <div class="flex gap-3">
+                    <button type="button" onclick="closeNewsModal()" class="w-1/2 bg-slate-200 text-slate-800 py-3 rounded-xl font-semibold">Відмінити</button>
+                    <button type="submit" class="w-1/2 bg-indigo-600 text-white py-3 rounded-xl font-semibold">Опублікувати</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- BANNER MODAL -->
+    <div id="banner-modal" class="fixed inset-0 z-50 bg-slate-950/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl max-w-md w-full p-8 relative">
+            <button onclick="closeBannerEditor()" class="absolute top-6 right-6 text-slate-400 text-xl"><i class="fa-solid fa-xmark"></i></button>
+            <h3 class="text-2xl font-bold mb-6">Редагувати баннер</h3>
+            <form onsubmit="saveBannerChanges(event)" class="space-y-4">
+                <input type="text" id="banner-url-input" required class="w-full rounded-xl border border-slate-300 px-4 py-2.5 text-sm">
+                <button type="submit" class="w-full bg-indigo-600 text-white py-3 rounded-xl">Зберегти</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        const defaultUsers = [
+            { id: 1, name: 'Адміністратор', email: 'admin@uspenivka.edu.ua', password: 'admin123', role: 'admin', avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80', verified: true, appeals: [], bookmarks: [], portfolio: ['Головний адміністратор сайту'] },
+            { id: 2, name: 'Олена Петрівна', email: 'teacher@uspenivka.edu.ua', password: 'teacher123', role: 'collective', avatar: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=200&q=80', verified: true, appeals: [], bookmarks: [], portfolio: ['Вчитель вищої категорії'] },
+            { id: 3, name: 'Іван Учень', email: 'student@uspenivka.edu.ua', password: 'student123', role: 'student', avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=200&q=80', verified: true, appeals: [], bookmarks: [], portfolio: ['Активний учасник олімпіад'] }
+        ];
+
+        const defaultNews = [
+            { id: 1, title: 'Урочисте свято Першого дзвоника в гімназії', image: 'https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&w=800&q=80', text: 'Успенівська гімназія гостинно відкрила двері для учнів.', date: '01.09.2025', author: 'Адміністрація' }
+        ];
+
+        let pendingRegistrationUser = null;
+        let generatedVerificationCode = '1234';
+
+        if (!localStorage.getItem('uspenivka_users')) localStorage.setItem('uspenivka_users', JSON.stringify(defaultUsers));
+        if (!localStorage.getItem('uspenivka
