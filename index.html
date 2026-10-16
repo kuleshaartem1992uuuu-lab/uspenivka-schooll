@@ -127,94 +127,15 @@
                 return;
             }
 
-            // Перевірка простого формату email
             if (!email.includes("@") || !email.includes(".")) {
                 alert("Будь ласка, введіть коректну електронну пошту.");
                 return;
             }
 
+            // Генеруємо код підтвердження
             const code = generateCode();
             
-            // Зберігаємо тимчасово дані
+            // Зберігаємо код та дані в localStorage до перевірки
             localStorage.setItem("temp_code", code);
             localStorage.setItem("temp_email", email);
-            localStorage.setItem("temp_name", name);
-
-            // Показуємо користувачеві статус завантаження
-            alert("Надсилаємо код підтвердження... Зачекайте секунду.");
-
-            try {
-                await emailjs.send(SERVICE_ID, TEMPLATE_ID, {
-                    to_email: email,
-                    to_name: name,
-                    verification_code: code
-                });
-
-                // Перемикаємо екран на введення коду
-                document.getElementById("sent-to-email").innerText = email;
-                document.getElementById("step-1-form").classList.add("hidden");
-                document.getElementById("step-2-verification").classList.remove("hidden");
-
-            } catch (error) {
-                console.error("Помилка EmailJS:", error);
-                alert("Помилка при відправці листа. Перевірте консоль або налаштування сервісу.");
-            }
-        }
-
-        // Крок 2: Перевірка коду
-        function verifyCode() {
-            const enteredCode = document.getElementById("verification-code-input").value.trim();
-            const savedCode = localStorage.getItem("temp_code");
-            const name = localStorage.getItem("temp_name");
-            const email = localStorage.getItem("temp_email");
-
-            if (enteredCode === savedCode) {
-                // Авторизація успішна! Зберігаємо постійний статус
-                localStorage.setItem("is_logged", "true");
-                localStorage.removeItem("temp_code"); // очищаємо тимчасовий код
-
-                showDashboard(name, email);
-            } else {
-                alert("Невірний код підтвердження! Спробуйте ще раз.");
-            }
-        }
-
-        // Показ кабінету
-        function showDashboard(name, email) {
-            document.getElementById("auth-container").classList.add("hidden");
-            document.getElementById("dashboard-container").classList.remove("hidden");
-            
-            document.getElementById("profile-name").innerText = name;
-            document.getElementById("profile-email").innerText = email;
-            
-            document.getElementById("user-greeting").classList.remove("hidden");
-            document.getElementById("display-name").innerText = name;
-            document.getElementById("logout-btn").classList.remove("hidden");
-        }
-
-        // Кнопка повернення на крок назад
-        function resetFlow() {
-            document.getElementById("step-2-verification").classList.add("hidden");
-            document.getElementById("step-1-form").classList.remove("hidden");
-            document.getElementById("verification-code-input").value = "";
-        }
-
-        // Вихід з аккаунта
-        function logout() {
-            localStorage.removeItem("is_logged");
-            localStorage.removeItem("temp_email");
-            localStorage.removeItem("temp_name");
-            location.reload();
-        }
-
-        // Перевірка при завантаженні сторінки (якщо користувач вже увійшов)
-        window.onload = function() {
-            if (localStorage.getItem("is_logged") === "true") {
-                const name = localStorage.getItem("temp_name") || "Користувач";
-                const email = localStorage.getItem("temp_email") || "не вказано";
-                showDashboard(name, email);
-            }
-        };
-    </script>
-</body>
-</html>
+            localStorage.setItem("temp_name
