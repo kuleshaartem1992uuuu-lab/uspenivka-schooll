@@ -1,141 +1,660 @@
 <!DOCTYPE html>
 <html lang="uk">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Успенівська гімназія — Офіційний сайт</title>
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-    <!-- EmailJS SDK -->
-    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Педагогічний Простір — Обмін та Продаж Дидактичних Матеріалів</title>
+  <style>
+    :root {
+      --primary: #4f46e5;
+      --primary-hover: #4338ca;
+      --bg-color: #f3f4f6;
+      --card-bg: #ffffff;
+      --text-main: #1f2937;
+      --text-muted: #6b7280;
+      --accent-sale: #10b981;
+      --accent-exchange: #f59e0b;
+      --danger: #ef4444;
+      --border: #e5e7eb;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+    body { background-color: var(--bg-color); color: var(--text-main); line-height: 1.5; padding-bottom: 60px; }
+
+    /* Header & Nav */
+    header { background: var(--card-bg); border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 100; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+    .header-container { max-width: 1100px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; padding: 12px 20px; }
+    .logo { font-size: 1.3rem; font-weight: bold; color: var(--primary); display: flex; align-items: center; gap: 8px; }
+    .nav-user { display: flex; align-items: center; gap: 15px; }
+    .user-avatar-btn { display: flex; align-items: center; gap: 8px; cursor: pointer; border: none; background: none; font-size: 0.95rem; }
+    .avatar-sm { width: 36px; height: 36px; border-radius: 50%; object-fit: cover; border: 2px solid var(--primary); }
+
+    .btn { padding: 8px 16px; border-radius: 8px; border: none; font-weight: 600; cursor: pointer; transition: all 0.2s; font-size: 0.9rem; }
+    .btn-primary { background: var(--primary); color: white; }
+    .btn-primary:hover { background: var(--primary-hover); }
+    .btn-outline { background: transparent; border: 1px solid var(--primary); color: var(--primary); }
+    .btn-outline:hover { background: #e0e7ff; }
+    .btn-danger { background: var(--danger); color: white; }
+    .btn-danger:hover { opacity: 0.9; }
+    .btn-sm { padding: 4px 10px; font-size: 0.8rem; }
+
+    /* Hero Banner */
+    .hero { background: linear-gradient(135deg, #6366f1, #a855f7); color: white; padding: 35px 20px; text-align: center; }
+    .hero h1 { font-size: 2rem; margin-bottom: 8px; }
+    .hero p { opacity: 0.9; max-width: 700px; margin: 0 auto; font-size: 1.05rem; }
+    .admin-edit-badge { font-size: 0.75rem; background: rgba(255,255,255,0.2); padding: 2px 8px; border-radius: 12px; margin-left: 8px; cursor: pointer; }
+
+    /* Main Container */
+    .container { max-width: 1100px; margin: 20px auto; padding: 0 15px; display: grid; grid-template-columns: 280px 1fr; gap: 20px; }
+
+    @media (max-width: 768px) {
+      .container { grid-template-columns: 1fr; }
+    }
+
+    /* Sidebar Filters */
+    .sidebar { background: var(--card-bg); padding: 20px; border-radius: 12px; border: 1px solid var(--border); height: fit-content; }
+    .sidebar h3 { font-size: 1.1rem; margin-bottom: 12px; color: var(--text-main); border-bottom: 2px solid var(--bg-color); padding-bottom: 8px; }
+    .filter-group { margin-bottom: 20px; }
+    .filter-item { display: block; margin-bottom: 8px; cursor: pointer; font-size: 0.95rem; color: var(--text-muted); }
+    .filter-item input { margin-right: 8px; }
+    .search-input { width: 100%; padding: 8px 12px; border: 1px solid var(--border); border-radius: 8px; margin-bottom: 15px; outline: none; }
+    .search-input:focus { border-color: var(--primary); }
+
+    /* Post Creator (Facebook-like) */
+    .create-post-card { background: var(--card-bg); border-radius: 12px; border: 1px solid var(--border); padding: 16px; margin-bottom: 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.02); }
+    .create-post-header { display: flex; gap: 12px; align-items: center; margin-bottom: 12px; }
+    .create-post-textarea { width: 100%; border: 1px solid var(--border); border-radius: 8px; padding: 12px; resize: none; height: 80px; outline: none; font-size: 0.95rem; }
+    .create-post-textarea:focus { border-color: var(--primary); }
+    .create-post-actions { display: flex; justify-content: space-between; align-items: center; margin-top: 12px; flex-wrap: wrap; gap: 10px; }
+    .post-options { display: flex; gap: 10px; align-items: center; }
+    .post-options select, .post-options input[type="number"] { padding: 6px 10px; border: 1px solid var(--border); border-radius: 6px; font-size: 0.85rem; }
+    .file-upload-label { cursor: pointer; color: var(--primary); font-weight: 600; font-size: 0.9rem; display: flex; align-items: center; gap: 4px; }
+    #imagePreviewContainer { margin-top: 10px; display: none; position: relative; }
+    #imagePreviewContainer img { max-height: 150px; border-radius: 8px; border: 1px solid var(--border); }
+
+    /* Feed & Post Card */
+    .feed { display: flex; flex-direction: column; gap: 20px; }
+    .post-card { background: var(--card-bg); border-radius: 12px; border: 1px solid var(--border); padding: 20px; position: relative; }
+    .post-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; }
+    .author-info { display: flex; gap: 12px; align-items: center; }
+    .author-name { font-weight: bold; font-size: 1rem; }
+    .author-role { font-size: 0.8rem; color: var(--text-muted); }
+    .post-time { font-size: 0.75rem; color: var(--text-muted); }
+
+    .badge { padding: 4px 10px; border-radius: 20px; font-size: 0.8rem; font-weight: bold; }
+    .badge-sale { background: #d1fae5; color: #065f46; }
+    .badge-exchange { background: #fef3c7; color: #92400e; }
+
+    .post-title { font-size: 1.2rem; margin: 10px 0 6px 0; color: var(--text-main); }
+    .post-content { font-size: 0.95rem; color: #374151; white-space: pre-line; margin-bottom: 12px; }
+    .post-image { width: 100%; max-height: 400px; object-fit: cover; border-radius: 8px; margin-bottom: 12px; }
+    
+    .post-actions { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border); padding-top: 12px; }
+    .action-group { display: flex; gap: 15px; }
+    .action-btn { background: none; border: none; color: var(--text-muted); font-size: 0.9rem; cursor: pointer; display: flex; align-items: center; gap: 5px; }
+    .action-btn:hover { color: var(--primary); }
+
+    /* Comments Section */
+    .comments-section { margin-top: 15px; background: #f9fafb; padding: 12px; border-radius: 8px; }
+    .comment-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 10px; }
+    .comment-item { font-size: 0.85rem; padding: 6px 10px; background: white; border-radius: 6px; border: 1px solid #f3f4f6; display: flex; justify-content: space-between; }
+    .comment-author { font-weight: bold; color: var(--primary); margin-right: 6px; }
+    .comment-input-box { display: flex; gap: 8px; }
+    .comment-input-box input { flex: 1; padding: 6px 10px; border: 1px solid var(--border); border-radius: 6px; font-size: 0.85rem; }
+
+    /* Admin Bar Toggle */
+    .admin-bar { background: #1e293b; color: white; padding: 8px 20px; text-align: center; font-size: 0.85rem; display: flex; justify-content: center; align-items: center; gap: 15px; }
+    .admin-bar label { cursor: pointer; display: flex; align-items: center; gap: 5px; }
+
+    /* Modals */
+    .modal-overlay { display: none; position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.5); z-index: 1000; justify-content: center; align-items: center; }
+    .modal { background: white; border-radius: 12px; padding: 25px; width: 90%; max-width: 450px; position: relative; }
+    .modal-close { position: absolute; top: 12px; right: 15px; background: none; border: none; font-size: 1.2rem; cursor: pointer; }
+    .form-group { margin-bottom: 15px; }
+    .form-group label { display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 5px; }
+    .form-group input, .form-group select { width: 100%; padding: 8px 12px; border: 1px solid var(--border); border-radius: 6px; }
+
+    /* Calculator Widget */
+    .calculator-card { background: #eef2ff; border: 1px solid #c7d2fe; border-radius: 12px; padding: 15px; margin-top: 20px; }
+    .calculator-card h4 { color: var(--primary); margin-bottom: 8px; font-size: 0.95rem; }
+    .calculator-card p { font-size: 0.8rem; color: var(--text-muted); margin-bottom: 10px; }
+  </style>
 </head>
-<body class="bg-slate-50 min-h-screen flex flex-col justify-between font-sans">
+<body>
 
-    <!-- Хедера (Шапка сайту) -->
-    <header class="bg-indigo-900 text-white shadow-md">
-        <div class="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
-            <div class="flex items-center space-x-3">
-                <span class="text-2xl font-bold tracking-wide">🏫 Успенівська гімназія</span>
-            </div>
-            <nav id="nav-auth-status" class="text-sm">
-                <!-- Динамічний статус авторизації -->
-                <span id="user-greeting" class="hidden mr-4">Вітаємо, <strong id="display-name"></strong>!</span>
-                <button onclick="logout()" id="logout-btn" class="hidden bg-rose-600 px-3 py-1.5 rounded hover:bg-rose-700 transition">Вийти</button>
-            </nav>
+  <!-- Admin Control Bar (Demo Toggle) -->
+  <div class="admin-bar">
+    <span>👑 Режим Адміністратора:</span>
+    <label>
+      <input type="checkbox" id="adminToggle" onchange="toggleAdminMode()"> Увімкнути права адміна (видалення/редагування)
+    </label>
+  </div>
+
+  <!-- Header -->
+  <header>
+    <div class="header-container">
+      <div class="logo">
+        📚 Педагогічний Простір
+      </div>
+      <div class="nav-user">
+        <button class="user-avatar-btn" onclick="openProfileModal()">
+          <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80" id="headerAvatar" class="avatar-sm" alt="Аватар">
+          <span id="headerUserName">Олена Петрівна</span>
+        </button>
+        <button class="btn btn-outline btn-sm" onclick="openAuthModal()" id="authBtn">Вхід за телефоном</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <h1 id="heroTitle">Матеріали для освітян та соціальних працівників</h1>
+    <p id="heroSubtitle">Платформа для обміну досвідом, продажу авторських дидактичних розробок, карток, конспектів та методичок.</p>
+    <button class="btn btn-sm btn-outline" style="color:white; border-color:white; margin-top:10px; display:none;" id="editHeroBtn" onclick="editHeroText()">✏️ Редагувати заголовок (Адмін)</button>
+  </section>
+
+  <!-- Main Content -->
+  <div class="container">
+    
+    <!-- Sidebar / Filters -->
+    <aside class="sidebar">
+      <input type="text" id="searchInput" class="search-input" placeholder="🔍 Пошук матеріалу..." oninput="filterPosts()">
+
+      <div class="filter-group">
+        <h3>Категорія фахівців</h3>
+        <label class="filter-item"><input type="checkbox" value="psychologist" checked onchange="filterPosts()"> Практичні психологи</label>
+        <label class="filter-item"><input type="checkbox" value="social" checked onchange="filterPosts()"> Соціальні працівники</label>
+        <label class="filter-item"><input type="checkbox" value="organizer" checked onchange="filterPosts()"> Педагоги-організатори</label>
+        <label class="filter-item"><input type="checkbox" value="teacher" checked onchange="filterPosts()"> Вчителі предметники</label>
+        <label class="filter-item"><input type="checkbox" value="lecturer" checked onchange="filterPosts()"> Викладачі ЗВО</label>
+      </div>
+
+      <div class="filter-group">
+        <h3>Тип оголошення</h3>
+        <label class="filter-item"><input type="radio" name="typeFilter" value="all" checked onchange="filterPosts()"> Усі матеріали</label>
+        <label class="filter-item"><input type="radio" name="typeFilter" value="sale" onchange="filterPosts()"> Продаж</label>
+        <label class="filter-item"><input type="radio" name="typeFilter" value="exchange" onchange="filterPosts()"> Безкоштовний обмін</label>
+      </div>
+
+      <!-- Calculator Widget -->
+      <div class="calculator-card">
+        <h4>🧮 Калькулятор знижки</h4>
+        <p>Розрахуйте сумарну вартість кількох розробок зі знижкою 10% на комплект:</p>
+        <input type="number" id="calcPrice1" placeholder="Ціна 1-го матеріалу (грн)" class="search-input" style="margin-bottom:6px; font-size:0.8rem;">
+        <input type="number" id="calcPrice2" placeholder="Ціна 2-го матеріалу (грн)" class="search-input" style="margin-bottom:6px; font-size:0.8rem;">
+        <button class="btn btn-primary btn-sm" style="width:100%" onclick="calculateDiscount()">Розрахувати</button>
+        <div id="calcResult" style="margin-top:8px; font-weight:bold; font-size:0.85rem; color:var(--primary);"></div>
+      </div>
+    </aside>
+
+    <!-- Main Feed -->
+    <main>
+      
+      <!-- Create Post Box (Facebook Style) -->
+      <div class="create-post-card">
+        <div class="create-post-header">
+          <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80" id="createPostAvatar" class="avatar-sm" alt="User">
+          <strong style="font-size:0.9rem;">Опублікувати свій матеріал</strong>
         </div>
-    </header>
-
-    <!-- Основний контент -->
-    <main class="max-w-6xl mx-auto px-4 py-10 flex-grow flex items-center justify-center w-full">
-
-        <!-- Секція 1: Головна сторінка для гостей (Форма реєстрації / входу) -->
-        <div id="auth-container" class="bg-white p-8 rounded-2xl shadow-xl w-full max-w-md border border-slate-100">
-            <div class="text-center mb-6">
-                <h1 class="text-2xl font-bold text-slate-800">Особистий кабінет</h1>
-                <p class="text-sm text-slate-500 mt-1">Увійдіть або зареєструйтесь за допомогою пошти</p>
-            </div>
-
-            <!-- Форма введення пошти та імені -->
-            <div id="step-1-form" class="space-y-4">
-                <div>
-                    <label class="block text-sm font-medium text-slate-700 mb-1">Електронна пошта</label>
-                    <input type="email" id="email" placeholder="example@gmail.com" required 
-                        class="w-full px-4 py-2.5 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
-                </div>
-
-                <div>
-                    <label class="block text-sm font-medium text-slate-700 mb-1">Ваше ім'я / ПІБ</label>
-                    <input type="text" id="name" placeholder="Іван Петренко" required 
-                        class="w-full px-4 py-2.5 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
-                </div>
-
-                <button onclick="sendCode()" class="w-full bg-indigo-600 text-white font-medium py-2.5 rounded-lg hover:bg-indigo-700 transition shadow-sm">
-                    Отримати код підтвердження
-                </button>
-            </div>
-
-            <!-- Форма введення коду (спочатку прихована) -->
-            <div id="step-2-verification" class="hidden space-y-4">
-                <div class="bg-indigo-50 p-4 rounded-lg text-center text-sm text-indigo-800">
-                    Ми надіслали 6-значний код на пошту: <br><strong id="sent-to-email"></strong>
-                </div>
-
-                <div>
-                    <label class="block text-sm font-medium text-slate-700 mb-1 text-center">Введіть код з листа</label>
-                    <input type="text" id="verification-code-input" placeholder="123456" maxlength="6"
-                        class="w-full px-4 py-3 border border-slate-300 rounded-lg text-center tracking-widest text-xl font-bold focus:outline-none focus:ring-2 focus:ring-indigo-500">
-                </div>
-
-                <button onclick="verifyCode()" class="w-full bg-emerald-600 text-white font-medium py-2.5 rounded-lg hover:bg-emerald-700 transition shadow-sm">
-                    Підтвердити та увійти
-                </button>
-
-                <button onclick="resetFlow()" class="w-full text-sm text-slate-500 hover:underline text-center pt-2">
-                    ← Повернутися назад / змінити пошту
-                </button>
-            </div>
+        <input type="text" id="postTitleInput" placeholder="Заголовок матеріалу (наприклад: Картки емоцій для дітей)" class="search-input" style="margin-bottom:8px;">
+        <textarea id="postContentInput" class="create-post-textarea" placeholder="Опишіть ваш матеріал, його призначення та кому він буде корисний..."></textarea>
+        
+        <div id="imagePreviewContainer">
+          <img id="imagePreview" src="" alt="Прев'ю">
         </div>
 
-        <!-- Секція 2: Особистий кабінет (Прихований до успішного входу) -->
-        <div id="dashboard-container" class="hidden bg-white p-8 rounded-2xl shadow-xl w-full max-w-2xl border border-slate-100 text-center space-y-6">
-            <div class="inline-block bg-emerald-100 text-emerald-800 p-4 rounded-full text-3xl mb-2">
-                🎉
-            </div>
-            <h2 class="text-3xl font-bold text-slate-800">Вітаємо у кабінеті гімназії!</h2>
-            <p class="text-slate-600">Ви успішно пройшли авторизацію та підтвердили свою електронну пошту.</p>
+        <div class="create-post-actions">
+          <div class="post-options">
+            <label class="file-upload-label">
+              📷 Додати фото
+              <input type="file" id="postImageUpload" accept="image/*" style="display:none;" onchange="handleImageUpload(event)">
+            </label>
             
-            <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 text-left space-y-2">
-                <p class="text-sm text-slate-600">👤 <strong>Користувач:</strong> <span id="profile-name"></span></p>
-                <p class="text-sm text-slate-600">📧 <strong>Email:</strong> <span id="profile-email"></span></p>
-                <p class="text-sm text-slate-600">🔒 <strong>Статус:</strong> <span class="text-emerald-600 font-semibold">Активний / Підтверджений</span></p>
-            </div>
+            <select id="postCategorySelect">
+              <option value="psychologist">Практичний психолог</option>
+              <option value="social">Соціальний працівник</option>
+              <option value="organizer">Педагог-організатор</option>
+              <option value="teacher">Вчитель</option>
+              <option value="lecturer">Викладач ЗВО</option>
+            </select>
 
-            <button onclick="logout()" class="bg-rose-600 text-white px-6 py-2.5 rounded-lg hover:bg-rose-700 transition font-medium">
-                Вийти з системи
-            </button>
+            <select id="postTypeSelect" onchange="togglePriceInput()">
+              <option value="sale">Продаж (грн)</option>
+              <option value="exchange">Обмін</option>
+            </select>
+
+            <input type="number" id="postPriceInput" placeholder="Ціна (грн)" style="width:90px;" value="50">
+          </div>
+
+          <button class="btn btn-primary" onclick="submitPost()">Опублікувати</button>
         </div>
+      </div>
+
+      <!-- Feed Container -->
+      <div class="feed" id="feedContainer">
+        <!-- Posts generated via JavaScript -->
+      </div>
 
     </main>
+  </div>
 
-    <!-- Футер -->
-    <footer class="bg-slate-800 text-slate-300 py-6 text-center text-sm">
-        <p>&copy; 2026 Успенівська гімназія. Усі права захищено.</p>
-    </footer>
+  <!-- Auth Modal (Phone Authentication) -->
+  <div class="modal-overlay" id="authModal">
+    <div class="modal">
+      <button class="modal-close" onclick="closeModal('authModal')">&times;</button>
+      <h3 style="margin-bottom: 15px;">📱 Вхід за номером телефону</h3>
+      <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:15px;">Введіть свій номер телефону для авторизації та збереження вашого профілю у системі.</p>
+      
+      <div class="form-group">
+        <label>Номер телефону</label>
+        <input type="tel" id="authPhoneInput" placeholder="+380 (97) 000-00-00">
+      </div>
+      <div class="form-group">
+        <label>Ваше ім'я та прізвище</label>
+        <input type="text" id="authNameInput" placeholder="Олена Петрівна">
+      </div>
+      <div class="form-group">
+        <label>Ваша посада / спеціалізація</label>
+        <select id="authRoleInput">
+          <option value="Практичний психолог">Практичний психолог</option>
+          <option value="Соціальний працівник">Соціальний працівник</option>
+          <option value="Педагог-організатор">Педагог-організатор</option>
+          <option value="Вчитель">Вчитель</option>
+          <option value="Викладач ЗВО">Викладач ЗВО</option>
+        </select>
+      </div>
 
-    <!-- Логіка скриптів -->
-    <script>
-        // Ініціалізація EmailJS
-        (function() {
-            emailjs.init("tLbVdUQH1-ZzQifRM");
-        })();
+      <button class="btn btn-primary" style="width:100%; margin-top:10px;" onclick="saveAuth()">Авторизуватися & Зберегти</button>
+    </div>
+  </div>
 
-        const SERVICE_ID = "service_s0qr3nc";
-        const TEMPLATE_ID = "template_urh5mpl";
+  <!-- Profile Settings Modal -->
+  <div class="modal-overlay" id="profileModal">
+    <div class="modal">
+      <button class="modal-close" onclick="closeModal('profileModal')">&times;</button>
+      <h3 style="margin-bottom: 15px;">⚙️ Налаштування профілю</h3>
+      
+      <div class="form-group" style="text-align:center;">
+        <img src="" id="profileModalAvatar" class="avatar-sm" style="width:80px; height:80px; margin-bottom:10px;">
+        <div>
+          <label class="file-upload-label" style="justify-content:center;">
+            🔄 Змінити фото профілю
+            <input type="file" id="avatarFileUpload" accept="image/*" style="display:none;" onchange="handleAvatarUpload(event)">
+          </label>
+        </div>
+      </div>
 
-        // Генерація випадкового 6-значного коду
-        function generateCode() {
-            return Math.floor(100000 + Math.random() * 900000).toString();
+      <div class="form-group">
+        <label>Ім'я</label>
+        <input type="text" id="profileNameInput">
+      </div>
+      <div class="form-group">
+        <label>Телефон (у системі)</label>
+        <input type="text" id="profilePhoneInput" readonly style="background:#f3f4f6;">
+      </div>
+
+      <button class="btn btn-primary" style="width:100%; margin-top:10px;" onclick="saveProfileChanges()">Зберегти зміни</button>
+    </div>
+  </div>
+
+  <!-- Chat / Direct Message Modal -->
+  <div class="modal-overlay" id="chatModal">
+    <div class="modal">
+      <button class="modal-close" onclick="closeModal('chatModal')">&times;</button>
+      <h3 id="chatRecipientName" style="margin-bottom: 10px;">💬 Повідомлення</h3>
+      <div id="chatMessages" style="height:200px; border:1px solid var(--border); border-radius:8px; padding:10px; overflow-y:auto; margin-bottom:10px; background:#fafafa; font-size:0.9rem;">
+        <div style="color:var(--text-muted); text-align:center; margin-top:70px;">Розпочніть діалог щодо матеріалу...</div>
+      </div>
+      <div style="display:flex; gap:8px;">
+        <input type="text" id="chatInput" placeholder="Напишіть повідомлення..." style="flex:1; padding:8px; border:1px solid var(--border); border-radius:6px;">
+        <button class="btn btn-primary btn-sm" onclick="sendChatMessage()">Надіслати</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // System State & Initial Data
+    let currentUser = {
+      name: "Олена Петрівна",
+      phone: "+380971234567",
+      role: "Практичний психолог",
+      avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80"
+    };
+
+    let isAdmin = false;
+    let selectedPostImage = null;
+
+    let posts = [
+      {
+        id: 1,
+        authorName: "Ірина Ковальчук",
+        authorRole: "Практичний психолог",
+        authorAvatar: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=100&auto=format&fit=crop&q=80",
+        time: "2 години тому",
+        category: "psychologist",
+        type: "sale",
+        price: 80,
+        title: "Комплект метафоричних асоціативних карт «Світ Емоцій»",
+        content: "Пропоную авторську методику для роботи з тривожністю у дітей молодшого шкільного віку. До комплекту входить 25 карток у форматі PDF, готових до друку, та інструкція з вправами.",
+        image: "https://images.unsplash.com/photo-1584697964358-3e14ca57658b?w=600&auto=format&fit=crop&q=80",
+        comments: [
+          { author: "Марія", text: "Чи можна замовити у роздрукованому вигляді?" }
+        ]
+      },
+      {
+        id: 2,
+        authorName: "Сергій Бондаренко",
+        authorRole: "Педагог-організатор",
+        authorAvatar: "https://images.unsplash.com/photo-1560250097-0b93528c311a?w=100&auto=format&fit=crop&q=80",
+        time: "5 годин тому",
+        category: "organizer",
+        type: "exchange",
+        price: 0,
+        title: "Сценарій інтерактивного квесту «День Незалежності»",
+        content: "Готовий сценарій із станційними завданнями, підказками та QR-кодами для учнів 5-9 класів. Обміняю на цікаві розробки брейн-рингу або інтелектуальних ігор.",
+        image: "https://images.unsplash.com/photo-1511632765486-a01980e01a18?w=600&auto=format&fit=crop&q=80",
+        comments: []
+      }
+    ];
+
+    // Initialize App
+    window.onload = function() {
+      loadSavedUser();
+      renderPosts();
+    };
+
+    function loadSavedUser() {
+      const saved = localStorage.getItem('ped_user');
+      if (saved) {
+        currentUser = JSON.parse(saved);
+        updateUserUI();
+      }
+    }
+
+    function updateUserUI() {
+      document.getElementById('headerUserName').innerText = currentUser.name;
+      document.getElementById('headerAvatar').src = currentUser.avatar;
+      document.getElementById('createPostAvatar').src = currentUser.avatar;
+      document.getElementById('authBtn').innerText = currentUser.phone ? "Профіль: " + currentUser.phone : "Вхід за телефоном";
+    }
+
+    // Render Posts
+    function renderPosts() {
+      const feed = document.getElementById('feedContainer');
+      feed.innerHTML = '';
+
+      const searchVal = document.getElementById('searchInput').value.toLowerCase();
+      const selectedCategories = Array.from(document.querySelectorAll('.filter-group input[type="checkbox"]:checked')).map(cb => cb.value);
+      const typeFilter = document.querySelector('input[name="typeFilter"]:checked').value;
+
+      const filtered = posts.filter(post => {
+        const matchesSearch = post.title.toLowerCase().includes(searchVal) || post.content.toLowerCase().includes(searchVal);
+        const matchesCategory = selectedCategories.includes(post.category);
+        const matchesType = typeFilter === 'all' || post.type === typeFilter;
+        return matchesSearch && matchesCategory && matchesType;
+      });
+
+      if (filtered.length === 0) {
+        feed.innerHTML = '<div style="text-align:center; padding:30px; color:var(--text-muted);">Публікацій за вашим запитом не знайдено.</div>';
+        return;
+      }
+
+      filtered.forEach(post => {
+        const postEl = document.createElement('div');
+        postEl.className = 'post-card';
+        postEl.innerHTML = `
+          <div class="post-header">
+            <div class="author-info">
+              <img src="${post.authorAvatar}" class="avatar-sm" alt="Author">
+              <div>
+                <div class="author-name">${post.authorName}</div>
+                <div class="author-role">${post.authorRole} • <span class="post-time">${post.time}</span></div>
+              </div>
+            </div>
+            <div>
+              <span class="badge ${post.type === 'sale' ? 'badge-sale' : 'badge-exchange'}">
+                ${post.type === 'sale' ? 'Продаж: ' + post.price + ' грн' : 'Обмін'}
+              </span>
+              ${isAdmin ? `<button class="btn btn-danger btn-sm" style="margin-left:8px;" onclick="deletePost(${post.id})">Видалити</button>` : ''}
+            </div>
+          </div>
+
+          <h3 class="post-title">${post.title} ${isAdmin ? `<span style="font-size:0.7rem; color:var(--primary); cursor:pointer;" onclick="editPostTitle(${post.id})">[✏️ Редагувати]</span>` : ''}</h3>
+          <p class="post-content">${post.content}</p>
+          
+          ${post.image ? `<img src="${post.image}" class="post-image" alt="Матеріал">` : ''}
+
+          <div class="post-actions">
+            <div class="action-group">
+              <button class="action-btn" onclick="toggleComments(${post.id})">💬 Коментарі (${post.comments.length})</button>
+              <button class="action-btn" onclick="openChat('${post.authorName}')">✉️ Написати автору</button>
+            </div>
+          </div>
+
+          <!-- Comments Section -->
+          <div class="comments-section" id="comments-${post.id}" style="display:none;">
+            <div class="comment-list" id="comment-list-${post.id}">
+              ${post.comments.map((c, idx) => `
+                <div class="comment-item">
+                  <div><span class="comment-author">${c.author}:</span> ${c.text}</div>${isAdmin ? `<span style="color:red; cursor:pointer; font-weight:bold;" onclick="deleteComment(${post.id}, ${idx})">&times;</span>` : ''}
+                </div>
+              `).join('')}
+            </div>
+            <div class="comment-input-box">
+              <input type="text" id="comment-input-${post.id}" placeholder="Залишити коментар...">
+              <button class="btn btn-primary btn-sm" onclick="addComment(${post.id})">Надіслати</button>
+            </div>
+          </div>
+        `;
+        feed.appendChild(postEl);
+      });
+    }
+
+    // Post Creation Logic
+    function handleImageUpload(e) {
+      const file = e.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(evt) {
+          selectedPostImage = evt.target.result;
+          document.getElementById('imagePreview').src = selectedPostImage;
+          document.getElementById('imagePreviewContainer').style.display = 'block';
+        };
+        reader.readAsDataURL(file);
+      }
+    }
+
+    function togglePriceInput() {
+      const type = document.getElementById('postTypeSelect').value;
+      document.getElementById('postPriceInput').style.display = type === 'sale' ? 'inline-block' : 'none';
+    }
+
+    function submitPost() {
+      const title = document.getElementById('postTitleInput').value.trim();
+      const content = document.getElementById('postContentInput').value.trim();
+      const category = document.getElementById('postCategorySelect').value;
+      const type = document.getElementById('postTypeSelect').value;
+      const price = document.getElementById('postPriceInput').value;
+
+      if (!title || !content) {
+        alert("Будь ласка, заповніть заголовок та опис матеріалу!");
+        return;
+      }
+
+      const newPost = {
+        id: Date.now(),
+        authorName: currentUser.name,
+        authorRole: currentUser.role,
+        authorAvatar: currentUser.avatar,
+        time: "Щойно",
+        category: category,
+        type: type,
+        price: type === 'sale' ? Number(price) : 0,
+        title: title,
+        content: content,
+        image: selectedPostImage,
+        comments: []
+      };
+
+      posts.unshift(newPost);
+      renderPosts();
+
+      // Reset form
+      document.getElementById('postTitleInput').value = '';
+      document.getElementById('postContentInput').value = '';
+      selectedPostImage = null;
+      document.getElementById('imagePreviewContainer').style.display = 'none';
+    }
+
+    // Filter Trigger
+    function filterPosts() {
+      renderPosts();
+    }
+
+    // Comments Handling
+    function toggleComments(postId) {
+      const el = document.getElementById(`comments-${postId}`);
+      el.style.display = el.style.display === 'none' ? 'block' : 'none';
+    }
+
+    function addComment(postId) {
+      const input = document.getElementById(`comment-input-${postId}`);
+      const text = input.value.trim();
+      if (!text) return;
+
+      const post = posts.find(p => p.id === postId);
+      if (post) {
+        post.comments.push({ author: currentUser.name, text: text });
+        renderPosts();
+        document.getElementById(`comments-${postId}`).style.display = 'block';
+      }
+    }
+
+    // Admin Functions
+    function toggleAdminMode() {
+      isAdmin = document.getElementById('adminToggle').checked;
+      document.getElementById('editHeroBtn').style.display = isAdmin ? 'inline-block' : 'none';
+      renderPosts();
+    }
+
+    function deletePost(id) {
+      if (confirm("Ви дійсно бажаєте видалити цю публікацію?")) {
+        posts = posts.filter(p => p.id !== id);
+        renderPosts();
+      }
+    }
+
+    function deleteComment(postId, commentIdx) {
+      const post = posts.find(p => p.id === postId);
+      if (post) {
+        post.comments.splice(commentIdx, 1);
+        renderPosts();
+        document.getElementById(`comments-${postId}`).style.display = 'block';
+      }
+    }
+
+    function editPostTitle(postId) {
+      const post = posts.find(p => p.id === postId);
+      if (post) {
+        const newTitle = prompt("Введіть новий заголовок:", post.title);
+        if (newTitle) {
+          post.title = newTitle;
+          renderPosts();
         }
+      }
+    }
 
-        // Крок 1: Відправка листа
-        async function sendCode() {
-            const email = document.getElementById("email").value.trim();
-            const name = document.getElementById("name").value.trim();
+    function editHeroText() {
+      const newTitle = prompt("Новий головний заголовок сайту:", document.getElementById('heroTitle').innerText);
+      if (newTitle) document.getElementById('heroTitle').innerText = newTitle;
+    }
 
-            if (!email || !name) {
-                alert("Будь ласка, заповніть пошту та ім'я!");
-                return;
-            }
+    // Modals Handling
+    function openAuthModal() {
+      document.getElementById('authPhoneInput').value = currentUser.phone || '';
+      document.getElementById('authNameInput').value = currentUser.name || '';
+      document.getElementById('authModal').style.display = 'flex';
+    }
 
-            if (!email.includes("@") || !email.includes(".")) {
-                alert("Будь ласка, введіть коректну електронну пошту.");
-                return;
-            }
+    function saveAuth() {
+      const phone = document.getElementById('authPhoneInput').value.trim();
+      const name = document.getElementById('authNameInput').value.trim();
+      const role = document.getElementById('authRoleInput').value;
 
-            // Генеруємо код підтвердження
-            const code = generateCode();
-            
-            // Зберігаємо код та дані в localStorage до перевірки
-            localStorage.setItem("temp_code", code);
-            localStorage.setItem("temp_email", email);
-            localStorage.setItem("temp_name
+      if (!phone || !name) {
+        alert("Будь ласка, введіть номер телефону та ім'я!");
+        return;
+      }
+
+      currentUser.phone = phone;
+      currentUser.name = name;
+      currentUser.role = role;
+
+      localStorage.setItem('ped_user', JSON.stringify(currentUser));
+      updateUserUI();
+      closeModal('authModal');
+    }
+
+    function openProfileModal() {
+      document.getElementById('profileNameInput').value = currentUser.name;
+      document.getElementById('profilePhoneInput').value = currentUser.phone;
+      document.getElementById('profileModalAvatar').src = currentUser.avatar;
+      document.getElementById('profileModal').style.display = 'flex';
+    }
+
+    function handleAvatarUpload(e) {
+      const file = e.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(evt) {
+          currentUser.avatar = evt.target.result;
+          document.getElementById('profileModalAvatar').src = currentUser.avatar;
+        };
+        reader.readAsDataURL(file);
+      }
+    }
+
+    function saveProfileChanges() {
+      currentUser.name = document.getElementById('profileNameInput').value.trim();
+      localStorage.setItem('ped_user', JSON.stringify(currentUser));
+      updateUserUI();
+      closeModal('profileModal');
+      renderPosts();
+    }
+
+    function closeModal(modalId) {
+      document.getElementById(modalId).style.display = 'none';
+    }
+
+    // Chat Functions
+    function openChat(authorName) {
+      document.getElementById('chatRecipientName').innerText = "💬 Повідомлення для: " + authorName;
+      document.getElementById('chatModal').style.display = 'flex';
+    }
+
+    function sendChatMessage() {
+      const input = document.getElementById('chatInput');
+      const msg = input.value.trim();
+      if (!msg) return;
+
+      const chatBox = document.getElementById('chatMessages');
+      chatBox.innerHTML += `<div style="text-align:right; margin-bottom:8px;"><span style="background:var(--primary); color:white; padding:6px 12px; border-radius:12px; display:inline-block; font-size:0.85rem;">${msg}</span></div>`;
+      input.value = '';
+      chatBox.scrollTop = chatBox.scrollHeight;
+    }
+
+    // Calculator Function
+    function calculateDiscount() {
+      const p1 = Number(document.getElementById('calcPrice1').value) || 0;
+      const p2 = Number(document.getElementById('calcPrice2').value) || 0;
+      const total = p1 + p2;
+      if (total === 0) {
+        document.getElementById('calcResult').innerText = "Введіть ціни матеріалів.";
+        return;
+      }
+      const discounted = Math.round(total * 0.9);
+      document.getElementById('calcResult').innerText = `Разом зі знижкою 10%: ${discounted} грн (Економія: ${total - discounted} грн)`;
+    }
+  </script>
+</body>
+</html>
