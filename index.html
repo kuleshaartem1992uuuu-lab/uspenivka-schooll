@@ -3,132 +3,216 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Успенівська гімназія — Авторизація</title>
-    <!-- Підключаємо Tailwind CSS для гарного стилю -->
+    <title>Успенівська гімназія — Офіційний сайт</title>
+    <!-- Tailwind CSS -->
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-    <!-- Підключаємо EmailJS SDK -->
+    <!-- EmailJS SDK -->
     <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
 </head>
-<body class="bg-gray-100 min-h-screen flex items-center justify-center">
+<body class="bg-slate-50 min-h-screen flex flex-col justify-between font-sans">
 
-    <div class="bg-white p-8 rounded-xl shadow-md w-full max-w-md">
-        <h1 class="text-2xl font-bold text-center text-gray-800 mb-6">Успенівська гімназія</h1>
+    <!-- Хедера (Шапка сайту) -->
+    <header class="bg-indigo-900 text-white shadow-md">
+        <div class="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
+            <div class="flex items-center space-x-3">
+                <span class="text-2xl font-bold tracking-wide">🏫 Успенівська гімназія</span>
+            </div>
+            <nav id="nav-auth-status" class="text-sm">
+                <!-- Динамічний статус авторизації -->
+                <span id="user-greeting" class="hidden mr-4">Вітаємо, <strong id="display-name"></strong>!</span>
+                <button onclick="logout()" id="logout-btn" class="hidden bg-rose-600 px-3 py-1.5 rounded hover:bg-rose-700 transition">Вийти</button>
+            </nav>
+        </div>
+    </header>
 
-        <!-- Форма входу / реєстрації -->
-        <div id="auth-form" class="space-y-4">
-            <div>
-                <label class="block text-sm font-medium text-gray-700">Електронна пошта</label>
-                <input type="email" id="email" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
+    <!-- Основний контент -->
+    <main class="max-w-6xl mx-auto px-4 py-10 flex-grow flex items-center justify-center w-full">
+
+        <!-- Секція 1: Головна сторінка для гостей (Форма реєстрації / входу) -->
+        <div id="auth-container" class="bg-white p-8 rounded-2xl shadow-xl w-full max-w-md border border-slate-100">
+            <div class="text-center mb-6">
+                <h1 class="text-2xl font-bold text-slate-800">Особистий кабінет</h1>
+                <p class="text-sm text-slate-500 mt-1">Увійдіть або зареєструйтесь за допомогою пошти</p>
             </div>
 
-            <div>
-                <label class="block text-sm font-medium text-gray-700">Ім'я</label>
-                <input type="text" id="name" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
+            <!-- Форма введення пошти та імені -->
+            <div id="step-1-form" class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium text-slate-700 mb-1">Електронна пошта</label>
+                    <input type="email" id="email" placeholder="example@gmail.com" required 
+                        class="w-full px-4 py-2.5 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-slate-700 mb-1">Ваше ім'я / ПІБ</label>
+                    <input type="text" id="name" placeholder="Іван Петренко" required 
+                        class="w-full px-4 py-2.5 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                </div>
+
+                <button onclick="sendCode()" class="w-full bg-indigo-600 text-white font-medium py-2.5 rounded-lg hover:bg-indigo-700 transition shadow-sm">
+                    Отримати код підтвердження
+                </button>
             </div>
 
-            <button onclick="startRegistration()" class="w-full bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700 transition">
-                Зареєструватися / Отримати код
-            </button>
+            <!-- Форма введення коду (спочатку прихована) -->
+            <div id="step-2-verification" class="hidden space-y-4">
+                <div class="bg-indigo-50 p-4 rounded-lg text-center text-sm text-indigo-800">
+                    Ми надіслали 6-значний код на пошту: <br><strong id="sent-to-email"></strong>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-slate-700 mb-1 text-center">Введіть код з листа</label>
+                    <input type="text" id="verification-code-input" placeholder="123456" maxlength="6"
+                        class="w-full px-4 py-3 border border-slate-300 rounded-lg text-center tracking-widest text-xl font-bold focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                </div>
+
+                <button onclick="verifyCode()" class="w-full bg-emerald-600 text-white font-medium py-2.5 rounded-lg hover:bg-emerald-700 transition shadow-sm">
+                    Підтвердити та увійти
+                </button>
+
+                <button onclick="resetFlow()" class="w-full text-sm text-slate-500 hover:underline text-center pt-2">
+                    ← Повернутися назад / змінити пошту
+                </button>
+            </div>
         </div>
 
-        <!-- Поле введення коду (спочатку приховане) -->
-        <div id="verification-section" class="hidden space-y-4 mt-6">
-            <p class="text-sm text-gray-600 text-center">Введіть 6-значний код, надісланий на вашу пошту:</p>
-            <input type="text" id="verification-code-input" placeholder="123456" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm text-center tracking-widest text-lg">
+        <!-- Секція 2: Особистий кабінет (Прихований до успішного входу) -->
+        <div id="dashboard-container" class="hidden bg-white p-8 rounded-2xl shadow-xl w-full max-w-2xl border border-slate-100 text-center space-y-6">
+            <div class="inline-block bg-emerald-100 text-emerald-800 p-4 rounded-full text-3xl mb-2">
+                🎉
+            </div>
+            <h2 class="text-3xl font-bold text-slate-800">Вітаємо у кабінеті гімназії!</h2>
+            <p class="text-slate-600">Ви успішно пройшли авторизацію та підтвердили свою електронну пошту.</p>
             
-            <button onclick="verifyUserCode()" class="w-full bg-green-600 text-white py-2 px-4 rounded-md hover:bg-green-700 transition">
-                Підтвердити код
+            <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 text-left space-y-2">
+                <p class="text-sm text-slate-600">👤 <strong>Користувач:</strong> <span id="profile-name"></span></p>
+                <p class="text-sm text-slate-600">📧 <strong>Email:</strong> <span id="profile-email"></span></p>
+                <p class="text-sm text-slate-600">🔒 <strong>Статус:</strong> <span class="text-emerald-600 font-semibold">Активний / Підтверджений</span></p>
+            </div>
+
+            <button onclick="logout()" class="bg-rose-600 text-white px-6 py-2.5 rounded-lg hover:bg-rose-700 transition font-medium">
+                Вийти з системи
             </button>
         </div>
 
-        <!-- Панель успішного входу (спочатку прихована) -->
-        <div id="success-screen" class="hidden text-center space-y-4 mt-6">
-            <h2 class="text-xl font-semibold text-green-600">Ви успішно авторизувались! 🎉</h2>
-            <p class="text-gray-600">Ласкаво просимо до системи Успенівської гімназії.</p>
-            <button onclick="logout()" class="text-sm text-red-600 underline hover:text-red-800">Вийти з аккаунта</button>
-        </div>
-    </div>
+    </main>
 
-    <!-- Логіка JavaScript -->
+    <!-- Футер -->
+    <footer class="bg-slate-800 text-slate-300 py-6 text-center text-sm">
+        <p>&copy; 2026 Успенівська гімназія. Усі права захищено.</p>
+    </footer>
+
+    <!-- Логіка скриптів -->
     <script>
-        // Ініціалізація EmailJS вашими даними
+        // Ініціалізація EmailJS
         (function() {
             emailjs.init("tLbVdUQH1-ZzQifRM");
         })();
 
-        const EMAILJS_SERVICE_ID = "service_s0qr3nc";
-        const EMAILJS_TEMPLATE_ID = "template_urh5mpl";
+        const SERVICE_ID = "service_s0qr3nc";
+        const TEMPLATE_ID = "template_urh5mpl";
 
-        // Генерація коду
+        // Генерація випадкового 6-значного коду
         function generateCode() {
             return Math.floor(100000 + Math.random() * 900000).toString();
         }
 
-        // Крок 1: Відправка коду на пошту
-        async function startRegistration() {
-            const email = document.getElementById("email").value;
-            const name = document.getElementById("name").value;
+        // Крок 1: Відправка листа
+        async function sendCode() {
+            const email = document.getElementById("email").value.trim();
+            const name = document.getElementById("name").value.trim();
 
             if (!email || !name) {
                 alert("Будь ласка, заповніть пошту та ім'я!");
                 return;
             }
 
-            const code = generateCode();
-            localStorage.setItem("pending_code", code);
-            localStorage.setItem("user_name", name);
+            // Перевірка простого формату email
+            if (!email.includes("@") || !email.includes(".")) {
+                alert("Будь ласка, введіть коректну електронну пошту.");
+                return;
+            }
 
-            // Показуємо сповіщення про завантаження
-            alert("Надсилаємо код підтвердження на пошту...");
+            const code = generateCode();
+            
+            // Зберігаємо тимчасово дані
+            localStorage.setItem("temp_code", code);
+            localStorage.setItem("temp_email", email);
+            localStorage.setItem("temp_name", name);
+
+            // Показуємо користувачеві статус завантаження
+            alert("Надсилаємо код підтвердження... Зачекайте секунду.");
 
             try {
-                await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
+                await emailjs.send(SERVICE_ID, TEMPLATE_ID, {
                     to_email: email,
                     to_name: name,
                     verification_code: code
                 });
 
-                alert("Лист успішно надіслано! Перевірте пошту (і спам).");
-                
-                // Ховаємо форму пошти, показуємо поле введення коду
-                document.getElementById("auth-form").classList.add("hidden");
-                document.getElementById("verification-section").classList.remove("hidden");
+                // Перемикаємо екран на введення коду
+                document.getElementById("sent-to-email").innerText = email;
+                document.getElementById("step-1-form").classList.add("hidden");
+                document.getElementById("step-2-verification").classList.remove("hidden");
 
             } catch (error) {
-                console.error("Помилка:", error);
-                alert("Не вдалося надіслати лист. Перевірте правильність пошти.");
+                console.error("Помилка EmailJS:", error);
+                alert("Помилка при відправці листа. Перевірте консоль або налаштування сервісу.");
             }
         }
 
-        // Крок 2: Перевірка введеного коду
-        function verifyUserCode() {
-            const enteredCode = document.getElementById("verification-code-input").value;
-            const savedCode = localStorage.getItem("pending_code");
+        // Крок 2: Перевірка коду
+        function verifyCode() {
+            const enteredCode = document.getElementById("verification-code-input").value.trim();
+            const savedCode = localStorage.getItem("temp_code");
+            const name = localStorage.getItem("temp_name");
+            const email = localStorage.getItem("temp_email");
 
             if (enteredCode === savedCode) {
-                // Успіх! Очищаємо тимчасовий код
-                localStorage.removeItem("pending_code");
-                localStorage.setItem("is_logged_in", "true");
+                // Авторизація успішна! Зберігаємо постійний статус
+                localStorage.setItem("is_logged", "true");
+                localStorage.removeItem("temp_code"); // очищаємо тимчасовий код
 
-                // Ховаємо секцію коду, показуємо екран успіху
-                document.getElementById("verification-section").classList.add("hidden");
-                document.getElementById("success-screen").classList.remove("hidden");
+                showDashboard(name, email);
             } else {
-                alert("Невірний код! Спробуйте ще раз.");
+                alert("Невірний код підтвердження! Спробуйте ще раз.");
             }
+        }
+
+        // Показ кабінету
+        function showDashboard(name, email) {
+            document.getElementById("auth-container").classList.add("hidden");
+            document.getElementById("dashboard-container").classList.remove("hidden");
+            
+            document.getElementById("profile-name").innerText = name;
+            document.getElementById("profile-email").innerText = email;
+            
+            document.getElementById("user-greeting").classList.remove("hidden");
+            document.getElementById("display-name").innerText = name;
+            document.getElementById("logout-btn").classList.remove("hidden");
+        }
+
+        // Кнопка повернення на крок назад
+        function resetFlow() {
+            document.getElementById("step-2-verification").classList.add("hidden");
+            document.getElementById("step-1-form").classList.remove("hidden");
+            document.getElementById("verification-code-input").value = "";
         }
 
         // Вихід з аккаунта
         function logout() {
-            localStorage.removeItem("is_logged_in");
-            location.reload(); // Перезавантажує сторінку назад до форми
+            localStorage.removeItem("is_logged");
+            localStorage.removeItem("temp_email");
+            localStorage.removeItem("temp_name");
+            location.reload();
         }
 
-        // Перевірка при завантаженні сторінки: чи користувач вже увійшов?
+        // Перевірка при завантаженні сторінки (якщо користувач вже увійшов)
         window.onload = function() {
-            if (localStorage.getItem("is_logged_in") === "true") {
-                document.getElementById("auth-form").classList.add("hidden");
-                document.getElementById("success-screen").classList.remove("hidden");
+            if (localStorage.getItem("is_logged") === "true") {
+                const name = localStorage.getItem("temp_name") || "Користувач";
+                const email = localStorage.getItem("temp_email") || "не вказано";
+                showDashboard(name, email);
             }
         };
     </script>
